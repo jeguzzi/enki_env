@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "enki_env"
+dependencies = [
+  "pyenki",
+  "gymnasium",
+  "pettingzoo"
+]
+
+requires-python = ">=3.10"
+authors = [
+  {name = "Jerome Guzzi", email = "jerome@idsia.ch"},
+]
+maintainers = [
+  {name = "Jerome Guzzi", email = "jerome@idsia.ch"}
+]
+description = "TODO"
+readme = "README.md"
+license = {file = "LICENSE"}
+keywords = [""]
+classifiers = [
+  # "Development Status :: 4 - Beta",
+  "Programming Language :: Python"
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+all = []
+
+[project.urls]
+Homepage = "https://github.com/jeguzzi/enki_env"
+Documentation = "https://jeguzzi.github.io/enki_env"
+Repository = "https://github.com/jeguzzi/enki_env"
+"Bug Tracker" = "https://github.com/jeguzzi/enki_env/issues"
+Changelog = "https://github.com/jeguzzi/enki_env/blob/main/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+where = ["."]
