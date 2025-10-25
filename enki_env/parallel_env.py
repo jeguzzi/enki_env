@@ -85,14 +85,14 @@ class ParallelEnkiEnv(ParallelEnv[str, Observation, Action]):
         ts: dict[str, bool] = {}
         if not self._world:
             return ts
-        for uid, (agent, _, config) in self._agents.items():
+        for uid, (agent, _, config) in list(self._agents.items()):
             ts[uid] = False
             for t in config.terminations:
                 r = t(agent, self._world)
                 if r is not None:
                     ts[uid] = True
                     self._success[uid] = r
-                    del self._agent_config[uid]
+                    del self._agents[uid]
                     break
         return ts
 
@@ -214,6 +214,7 @@ class ParallelEnkiEnv(ParallelEnv[str, Observation, Action]):
             self._render_buffer.world = self._world
         self._world.step(self._time_step, 1)
         self._agents = make_agents(self._world, self._config)
+        self._success: dict[str, bool] = {}
         return self._get_observations(), self._get_infos()
 
     def step(self, actions: dict[str, Action]) -> StepReturn:

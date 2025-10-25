@@ -12,5 +12,5 @@ Array = np.ndarray
 Observation = dict[str, Array]
 Action = Array
 Info = dict[str, Any]
-Termination = Callable[[Any, pyenki.World], bool | None]
+Termination = Callable[[pyenki.DifferentialWheeled, pyenki.World], bool | None]
 Controller = Callable[[pyenki.PhysicalObject, SupportsFloat], None]
