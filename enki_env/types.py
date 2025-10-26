@@ -7,7 +7,7 @@ import numpy as np
 import pyenki
 
 Predictor = Any
-Scenario = Callable[[np.random.Generator | None], pyenki.World]
+Scenario = Callable[[int], pyenki.World]
 Array = np.ndarray
 Observation = dict[str, Array]
 Action = Array

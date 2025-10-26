@@ -121,7 +121,7 @@ class ParallelEnkiEnv(ParallelEnv[str, Observation, Action]):
         self.render_mode = render_mode
         self._render_kwargs = render_kwargs
         self._render_fps = render_fps
-        world = scenario(None)
+        world = scenario(0)
         agents = make_agents(world, config)
         self._possible_agents = list(agents)
         self._agents: dict[str, tuple[DifferentialWheeled, str,
@@ -190,24 +190,22 @@ class ParallelEnkiEnv(ParallelEnv[str, Observation, Action]):
     def reset(self,
               seed: int | None = None,
               options: dict[str, Any] | None = None) -> ResetReturn:
+        world = self._world
         # Same as gymnasium.Env.reset
         # Initialize the RNG if the seed is manually passed
-        if seed is not None:
+
+        if seed is not None and seed >= 0:
             self._np_random, self._np_random_seed = seeding.np_random(seed)
-        world = self._world
-        self._world = self._scenario(self._np_random)
-        assert self._world
-        if seed is not None:
-            # TODO
-            pass
-            # self._world.set_random_seed(seed)
+            world_seed = seed
         elif world:
-            # TODO
-            pass
-            # self._world.copy_random_generator(world)
+            world_seed = world.random_seed
         else:
-            pass
-            # self._world.set_random_seed(self.np_random_seed & (2**63 - 1))
+            world_seed = self.np_random_seed
+        world_seed &= (2**63 - 1)
+        self._world = self._scenario(world_seed)
+        assert self._world
+        if seed is None and world:
+            self._world.copy_random_generator(world)
         if self._world_view:
             self._world_view.world = self._world
         if self._render_buffer:
