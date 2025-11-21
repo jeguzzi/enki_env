@@ -2,12 +2,14 @@ from __future__ import annotations
 
 import dataclasses as dc
 from abc import ABC, abstractmethod
-from typing import Any, SupportsFloat, cast
+from typing import Any, SupportsFloat, cast, TYPE_CHECKING
 
-import gymnasium as gym
-from pyenki import DifferentialWheeled, PhysicalObject, World
 
 from .types import Action, Controller, Observation, Predictor, Termination
+
+if TYPE_CHECKING:
+    from pyenki import DifferentialWheeled, PhysicalObject, World
+    import gymnasium as gym
 
 
 class ActionConfig(ABC):
@@ -72,7 +74,7 @@ class GroupConfig:
     def get_control(self, policy: Predictor) -> Controller:
 
         def f(r: PhysicalObject, dt: SupportsFloat) -> None:
-            robot = cast(DifferentialWheeled, r)
+            robot = cast('DifferentialWheeled', r)
             obs = self.observation.get(robot)
             act, _ = policy.predict(obs)
             self.action.actuate(act, robot, float(dt))
@@ -85,7 +87,7 @@ def make_agents(
 ) -> dict[str, tuple[DifferentialWheeled, str, GroupConfig]]:
     groups: dict[str, list[DifferentialWheeled]] = {
         k: [
-            cast(DifferentialWheeled, a) for a in world.robots
+            cast('DifferentialWheeled', a) for a in world.robots
             if a.name == k or k == ''
         ]
         for k in config

@@ -1,26 +1,29 @@
 from __future__ import annotations
 
-from typing import Any
+from collections.abc import Sequence
+from typing import Any, TYPE_CHECKING
 
-import gymnasium as gym
-import numpy as np
 from gymnasium.utils import seeding
-from pettingzoo.utils.env import ParallelEnv  # type: ignore[import-untyped]
-from pyenki import DifferentialWheeled, World, WorldView, run_ui
+from pettingzoo.utils.env import ParallelEnv
 
 from .config import GroupConfig, make_agents
 from .types import Action, Array, Info, Observation, Scenario
+
+if TYPE_CHECKING:
+    import gymnasium as gym
+    import numpy as np
+    from pyenki import DifferentialWheeled, World
 
 StepReturn = tuple[dict[str, Observation], dict[str, float], dict[str, bool],
                    dict[str, bool], dict[str, Info]]
 ResetReturn = tuple[dict[str, Observation], dict[str, Info]]
 
 
-def ipython():
+def ipython() -> bool:
     try:
-        from IPython import get_ipython
+        from IPython import get_ipython  # type: ignore[attr-defined]
 
-        return get_ipython() is not None
+        return get_ipython() is not None  # type: ignore[no-untyped-call]
     except ImportError:
         return False
 
@@ -35,27 +38,27 @@ class ParallelEnkiEnv(ParallelEnv[str, Observation, Action]):
     # will be set to the "invalid" value -1 if the seed of the currently set rng is unknown
     _np_random_seed: int | None = None
 
+    def observation_space(self, agent: str) -> gym.spaces.Space[Any]:
+        return self.observation_spaces[agent]
+
+    def action_space(self, agent: str) -> gym.spaces.Space[Any]:
+        return self.action_spaces[agent]
+
     @property
     def possible_agents(self) -> list[str]:
         return self._possible_agents
+
+    @possible_agents.setter
+    def possible_agents(self, value: Sequence[str]) -> None:
+        raise NotImplementedError()
 
     @property
     def agents(self) -> list[str]:
         return list(self._agents)
 
-    @property
-    def action_spaces(self) -> dict[str, gym.spaces.Box]:
-        return self._action_space
-
-    @property
-    def observation_spaces(self) -> dict[str, gym.spaces.Dict]:
-        return self._observation_space
-
-    def action_space(self, agent: str) -> gym.spaces.Box:
-        return self._action_space[agent]
-
-    def observation_space(self, agent: str) -> gym.spaces.Dict:
-        return self._observation_space[agent]
+    @agents.setter
+    def agents(self, value: Sequence[str]) -> None:
+        raise NotImplementedError()
 
     def _get_observations(self) -> dict[str, Observation]:
         return {
@@ -126,11 +129,11 @@ class ParallelEnkiEnv(ParallelEnv[str, Observation, Action]):
         self._possible_agents = list(agents)
         self._agents: dict[str, tuple[DifferentialWheeled, str,
                                       GroupConfig]] = {}
-        self._observation_space = {
+        self.observation_spaces = {
             uid: config.observation.space
             for uid, (_, _, config) in agents.items()
         }
-        self._action_space = {
+        self.action_spaces = {
             uid: config.action.space
             for uid, (_, _, config) in agents.items()
         }
@@ -145,12 +148,16 @@ class ParallelEnkiEnv(ParallelEnv[str, Observation, Action]):
                 self._render_buffer = EnkiRemoteFrameBuffer(
                     world=None, **self._render_kwargs)
             else:
+                from pyenki.viewer import WorldView
+
                 print('Create qt world view')
                 self._world_view = WorldView(world=None, **self._render_kwargs)
 
     def render(self) -> Array | None:
+        from pyenki.viewer import render
+
         if self._world:
-            return self._world.render(**self._render_kwargs)
+            return render(self._world, **self._render_kwargs)
         return None
 
     @property
@@ -183,7 +190,7 @@ class ParallelEnkiEnv(ParallelEnv[str, Observation, Action]):
         return self._np_random
 
     @np_random.setter
-    def np_random(self, value: np.random.Generator):
+    def np_random(self, value: np.random.Generator) -> None:
         self._np_random = value
         self._np_random_seed = -1
 
@@ -228,7 +235,9 @@ class ParallelEnkiEnv(ParallelEnv[str, Observation, Action]):
             if self._render_buffer:
                 self._render_buffer.tick(self._render_fps)
             if self._world_view:
-                run_ui(1 / self._render_fps)
+                from pyenki.viewer import run
+
+                run(1 / self._render_fps)
         return obs, rew, term, trunc, infos
 
     def state(self) -> Array:

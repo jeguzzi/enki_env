@@ -1,14 +1,16 @@
 from __future__ import annotations
 
 import dataclasses as dc
-from typing import cast
+from typing import cast, Any, TYPE_CHECKING
 
 import gymnasium as gym
 import numpy as np
-from pyenki import DifferentialWheeled, EPuck, Marxbot, Thymio2
 
 from .config import ActionConfig, ObservationConfig
 from .types import Action, Observation
+
+if TYPE_CHECKING:
+    from pyenki import DifferentialWheeled, EPuck, Marxbot, Thymio2
 
 
 @dc.dataclass
@@ -54,7 +56,7 @@ class DifferentialDriveObservation(ObservationConfig):
 
     @property
     def space(self) -> gym.spaces.Dict:
-        ks: dict[str, gym.Space] = {}
+        ks: dict[str, gym.Space[Any]] = {}
         if self.speed:
             ks['wheel_speeds'] = gym.spaces.Box(low=-1,
                                                 high=1,
@@ -77,7 +79,7 @@ class MarxbotObservation(DifferentialDriveObservation):
     max_range: float = 100
 
     def get(self, r: DifferentialWheeled) -> Observation:
-        robot = cast(Marxbot, r)
+        robot = cast('Marxbot', r)
         ks = {}
         if self.camera:
             ks['camera'] = robot.scanner_image[:, :3]
@@ -88,7 +90,7 @@ class MarxbotObservation(DifferentialDriveObservation):
 
     @property
     def space(self) -> gym.spaces.Dict:
-        ks: dict[str, gym.Space] = {}
+        ks: dict[str, gym.Space[Any]] = {}
         if self.camera:
             ks['camera'] = gym.spaces.Box(low=0,
                                           high=1,
@@ -120,7 +122,7 @@ class EPuckObservation(DifferentialDriveObservation):
     max_proximity_value: float = 3731
 
     def get(self, r: DifferentialWheeled) -> Observation:
-        robot = cast(EPuck, r)
+        robot = cast('EPuck', r)
         ks = {}
         if self.proximity_distance:
             ks['prox/distance'] = robot.prox_values / self.max_proximity_value
@@ -135,7 +137,7 @@ class EPuckObservation(DifferentialDriveObservation):
 
     @property
     def space(self) -> gym.spaces.Dict:
-        ks: dict[str, gym.Space] = {}
+        ks: dict[str, gym.Space[Any]] = {}
         if self.proximity_distance:
             ks['prox/distance'] = gym.spaces.Box(low=0,
                                                  high=1,
@@ -179,7 +181,7 @@ class ThymioObservation(DifferentialDriveObservation):
     max_proximity_comm_intensities: float = 4600
 
     def get(self, r: DifferentialWheeled) -> Observation:
-        robot = cast(Thymio2, r)
+        robot = cast('Thymio2', r)
         ks = {}
         if self.proximity_distance:
             ks['prox/distance'] = robot.prox_values / self.max_proximity_value
@@ -228,7 +230,7 @@ class ThymioObservation(DifferentialDriveObservation):
 
     @property
     def space(self) -> gym.spaces.Dict:
-        ks: dict[str, gym.Space] = {}
+        ks: dict[str, gym.Space[Any]] = {}
         if self.proximity_distance:
             ks['prox/distance'] = gym.spaces.Box(low=0,
                                                  high=1,

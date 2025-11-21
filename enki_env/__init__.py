@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from .config import GroupConfig, setup_policies
 from .env import EnkiEnv
 from .parallel_env import ParallelEnkiEnv
