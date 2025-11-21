@@ -1,0 +1,44 @@
+target-version = "py310"
+line-length = 101
+indent-width = 4
+
+[lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+    "TC"
+]
+ignore = [
+    # complains about isort order
+    "I001", 
+    # would like to change to ternary operator
+    "SIM108", 
+    # does not like call to functions in default arguments
+    "B008",
+    # would like to explicit silence exception
+    "SIM105",
+    # does not like  mutable args as defaults
+    "B006",
+    # does not like quoted type annotations
+    # "UP037",
+    # would like to simplify ifs
+    "SIM102",
+    # would like to write isinstance(obj, (X, Y)) as isinstance(obj, X | Y)
+    "TC001", "TC003"
+]
+exclude = ["**/notebooks", "*.ipynb", "**/.DS_Store", "*.pyi", "test_*"]
+
+[lint.flake8-type-checking]
+exempt-modules = ["typing", "typing_extensions", "**.types"]
+strict = true
+quote-annotations = true
