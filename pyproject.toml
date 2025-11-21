@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "enki_env"
 dependencies = [
-  "pyenki",
+  "pyenki[all,viewer] @ git+https://github.com/jeguzzi/enki",
   "gymnasium",
   "pettingzoo"
 ]
@@ -39,3 +39,10 @@ Changelog = "https://github.com/jeguzzi/enki_env/blob/main/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
 where = ["."]
+
+[tool.mypy]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["pettingzoo.*"]
+follow_untyped_imports = true
