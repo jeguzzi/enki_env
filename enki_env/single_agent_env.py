@@ -10,6 +10,7 @@ from .types import Info
 if TYPE_CHECKING:
     from pettingzoo.utils.env import ParallelEnv
     import numpy as np
+    from gymansium import RenderFrame
 
 
 class SingleAgentEnv(Env[ObsType, ActionType], Generic[AgentID, ObsType,
@@ -63,7 +64,6 @@ class SingleAgentEnv(Env[ObsType, ActionType], Generic[AgentID, ObsType,
              action: ActionType) -> tuple[ObsType, float, bool, bool, Info]:
         agent = self._penv.agents[0]
         obss, rews, terms, truncs, infos = self._penv.step({agent: action})
-        agent = self._penv.agents[0]
         return obss[agent], rews[agent], terms[agent], truncs[agent], infos[
             agent]
 
@@ -76,8 +76,8 @@ class SingleAgentEnv(Env[ObsType, ActionType], Generic[AgentID, ObsType,
         agent = self._penv.agents[0]
         return obss[agent], infos[agent]
 
-    def render(self) -> None:
-        self._penv.render()
+    def render(self) -> RenderFrame | None | list[RenderFrame]:
+        return self._penv.render()
 
     def close(self) -> None:
         self._penv.close()  # type: ignore[no-untyped-call]

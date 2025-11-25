@@ -1,22 +1,24 @@
 from __future__ import annotations
 
-from collections.abc import Sequence
-from typing import Any, TYPE_CHECKING
+from collections.abc import Mapping, Sequence
+from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypedDict
 
 from gymnasium.utils import seeding
 from pettingzoo.utils.env import ParallelEnv
 
-from .config import GroupConfig, make_agents
-from .types import Action, Array, Info, Observation, Scenario
+from .config import GroupConfig, make_agents, setup_policies
+from .types import Action, Array, Info, Observation, Predictor, Scenario
 
 if TYPE_CHECKING:
     import gymnasium as gym
     import numpy as np
-    from pyenki import DifferentialWheeled, World
+    from pyenki import DifferentialWheeled, Image, World
 
 StepReturn = tuple[dict[str, Observation], dict[str, float], dict[str, bool],
                    dict[str, bool], dict[str, Info]]
 ResetReturn = tuple[dict[str, Observation], dict[str, Info]]
+
+BaseParallelEnv: TypeAlias = ParallelEnv[str, Observation, Action]
 
 
 def ipython() -> bool:
@@ -28,7 +30,20 @@ def ipython() -> bool:
         return False
 
 
-class ParallelEnkiEnv(ParallelEnv[str, Observation, Action]):
+class ParallelEnkiEnvSpec(TypedDict):
+    scenario: Scenario
+    config: dict[str, GroupConfig]
+    time_step: float
+    physics_substeps: int
+    max_duration: float
+    render_mode: str | None
+    render_fps: float
+    render_kwargs: dict[str, Any]
+    notebook: bool | None
+    terminate_on: Literal['any', 'all'] | None
+
+
+class ParallelEnkiEnv(BaseParallelEnv):
 
     metadata: dict[str, Any] = {"render_modes": ['human', 'rgb_array']}
     render_mode: str | None = None
@@ -84,19 +99,28 @@ class ParallelEnkiEnv(ParallelEnv[str, Observation, Action]):
         else:
             return {}
 
+    def _update_truncations(self) -> dict[str, bool]:
+        value = self._max_duration > 0 and self._duration >= self._max_duration
+        return {uid: value for uid in self._agents}
+
     def _update_terminations(self) -> dict[str, bool]:
         ts: dict[str, bool] = {}
         if not self._world:
             return ts
-        for uid, (agent, _, config) in list(self._agents.items()):
-            ts[uid] = False
-            for t in config.terminations:
-                r = t(agent, self._world)
-                if r is not None:
-                    ts[uid] = True
-                    self._success[uid] = r
-                    del self._agents[uid]
-                    break
+        for uid, (agent, _, config) in self._agents.items():
+            if uid in self._success:
+                ts[uid] = True
+            else:
+                for t in config.terminations:
+                    r = t(agent, self._world)
+                    if r is not None:
+                        ts[uid] = True
+                        self._success[uid] = r
+                        break
+        if self._terminate_on == 'any' and any(ts.values()):
+            return {uid: True for uid in self._agents}
+        if self._terminate_on == 'all' and not all(ts.values()):
+            return {uid: False for uid in self._agents}
         return ts
 
     def _actuate(self, acts: dict[str, Action], dt: float) -> None:
@@ -106,17 +130,34 @@ class ParallelEnkiEnv(ParallelEnv[str, Observation, Action]):
             agent, _, config = self._agents[uid]
             config.action.actuate(act, agent, dt)
 
+    @property
+    def has_state(self) -> bool:
+        return False
+
     def __init__(self,
                  scenario: Scenario,
                  config: dict[str, GroupConfig],
                  time_step: float = 0.1,
                  physics_substeps: int = 3,
+                 max_duration: float = -1,
                  render_mode: str | None = None,
                  render_fps: float = 10.0,
                  render_kwargs: dict[str, Any] = {},
-                 notebook: bool | None = None):
+                 notebook: bool | None = None,
+                 terminate_on: Literal['any', 'all'] | None = 'all'):
         if notebook is None:
             notebook = ipython()
+        self._spec: ParallelEnkiEnvSpec = dict(
+            scenario=scenario,
+            config=config,
+            time_step=time_step,
+            physics_substeps=physics_substeps,
+            max_duration=max_duration,
+            render_mode=render_mode,
+            render_fps=render_fps,
+            render_kwargs=render_kwargs,
+            notebook=notebook,
+            terminate_on=terminate_on)
         self._scenario = scenario
         self._config = config
         self._time_step = time_step
@@ -124,6 +165,9 @@ class ParallelEnkiEnv(ParallelEnv[str, Observation, Action]):
         self.render_mode = render_mode
         self._render_kwargs = render_kwargs
         self._render_fps = render_fps
+        self._max_duration = max_duration
+        self._terminate_on = terminate_on
+        self._duration: float = 0
         world = scenario(0)
         agents = make_agents(world, config)
         self._possible_agents = list(agents)
@@ -144,16 +188,17 @@ class ParallelEnkiEnv(ParallelEnv[str, Observation, Action]):
             if notebook:
                 from pyenki.buffer import EnkiRemoteFrameBuffer
 
-                print('Create render buffer')
+                # print('Create render buffer')
                 self._render_buffer = EnkiRemoteFrameBuffer(
                     world=None, **self._render_kwargs)
             else:
                 from pyenki.viewer import WorldView
 
-                print('Create qt world view')
+                # print('Create a Qt world view')
                 self._world_view = WorldView(world=None, **self._render_kwargs)
+                self._world_view.show()
 
-    def render(self) -> Array | None:
+    def render(self) -> Image | None:
         from pyenki.viewer import render
 
         if self._world:
@@ -194,6 +239,20 @@ class ParallelEnkiEnv(ParallelEnv[str, Observation, Action]):
         self._np_random = value
         self._np_random_seed = -1
 
+    @property
+    def group_map(self) -> dict[str, list[str]]:
+        groups: dict[str, list[str]] = {}
+        for name, (_, group, _) in self._agents.items():
+            if group not in groups:
+                groups[group] = [name]
+            else:
+                groups[group].append(name)
+        return groups
+
+    @property
+    def agent_groups(self) -> list[str]:
+        return [group for (_, group, _) in self._agents.values()]
+
     def reset(self,
               seed: int | None = None,
               options: dict[str, Any] | None = None) -> ResetReturn:
@@ -220,6 +279,7 @@ class ParallelEnkiEnv(ParallelEnv[str, Observation, Action]):
         self._world.step(self._time_step, 1)
         self._agents = make_agents(self._world, self._config)
         self._success: dict[str, bool] = {}
+        self._duration = 0
         return self._get_observations(), self._get_infos()
 
     def step(self, actions: dict[str, Action]) -> StepReturn:
@@ -229,8 +289,14 @@ class ParallelEnkiEnv(ParallelEnv[str, Observation, Action]):
         obs = self._get_observations()
         infos = self._get_infos()
         rew = self._get_rewards()
-        trunc = {uid: False for uid in self._agents}
+        self._duration += self._time_step
+        trunc = self._update_truncations()
         term = self._update_terminations()
+
+        for uid in list(self._agents):
+            if trunc[uid] or term[uid]:
+                del self._agents[uid]
+
         if self.render_mode == "human":
             if self._render_buffer:
                 self._render_buffer.tick(self._render_fps)
@@ -247,3 +313,40 @@ class ParallelEnkiEnv(ParallelEnv[str, Observation, Action]):
         if self._world_view:
             self._world_view.hide()
             del self._world_view
+
+    def make_world(self,
+                   policies: dict[str, Predictor],
+                   seed: int = 0) -> World:
+        world = self._scenario(seed)
+        setup_policies(world, self._config, policies)
+        return world
+
+    def rollout(self,
+                policies: Mapping[str, Predictor],
+                max_steps: int = -1,
+                seed: int = 0) -> tuple[float, int]:
+        obs, _ = self.reset(seed=seed)
+        cum_rew = 0.0
+        step = 0
+        missing_groups = [
+            group for group in self._agents if group not in policies
+        ]
+        if missing_groups:
+            raise ValueError(
+                f"Some groups are missing a policy: {', '.join(missing_groups)}"
+            )
+        agent_policies: list[Predictor] = [
+            policies.get(group, policies['']) for group in self.agent_groups
+        ]
+        while max_steps <= 0 or step < max_steps:
+            step += 1
+            act = {
+                r: policy.predict(o, deterministic=True)[0]
+                for policy, (
+                    r, o) in zip(agent_policies, obs.items(), strict=True)
+            }
+            obs, rew, term, trunc, _ = self.step(act)
+            cum_rew += sum(rew.values())
+            if all(term.values()) or any(trunc.values()):
+                break
+        return cum_rew / len(agent_policies), step
