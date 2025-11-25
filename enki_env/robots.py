@@ -366,8 +366,8 @@ class ThymioObservation(DifferentialDriveObservation):
     fields will be normalized in [0, 1].
     according to ``max_scanner_range``, ``max_proximity_distance`` and ``max_proximity_value``.
 
-    If ``normalize=True`, ``proximity_distance``, ``proximity_value``, and ``proximity_comm_payload``,
-    ``proximity_comm_payload``, ``proximity_comm_rx`` fields will be normalized in [0, 1].
+    If ``normalize=True`, ``proximity_distance``, ``proximity_value``, ``proximity_comm_payload``,
+    and ``proximity_comm_rx`` fields will be normalized in [0, 1].
     according to ``max_proximity_distance``, ``max_proximity_value``, ``max_proximity_comm_payload``,
     and ``max_proximity_comm_intensity``.
 
@@ -379,15 +379,17 @@ class ThymioObservation(DifferentialDriveObservation):
     Attributes:
         proximity_distance (bool): whether to include the distance measured by proximity sensors.
         proximity_value (bool): whether to include the proximity sensors readings.
-        proximity_comm_payload (bool): whether to include the payloads of messages received by proximity sensors.
-        proximity_comm_intensity (bool): whether to include the intensities of messages received by proximity sensors.
+        proximity_comm_payload (bool): whether to include the payloads of messages
+          received by proximity sensors.
+        proximity_comm_intensity (bool): whether to include the intensities of messages
+          received by proximity sensors.
         proximity_comm_rx (bool): whether to include the IR messages.
         max_proximity_distance (float): the maximal range of the proximity sensors
         max_proximity_value (float): the maximal values read by proximity sensors
         max_proximity_comm_payload (int): the maximal proximity communication payload
         max_proximity_comm_intensity (float): the maximal proximity communication intensity
-        max_proximity_comm_number (int): the maximal number of proximity comm messages. If more messages are received,
-           messages with the lowest intensity are ignored.
+        max_proximity_comm_number (int): the maximal number of proximity comm messages.
+          If more messages are received, messages with the lowest intensity are ignored.
     """
     max_speed: float = 16.6
     proximity_distance: bool = False
