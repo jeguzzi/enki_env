@@ -5,11 +5,12 @@ from abc import ABC, abstractmethod
 from typing import Any, SupportsFloat, cast, TYPE_CHECKING
 
 
-from .types import Action, Controller, Observation, Predictor, Termination
+from .types import Action, Observation, Predictor, Termination
 
 if TYPE_CHECKING:
     from pyenki import DifferentialWheeled, PhysicalObject, World
     import gymnasium as gym
+    from pyenki import Controller
 
 
 class ActionConfig(ABC):
@@ -71,7 +72,7 @@ class GroupConfig:
     info: InfoConfig = EmptyInfoConfig()
     terminations: list[Termination] = dc.field(default_factory=list)
 
-    def get_control(self, policy: Predictor) -> Controller:
+    def get_controller(self, policy: Predictor) -> Controller:
 
         def f(r: PhysicalObject, dt: SupportsFloat) -> None:
             robot = cast('DifferentialWheeled', r)
@@ -107,4 +108,4 @@ def setup_policies(world: World, config: dict[str, GroupConfig],
     configs = make_agents(world, config)
     for robot, name, conf in configs.values():
         if name in policies:
-            robot.control_step_callback = conf.get_control(policies[name])
+            robot.control_step_callback = conf.get_controller(policies[name])
