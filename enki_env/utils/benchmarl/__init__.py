@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 def make_env(env: ParallelEnkiEnv,
              seed: int = 0,
              categorical_actions: bool = False) -> EnvBase:
-    return PettingZooWrapper(ParallelEnkiEnv(**env._spec),
+    return PettingZooWrapper(ParallelEnkiEnv(**env.spec),
                              categorical_actions=categorical_actions,
                              device='cpu',
                              seed=seed,

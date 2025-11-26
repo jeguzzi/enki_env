@@ -158,13 +158,15 @@ class GroupConfig:
     """
     Defines how observations are generated.
     """
-    reward: RewardConfig = ConstRewardConfig()
+    reward: RewardConfig | None = None
     """
     Defines how reward are assigned.
+    If set to ``None``, it will generate a constant -1.
     """
-    info: InfoConfig = EmptyInfoConfig()
+    info: InfoConfig | None = None
     """
     Defines which extra information is generated.
+    If set to ``None``, it will generate an empty dictionary
     """
     terminations: list[Termination] = dc.field(default_factory=list)
     """
@@ -173,7 +175,7 @@ class GroupConfig:
     different than ``None``, it is assigned as a ``success`` and
     may make the episode terminate for the agent or for the whole group,
     depending on the value of ``terminate_on`` in the constructor
-    of :py:class:`pyenki.ParallelEnkiEnv`.
+    of :py:class:`enki_env.ParallelEnkiEnv`.
     """
     def get_controller(self, policy: Predictor) -> Controller:
         """

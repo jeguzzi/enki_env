@@ -27,7 +27,7 @@ class EnkiTaskClass(TaskClass):  # type: ignore[misc]
                  eval_env: ParallelEnkiEnv | None = None,
                  **kwargs: Any):
         super().__init__(*args, **kwargs)
-        self._env_spec = env._spec
+        self._env_spec = env.spec
         self._eval_env_spec = eval_env._spec if eval_env else env._spec
         self._cont = all(
             isinstance(space, gym.spaces.Box)

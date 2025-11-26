@@ -20,31 +20,34 @@ class DifferentialDriveAction(ActionConfig):
     Action configuration common to all robots
 
     Actions are given by two numbers in [-1, 1]
-    which are rescaled and actuated either as
+    which are re-scaled and actuated either as
     wheel speeds or accelerations.
 
     If either ``fix_orientation=True`` or ``fix_position=True``
     actions are a single number in [-1, 1] that get rescaled and
     then actuated as the sum/difference of wheel speeds or accelerations.
-
-    Attributes:
-      max_speed: maximal wheel speed in cm/s
-      max_acceleration: maximal wheel acceleration in cm/s^2;
-        only relevant if ``acceleration=True``
-      acceleration: whether actions are wheel accelerations or speeds
-      fix_orientation: whether to nullify the angular components. If set,
-        it reduces the dimension of the action space by one.
-      fix_position: whether to nullify the linear components. If set,
-        it reduces the dimension of the action space by one.
-      dtype: type[np.floating[Any]]: the dtype of actions
     """
 
     max_speed: float = 0
+    """maximal wheel speed in cm/s"""
     max_acceleration: float = 1
+    """
+    maximal wheel acceleration in cm/s^2; only relevant if ``acceleration=True``
+    """
     fix_orientation: bool = False
+    """
+    whether to nullify the angular components. If set, it reduces the dimension
+    of the action space by one.
+    """
     fix_position: bool = False
+    """
+    whether to nullify the linear components. If set, it reduces the dimension
+    of the action space by one.
+    """
     acceleration: bool = False
+    """whether actions are wheel accelerations or speeds"""
     dtype: type[np.floating[Any]] = np.float64
+    """the dtype of actions"""
 
     def actuate(self, act: Action, robot: DifferentialWheeled,
                 dt: float) -> None:
@@ -77,21 +80,18 @@ class DifferentialDriveAction(ActionConfig):
 class DifferentialDriveObservation(ObservationConfig):
     """
     Observation configuration common to all robots
-
-    If configured with ``speed=True``, observations will contain
-    key ``"wheel_speeds"`` associated with the current speed of the wheels.
-
-    Attributes:
-      normalize (bool): whether to normalize the observation range.
-      speed (float): whether to include the wheels speed in the observations.
-      max_speed (float): maximal wheel speed in cm/s
-      dtype: type[np.floating[Any]]: the dtype of floating point fields
     """
-
     max_speed: float = 0
+    """maximal wheel speed in cm/s"""
     speed: bool = False
+    """
+    If set, observations will contain field ``"wheel_speeds"``
+    associated with the current speed of the wheels (an array of length 2).
+    """
     normalize: bool = True
+    """whether to normalize the observation range."""
     dtype: type[np.floating[Any]] = np.float64
+    """the type of floating point fields"""
 
     def get(self, robot: DifferentialWheeled) -> Observation:
         ks = {}
@@ -131,26 +131,22 @@ class MarxbotObservation(DifferentialDriveObservation):
     """
     Observation configuration for :py:class:`pyenki.Marxbot`.
 
-    If ``camera=True``, observations will include field ``"camera"``
-    with the readings from the omni-directional linear RGB camera.
-
-    If ``scanner=True``, observations will include field ``"scanner"``
-    with the readings from the laser scanner.
-
-    If ``normalize=True`, the scanner field will be normalized in [0, 1]
-    according to ``max_scanner_range``, set to 100 cm by default.
+    If ``normalize=True``, the scanner readings will be normalized in [0, 1]
+    according to ``max_scanner_range``.
 
     Uses by default ``max_speed=30``.
-
-    Attributes:
-        camera (bool): whether to include the camera images
-        scanner (bool): whether to include the scanner readings
-        max_scanner_range (float): the maximal range of the scanner
     """
     max_speed: float = 30
     camera: bool = False
+    """If set, observations will include field ``"camera"``
+    with the readings from the omni-directional linear RGB camera.
+    """
     scanner: bool = True
+    """If set, observations will include field ``"scanner"``
+    with the readings from the laser scanner.
+    """
     max_scanner_range: float = 100
+    """the maximal range of the scanner"""
 
     def get(self, r: DifferentialWheeled) -> Observation:
         robot = cast('Marxbot', r)
@@ -208,41 +204,40 @@ class EPuckObservation(DifferentialDriveObservation):
     """
     Observation configuration for :py:class:`pyenki.EPuck`.
 
-    If ``camera=True``, observations will include field ``"camera"``
-    with readings from the linear RGB camera.
-
-    If ``scanner=True``, observations will include field ``"scanner"``
-    with readings from the laser scanner.
-
-    If ``proximity_distance=True``, observations will include field ``"prox/distance"``
-    with distances measured by the proximity sensors.
-
-    If ``proximity_value=True``, observations will include field ``"prox/value"``
-    with readings from the proximity sensors.
-
-    If ``normalize=True`, ``scanner``, ``proximity_distance``, and ``proximity_value``
-    fields will be normalized in [0, 1].
-    according to ``max_scanner_range``, ``max_proximity_distance`` and ``max_proximity_value``.
+    If ``normalize=True``, fields ``scanner``, ``prox/distance``, and ``prox/value``
+    will be normalized in [0, 1], according to ``max_scanner_range``,
+    ``max_proximity_distance`` and ``max_proximity_value``.
 
     Uses by default ``max_speed=12.8``.
-
-    Attributes:
-        camera (bool): whether to include the camera images
-        scanner (bool): whether to include the scanner readings
-        proximity_distance (bool): whether to include the distance measured by proximity sensors.
-        proximity_value (bool): whether to include the proximity sensors readings.
-        max_scanner_range (float): the maximal range of the scanner
-        max_proximity_distance (float): the maximal range of the proximity sensors
-        max_proximity_value (float): the maximal values read by proximity sensors
     """
+
     max_speed: float = 12.8
     camera: bool = False
+    """
+    If set, observations will include field ``"camera"``
+    with readings from the linear RGB camera.
+    """
     scanner: bool = False
+    """
+    If set, observations will include field ``"scanner"``
+    with readings from the laser scanner.
+    """
     proximity_distance: bool = False
+    """
+    If set, observations will include field ``"prox/distance"``
+    with distances measured by the proximity sensors.
+    """
     proximity_value: bool = True
+    """
+    If set, observations will include field ``"prox/value"``
+    with readings from the proximity sensors.
+    """
     max_scanner_range: float = 32
+    """the maximal range of the scanner"""
     max_proximity_distance: float = 12
+    """the maximal range of the proximity sensors"""
     max_proximity_value: float = 3731
+    """the maximal values read by proximity sensors"""
 
     def get(self, r: DifferentialWheeled) -> Observation:
         robot = cast('EPuck', r)
@@ -309,20 +304,17 @@ class EPuckConfig(GroupConfig):
 class ThymioAction(DifferentialDriveAction):
     """
     Action configuration for :py:class:`pyenki.Thymio2`.
-
-    If ``prox_comm=True``, there is an additional action in [-1, 1]
-    that is converted to an integer in ``[0, max_proximity_comm_payload]``
-    before being broadcasted using proximity sensors.
-
     Uses by default ``max_speed=16.6``.
-
-    Attributes:
-       prox_comm: whether to add an action to broadcast a IR message.
-       max_proximity_comm_payload: the maximal value of broadcasted messages
     """
     max_speed: float = 16.6
     prox_comm: bool = False
+    """
+    If set, there is an additional action in [-1, 1]
+    that is converted to an integer in ``[0, max_proximity_comm_payload]``
+    before being broadcasted using proximity sensors.
+    """
     max_proximity_comm_payload: int = 1
+    """the maximal value of broadcasted messages"""
 
     def actuate(self, act: Action, robot: DifferentialWheeled,
                 dt: float) -> None:
@@ -349,61 +341,57 @@ class ThymioObservation(DifferentialDriveObservation):
     """
     Observation configuration for :py:class:`pyenki.Thymio2`.
 
-    If ``proximity_distance=True``, observations will include field ``"prox/distance"``
-    with distances measured by the proximity sensors.
-
-    If ``proximity_value=True``, observations will include field ``"prox/value"``
-    with readings from the proximity sensors.
-
-    If ``proximity_comm_payload=True``, observations will include field ``"prox_comm/payload"``
-    with the payload of IR messages received by proximity sensors.
-
-    If ``proximity_comm_intensity=True``, observations will include field ``"prox_comm/payload"``
-    with the intensity of IR messages received by proximity sensors.
-
-    If ``proximity_comm_rx=True``, observations will include field ``"prox_comm/rx"``
-    with IR messages.
-
-    If ``normalize=True`, ``scanner``, ``proximity_distance``, and ``proximity_value``
-    fields will be normalized in [0, 1].
-    according to ``max_scanner_range``, ``max_proximity_distance`` and ``max_proximity_value``.
-
-    If ``normalize=True`, ``proximity_distance``, ``proximity_value``, ``proximity_comm_payload``,
-    and ``proximity_comm_rx`` fields will be normalized in [0, 1].
-    according to ``max_proximity_distance``, ``max_proximity_value``, ``max_proximity_comm_payload``,
-    and ``max_proximity_comm_intensity``.
+    If ``normalize=True``, fields ``prox/distance``, ``prox/value``,
+    ``prox_comm/payload``, ``prox_comm/intensity``, and ``prox_comm/rx``
+    will be normalized in [0, 1], according to the values of
+    ``max_proximity_distance``, ``max_proximity_value``,
+    ``max_proximity_comm_payload``, and ``max_proximity_comm_intensity``.
 
     ``proximity_comm_xxx`` fields are sorted by the intensity of the messages,
     from highest to lowest.
 
     Uses by default ``max_speed=12.8``.
-
-    Attributes:
-        proximity_distance (bool): whether to include the distance measured by proximity sensors.
-        proximity_value (bool): whether to include the proximity sensors readings.
-        proximity_comm_payload (bool): whether to include the payloads of messages received by proximity sensors.
-        proximity_comm_intensity (bool): whether to include the intensities of messages
-                                         received by proximity sensors.
-        proximity_comm_rx (bool): whether to include the IR messages.
-        max_proximity_distance (float): the maximal range of the proximity sensors
-        max_proximity_value (float): the maximal values read by proximity sensors
-        max_proximity_comm_payload (int): the maximal proximity communication payload
-        max_proximity_comm_intensity (float): the maximal proximity communication intensity
-        max_proximity_comm_number (int): the maximal number of proximity comm messages.
-                                         If more messages are received, messages with the
-                                         lowest intensity are ignored.
     """
     max_speed: float = 16.6
     proximity_distance: bool = False
+    """
+    If set, observations will include field ``"prox/distance"``
+    with distances measured by the proximity sensors.
+    """
     proximity_value: bool = True
+    """
+    If set, observations will include field ``"prox/value"``
+    with readings from the proximity sensors.
+    """
     proximity_comm_payload: bool = False
+    """
+    If set, observations will include field ``"prox_comm/payload"``
+    with the payload of IR messages received by proximity sensors.
+    """
     proximity_comm_intensity: bool = False
+    """
+    If set, observations will include field ``"prox_comm/intensity"``
+    with the intensity of IR messages received by proximity sensors.
+    """
     proximity_comm_rx: bool = False
+    """
+    If set, observations will include field ``"prox_comm/rx"``
+    with IR messages.
+    """
     max_proximity_distance: float = 28
+    """the maximal range of the proximity sensors"""
     max_proximity_value: float = 4505
+    """the maximal values read by proximity sensors"""
     max_proximity_comm_payload: int = 1
+    """the maximal proximity communication payload"""
     max_proximity_comm_intensity: float = 4600
+    """the maximal proximity communication intensity"""
     max_proximity_comm_number: int = 1
+    """
+    the maximal number of proximity comm messages.
+    If more messages are received, messages with the
+    lowest intensity are ignored.
+    """
 
     def get_prox_comm_events(self,
                              thymio: Thymio2) -> list[Thymio2.IRCommEvent]:
