@@ -36,6 +36,7 @@ class DifferentialDriveAction(ActionConfig):
         it reduces the dimension of the action space by one.
       fix_position: whether to nullify the linear components. If set,
         it reduces the dimension of the action space by one.
+      dtype: type[np.floating[Any]]: the dtype of actions
     """
 
     max_speed: float = 0
@@ -43,7 +44,7 @@ class DifferentialDriveAction(ActionConfig):
     fix_orientation: bool = False
     fix_position: bool = False
     acceleration: bool = False
-    dtype: Any = np.float64
+    dtype: type[np.floating[Any]] = np.float64
 
     def actuate(self, act: Action, robot: DifferentialWheeled,
                 dt: float) -> None:
@@ -84,12 +85,13 @@ class DifferentialDriveObservation(ObservationConfig):
       normalize (bool): whether to normalize the observation range.
       speed (float): whether to include the wheels speed in the observations.
       max_speed (float): maximal wheel speed in cm/s
+      dtype: type[np.floating[Any]]: the dtype of floating point fields
     """
 
     max_speed: float = 0
     speed: bool = False
     normalize: bool = True
-    dtype: Any = np.float64
+    dtype: type[np.floating[Any]] = np.float64
 
     def get(self, robot: DifferentialWheeled) -> Observation:
         ks = {}
@@ -379,17 +381,17 @@ class ThymioObservation(DifferentialDriveObservation):
     Attributes:
         proximity_distance (bool): whether to include the distance measured by proximity sensors.
         proximity_value (bool): whether to include the proximity sensors readings.
-        proximity_comm_payload (bool): whether to include the payloads of messages
-          received by proximity sensors.
+        proximity_comm_payload (bool): whether to include the payloads of messages received by proximity sensors.
         proximity_comm_intensity (bool): whether to include the intensities of messages
-          received by proximity sensors.
+                                         received by proximity sensors.
         proximity_comm_rx (bool): whether to include the IR messages.
         max_proximity_distance (float): the maximal range of the proximity sensors
         max_proximity_value (float): the maximal values read by proximity sensors
         max_proximity_comm_payload (int): the maximal proximity communication payload
         max_proximity_comm_intensity (float): the maximal proximity communication intensity
         max_proximity_comm_number (int): the maximal number of proximity comm messages.
-          If more messages are received, messages with the lowest intensity are ignored.
+                                         If more messages are received, messages with the
+                                         lowest intensity are ignored.
     """
     max_speed: float = 16.6
     proximity_distance: bool = False

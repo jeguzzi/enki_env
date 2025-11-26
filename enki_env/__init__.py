@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .config import GroupConfig, setup_policies
+from .config import GroupConfig, setup_controllers
 from .env import EnkiEnv, BaseEnv
 from .parallel_env import ParallelEnkiEnv, BaseParallelEnv
 from .robots import (EPuckAction, EPuckConfig, EPuckObservation, MarxbotAction,
@@ -28,7 +28,7 @@ def default_config() -> dict[str, GroupConfig]:
 
 
 __all__ = [
-    'GroupConfig', 'setup_policies', 'EnkiEnv', 'ParallelEnkiEnv',
+    'GroupConfig', 'setup_controllers', 'EnkiEnv', 'ParallelEnkiEnv',
     'EPuckAction', 'EPuckObservation', 'MarxbotAction', 'MarxbotObservation',
     'ThymioAction', 'ThymioObservation', 'EPuckConfig', 'MarxbotConfig',
     'ThymioConfig', 'BaseEnv', 'BaseParallelEnv'
