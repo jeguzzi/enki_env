@@ -15,7 +15,7 @@ from .environment import make_env
 def train() -> Predictor:
     from stable_baselines3 import SAC
 
-    from ..onnx import export
+    from ...onnx import export
 
     env = make_env()
     model = SAC("MultiInputPolicy", env, verbose=1)

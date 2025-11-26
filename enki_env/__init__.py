@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 from .config import GroupConfig, setup_controllers
-from .env import EnkiEnv, BaseEnv
-from .parallel_env import ParallelEnkiEnv, BaseParallelEnv, parallel_env
+from .env import BaseEnv, EnkiEnv
+from .parallel_env import BaseParallelEnv, ParallelEnkiEnv, parallel_env
 from .robots import (EPuckAction, EPuckConfig, EPuckObservation, MarxbotAction,
                      MarxbotConfig, MarxbotObservation, ThymioAction,
                      ThymioConfig, ThymioObservation)

@@ -2,15 +2,14 @@ from __future__ import annotations
 
 import dataclasses as dc
 from abc import ABC, abstractmethod
-from typing import Any, SupportsFloat, cast, TYPE_CHECKING
-import numpy as np
+from typing import TYPE_CHECKING, SupportsFloat, cast
 
-from .types import Action, Observation, Predictor, Termination
+from .types import (Action, InfoFunction, Observation, Predictor,
+                    RewardFunction, Termination)
 
 if TYPE_CHECKING:
-    from pyenki import DifferentialWheeled, PhysicalObject, World
     import gymnasium as gym
-    from pyenki import Controller
+    from pyenki import Controller, DifferentialWheeled, PhysicalObject, World
 
 
 class ActionConfig(ABC):
@@ -77,74 +76,6 @@ class ObservationConfig(ABC):
         ...
 
 
-class RewardConfig(ABC):
-    """
-    The abstract base class of reward configurations.
-
-    It generates rewards.
-    """
-
-    @abstractmethod
-    def get(self, robot: DifferentialWheeled, world: World) -> float:
-        """
-        Generate a reward for a robot.
-
-        :param      robot:  The robot
-        :param      world:  The world the robot belongs to.
-
-        :returns:   The reward assigned to the robot
-
-        Must be implemented by concrete classes!
-        """
-
-class ConstRewardConfig(RewardConfig):
-    """
-    Generates a const -1 reward. Used at default configuration.
-    """
-    def get(self, robot: DifferentialWheeled, world: World) -> float:
-        return -1
-
-class InfoConfig(ABC):
-    """
-    The abstract base class of info configurations.
-
-    It generates the extra information returned by the POMDP
-    at each step.
-    """
-
-    @abstractmethod
-    def get(self, robot: DifferentialWheeled, world: World) -> dict[str, Any]:
-        """
-        Generate information related to a robot
-
-        :param      robot:  The robot
-        :param      world:  The world the robot belongs to.
-
-        :returns:   The information related to the robot
-
-        Must be implemented by concrete classes!
-        """
-        ...
-
-
-class EmptyInfoConfig(InfoConfig):
-    """
-    Generates empty information dictionaries. Used at default configuration.
-    """
-
-    def get(self, robot: DifferentialWheeled, world: World) -> dict[str, Any]:
-        return {}
-
-
-class PoseInfoConfig(InfoConfig):
-    """
-    Generates an information dictionary with the robot pose.
-    """
-
-    def get(self, robot: DifferentialWheeled, world: World) -> dict[str, Any]:
-        return {'position': robot.position, 'angle': np.asarray(robot.angle)}
-
-
 @dc.dataclass
 class GroupConfig:
     """
@@ -158,12 +89,12 @@ class GroupConfig:
     """
     Defines how observations are generated.
     """
-    reward: RewardConfig | None = None
+    reward: RewardFunction | None = None
     """
     Defines how reward are assigned.
     If set to ``None``, it will generate a constant -1.
     """
-    info: InfoConfig | None = None
+    info: InfoFunction | None = None
     """
     Defines which extra information is generated.
     If set to ``None``, it will generate an empty dictionary

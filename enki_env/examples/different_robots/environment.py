@@ -6,7 +6,7 @@ from typing import cast
 
 from ... import (EPuckAction, EPuckObservation, EPuckConfig, ParallelEnkiEnv,
                  ThymioAction, ThymioConfig, ThymioObservation)
-from ..same_robots.environment import Reward, facing_each_other
+from ..same_robots.environment import reward, facing_each_other
 
 
 def scenario(seed: int) -> pyenki.World:
@@ -26,12 +26,12 @@ def scenario(seed: int) -> pyenki.World:
 
 
 def make_env(**kwargs: Any) -> ParallelEnkiEnv:
-    thymio_config = ThymioConfig(reward=Reward(),
+    thymio_config = ThymioConfig(reward=reward,
                                  terminations=[facing_each_other])
     cast('ThymioAction', thymio_config.action).fix_position = True
     cast('ThymioAction', thymio_config.action).dtype = np.float32
     cast('ThymioObservation', thymio_config.observation).dtype = np.float32
-    epuck_config = EPuckConfig(reward=Reward(),
+    epuck_config = EPuckConfig(reward=reward,
                                terminations=[facing_each_other])
     cast('EPuckAction', epuck_config.action).fix_position = True
     cast('EPuckAction', epuck_config.action).dtype = np.float32

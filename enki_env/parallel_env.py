@@ -5,7 +5,6 @@ from collections.abc import Mapping, Sequence
 from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypedDict
 
 from gymnasium.utils import seeding
-from pettingzoo.utils import wrappers
 from pettingzoo.utils.env import ParallelEnv
 
 from .config import GroupConfig, make_agents, setup_controllers
@@ -64,8 +63,7 @@ def parallel_env(
         terminate_on: Literal['any', 'all'] | None = 'all') -> BaseParallelEnv:
     """
     Helper function that creates a parallel environment,
-    passing all arguments to :py:class:`enki_env.ParallelEnkiEnv`
-    before wrapping it with a :py:class:`pettingzoo.utils.wrappers.OrderEnforcingWrapper`
+    passing all arguments to :py:class:`enki_env.ParallelEnkiEnv`.
 
     :param      scenario:          The scenario that generates worlds
         at :py:meth:`gymnasium.Env.reset`
@@ -102,8 +100,6 @@ def parallel_env(
                                            render_kwargs=render_kwargs,
                                            notebook=notebook,
                                            terminate_on=terminate_on)
-    # env = wrappers.AssertOutOfBoundsWrapper(env)
-    env = wrappers.OrderEnforcingWrapper(env)
     return env
 
 
@@ -160,6 +156,10 @@ class ParallelEnkiEnv(BaseParallelEnv):
     # will be set to the "invalid" value -1 if the seed of the currently set rng is unknown
     _np_random_seed: int | None = None
 
+    @property
+    def config(self) -> dict[str, GroupConfig]:
+        return self._config
+
     def display_in_notebook(self) -> None:
         """
         Display the environment in a notebook using a
@@ -170,12 +170,12 @@ class ParallelEnkiEnv(BaseParallelEnv):
         from IPython.display import display
 
         if self._render_buffer:
-            display(self._render_buffer)
+            display(self._render_buffer)  # type: ignore[no-untyped-call]
         else:
             if self.render_mode != "human":
-                warnings.warn('render_mode not set to "human"')
+                warnings.warn('render_mode not set to "human"', stacklevel=2)
             else:
-                warnings.warn('Requires running in a notebook')
+                warnings.warn('Requires running in a notebook', stacklevel=2)
 
     def observation_space(self, agent: str) -> gym.spaces.Space[Any]:
         return self.observation_spaces[agent]
@@ -209,7 +209,7 @@ class ParallelEnkiEnv(BaseParallelEnv):
         if self._world:
             return {
                 uid:
-                config.reward.get(agent, self._world) if config.reward else -1
+                config.reward(agent, self._world) if config.reward else -1
                 for uid, (agent, _, config) in self._agents.items()
             }
         else:
@@ -219,7 +219,7 @@ class ParallelEnkiEnv(BaseParallelEnv):
         if self._world:
             return {
                 uid:
-                config.info.get(agent, self._world) if config.info else {}
+                config.info(agent, self._world) if config.info else {}
                 for uid, (agent, _, config) in self._agents.items()
             }
         else:
@@ -353,9 +353,8 @@ class ParallelEnkiEnv(BaseParallelEnv):
             for uid, (_, _, config) in agents.items()
         }
         self._world: World | None = None
-        self._render_buffer = None
         self._world_view = None
-        self._render_buffer: 'EnkiRemoteFrameBuffer | None' = None
+        self._render_buffer: EnkiRemoteFrameBuffer | None = None
         if self.render_mode == 'human':
             if notebook:
                 from pyenki.buffer import EnkiRemoteFrameBuffer

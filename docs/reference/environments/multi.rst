@@ -8,4 +8,4 @@ Multi-agent PettingZoo Environment
 
 .. autoclass:: ParallelEnkiEnv
    :show-inheritance:
-   :members: __init__, make_world, rollout, spec, group_map, display_in_notebook
+   :members: __init__, config, spec, make_world, group_map, rollout , display_in_notebook

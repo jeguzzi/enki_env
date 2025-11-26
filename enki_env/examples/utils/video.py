@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections.abc import Callable, Sequence
 from typing import TYPE_CHECKING, Any
 
@@ -16,7 +18,7 @@ def make_video(env: Any,
                time_step: float = 0.03,
                width: int = 1280,
                height: int = 720,
-               **kwargs: Any) -> "VideoClip":
+               **kwargs: Any) -> VideoClip:
     from moviepy import concatenate_videoclips
     from pyenki.video import make_video
 

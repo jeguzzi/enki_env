@@ -1,22 +1,24 @@
 from __future__ import annotations
 
 import pathlib as pl
+from typing import TYPE_CHECKING
 
 from ..single_robot.video import set_color
-from ..utils.video import make_video
-from .baseline import EPuckBaseline, ThymioBaseline  # type: ignore[attr-defined]
+from ..utils import video
+from .baseline import (EPuckBaseline,  # type: ignore[attr-defined]
+                       ThymioBaseline)
 from .environment import make_env
 from .rl import get_policies
 
-if __name__ == '__main__':
-    import pyenki.viewer
-    pyenki.viewer.init()
+if TYPE_CHECKING:
+    from moviepy import VideoClip
 
+def make_video() -> VideoClip:
     configs = (({
         'thymio': ThymioBaseline(),
         'e-puck': EPuckBaseline(),
     }, set_color(1, 1, 0)), (get_policies(), set_color(0, 1, 1)))
-    video = make_video(make_env(),
+    return video.make_video(make_env(),
                        configs,
                        number=5,
                        duration=3,
@@ -24,6 +26,10 @@ if __name__ == '__main__':
                        camera_altitude=15,
                        camera_pitch=-0.5,
                        camera_yaw=1.57)
+
+if __name__ == '__main__':
+    import pyenki.viewer
+    pyenki.viewer.init()
     path = pl.Path(__file__).parent / "sim.mp4"
-    video.write_videofile(path, fps=30)
+    make_video().write_videofile(path, fps=30)
     pyenki.viewer.cleanup()

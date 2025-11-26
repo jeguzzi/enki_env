@@ -110,6 +110,24 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
                                render_fps, render_kwargs, notebook)
         super().__init__(penv)
 
+    @property
+    def config(self) -> GroupConfig:
+        """
+        The robot configuration
+        """
+        rs = cast('ParallelEnkiEnv', self._penv).config
+        assert len(rs) == 1
+        return next(iter(rs.values()))
+
+    def display_in_notebook(self) -> None:
+        """
+        Display the environment in a notebook using a
+        an interactive :py:class:`pyenki.buffer.EnkiRemoteFrameBuffer`.
+
+        Requires ``render_mode="human"`` and a notebook.
+        """
+        return cast('ParallelEnkiEnv', self._penv).display_in_notebook()
+
     def make_world(self,
                    policy: Predictor | None = None,
                    seed: int = 0) -> pyenki.World:
@@ -127,7 +145,7 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
                                            seed=seed)
 
     def rollout(self,
-                policy: Predictor | None,
+                policy: Predictor | None = None,
                 max_steps: int = -1,
                 seed: int = 0) -> Rollout:
         """

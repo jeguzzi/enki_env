@@ -7,7 +7,6 @@ import numpy as np
 import pyenki
 
 from ... import ParallelEnkiEnv, ThymioAction, ThymioConfig
-from ...config import RewardConfig
 
 
 def scenario(seed: int) -> pyenki.World:
@@ -47,18 +46,15 @@ def facing_each_other(robot: pyenki.DifferentialWheeled,
     return None
 
 
-class Reward(RewardConfig):
-
-    def get(self, robot: pyenki.DifferentialWheeled,
-            world: pyenki.World) -> float:
-        other = [r for r in world.robots if r is not robot][0]
-        delta = other.position - robot.position
-        angle = np.arctan2(delta[1], delta[0])
-        return -1 - abs(normalize_angle(robot.angle - angle))
+def reward(robot: pyenki.DifferentialWheeled, world: pyenki.World) -> float:
+    other = [r for r in world.robots if r is not robot][0]
+    delta = other.position - robot.position
+    angle = np.arctan2(delta[1], delta[0])
+    return -1 - abs(normalize_angle(robot.angle - angle))
 
 
 def make_env(**kwargs: Any) -> ParallelEnkiEnv:
-    config = ThymioConfig(reward=Reward(), terminations=[facing_each_other])
+    config = ThymioConfig(reward=reward, terminations=[facing_each_other])
     cast('ThymioAction', config.action).fix_position = True
     env = ParallelEnkiEnv(scenario=scenario,
                           config={'thymio': config},

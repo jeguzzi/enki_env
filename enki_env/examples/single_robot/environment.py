@@ -6,7 +6,6 @@ import gymnasium as gym
 import pyenki
 
 from ... import BaseEnv, ThymioAction, ThymioConfig
-from ...config import RewardConfig
 
 
 def scenario(seed: int) -> pyenki.World:
@@ -38,15 +37,12 @@ def in_front_of_wall(robot: pyenki.DifferentialWheeled,
     return None
 
 
-class Reward(RewardConfig):
-
-    def get(self, robot: pyenki.DifferentialWheeled,
-            world: pyenki.World) -> float:
-        return -1 - abs(robot.angle)
+def reward(robot: pyenki.DifferentialWheeled, world: pyenki.World) -> float:
+    return -1 - abs(robot.angle)
 
 
 def make_env(**kwargs: Any) -> BaseEnv:
-    config = ThymioConfig(reward=Reward(), terminations=[in_front_of_wall])
+    config = ThymioConfig(reward=reward, terminations=[in_front_of_wall])
     cast('ThymioAction', config.action).fix_position = True
     env = gym.make("Enki",
                    max_duration=2,
