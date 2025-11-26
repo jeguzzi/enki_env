@@ -1,0 +1,836 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Base classes &#8212; enki_env 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=a1637f0b"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/configuration/base';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Group" href="group.html" />
+    <link rel="prev" title="Configuration" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">enki_env 0.1.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/single_robot.html">Single Robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/same_robots.html">Two equal robots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/different_robots.html">Two different robots</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../types.html">Types</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Base classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="group.html">Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="epuck.html">EPuck</a></li>
+<li class="toctree-l3"><a class="reference internal" href="marxbot.html">Marxbot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="thymio.html">Thymio</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../rollout.html">Rollout</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../environments/index.html">Environments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../environments/single.html">Single-agent Gymnasium Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environments/multi.html">Multi-agent PettingZoo Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environments/torchrl.html">Multi-agent PyTorchRL Environment</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/reference/configuration/base.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Base classes</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actions">Actions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-base-class">Abstract base class</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.ActionConfig"><code class="docutils literal notranslate"><span class="pre">ActionConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.ActionConfig.actuate"><code class="docutils literal notranslate"><span class="pre">ActionConfig.actuate()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.ActionConfig.space"><code class="docutils literal notranslate"><span class="pre">ActionConfig.space</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#robot-base-class">Robot base class</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveAction"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveAction</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveAction.acceleration"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveAction.acceleration</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveAction.dtype"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveAction.dtype</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveAction.fix_orientation"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveAction.fix_orientation</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveAction.fix_position"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveAction.fix_position</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveAction.max_acceleration"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveAction.max_acceleration</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveAction.max_speed"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveAction.max_speed</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#observations">Observations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Abstract base class</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.ObservationConfig"><code class="docutils literal notranslate"><span class="pre">ObservationConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.ObservationConfig.get"><code class="docutils literal notranslate"><span class="pre">ObservationConfig.get()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.ObservationConfig.space"><code class="docutils literal notranslate"><span class="pre">ObservationConfig.space</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Robot base class</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveObservation"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveObservation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveObservation.dtype"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveObservation.dtype</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveObservation.get"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveObservation.get()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveObservation.max_speed"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveObservation.max_speed</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveObservation.normalize"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveObservation.normalize</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveObservation.speed"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveObservation.speed</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reward">Reward</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Abstract base class</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.RewardConfig"><code class="docutils literal notranslate"><span class="pre">RewardConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.RewardConfig.get"><code class="docutils literal notranslate"><span class="pre">RewardConfig.get()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#concrete-classes">Concrete classes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.ConstRewardConfig"><code class="docutils literal notranslate"><span class="pre">ConstRewardConfig</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#info">Info</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Abstract base class</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.InfoConfig"><code class="docutils literal notranslate"><span class="pre">InfoConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.InfoConfig.get"><code class="docutils literal notranslate"><span class="pre">InfoConfig.get()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Concrete classes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.EmptyInfoConfig"><code class="docutils literal notranslate"><span class="pre">EmptyInfoConfig</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="base-classes">
+<h1>Base classes<a class="headerlink" href="#base-classes" title="Link to this heading">#</a></h1>
+<section id="actions">
+<h2>Actions<a class="headerlink" href="#actions" title="Link to this heading">#</a></h2>
+<section id="abstract-base-class">
+<h3>Abstract base class<a class="headerlink" href="#abstract-base-class" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="enki_env.config.ActionConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.config.</span></span><span class="sig-name descname"><span class="pre">ActionConfig</span></span><a class="headerlink" href="#enki_env.config.ActionConfig" title="Link to this definition">#</a></dt>
+<dd><p>The abstract base class of action configurations.</p>
+<p>It defines how actions are actuated.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="enki_env.config.ActionConfig.actuate">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">actuate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">act</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DifferentialWheeled</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#enki_env.config.ActionConfig.actuate" title="Link to this definition">#</a></dt>
+<dd><p>Make a robot actuates an action.</p>
+<p>Must be implemented by concrete classes!</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>act</strong> – The action</p></li>
+<li><p><strong>robot</strong> – The robot that actuates the action</p></li>
+<li><p><strong>dt</strong> – The time step</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="enki_env.config.ActionConfig.space">
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">space</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">gym.spaces.Box</span></em><a class="headerlink" href="#enki_env.config.ActionConfig.space" title="Link to this definition">#</a></dt>
+<dd><p>The action space</p>
+<p>Must be implemented by concrete classes!</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="robot-base-class">
+<h3>Robot base class<a class="headerlink" href="#robot-base-class" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveAction">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.robots.</span></span><span class="sig-name descname"><span class="pre">DifferentialDriveAction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_speed:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_acceleration:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_orientation:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_position:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acceleration:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype:</span> <span class="pre">type[~numpy.floating[~typing.Any]]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.float64'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#enki_env.robots.DifferentialDriveAction" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#enki_env.config.ActionConfig" title="enki_env.config.ActionConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ActionConfig</span></code></a></p>
+<p>Action configuration common to all robots</p>
+<p>Actions are given by two numbers in [-1, 1]
+which are re-scaled and actuated either as
+wheel speeds or accelerations.</p>
+<p>If either <code class="docutils literal notranslate"><span class="pre">fix_orientation=True</span></code> or <code class="docutils literal notranslate"><span class="pre">fix_position=True</span></code>
+actions are a single number in [-1, 1] that get rescaled and
+then actuated as the sum/difference of wheel speeds or accelerations.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveAction.acceleration">
+<span class="sig-name descname"><span class="pre">acceleration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#enki_env.robots.DifferentialDriveAction.acceleration" title="Link to this definition">#</a></dt>
+<dd><p>whether actions are wheel accelerations or speeds</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveAction.dtype">
+<span class="sig-name descname"><span class="pre">dtype</span></span><a class="headerlink" href="#enki_env.robots.DifferentialDriveAction.dtype" title="Link to this definition">#</a></dt>
+<dd><p>the dtype of actions</p>
+<p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">float64</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveAction.fix_orientation">
+<span class="sig-name descname"><span class="pre">fix_orientation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#enki_env.robots.DifferentialDriveAction.fix_orientation" title="Link to this definition">#</a></dt>
+<dd><p>whether to nullify the angular components. If set, it reduces the dimension
+of the action space by one.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveAction.fix_position">
+<span class="sig-name descname"><span class="pre">fix_position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#enki_env.robots.DifferentialDriveAction.fix_position" title="Link to this definition">#</a></dt>
+<dd><p>whether to nullify the linear components. If set, it reduces the dimension
+of the action space by one.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveAction.max_acceleration">
+<span class="sig-name descname"><span class="pre">max_acceleration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#enki_env.robots.DifferentialDriveAction.max_acceleration" title="Link to this definition">#</a></dt>
+<dd><p>maximal wheel acceleration in cm/s^2; only relevant if <code class="docutils literal notranslate"><span class="pre">acceleration=True</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveAction.max_speed">
+<span class="sig-name descname"><span class="pre">max_speed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#enki_env.robots.DifferentialDriveAction.max_speed" title="Link to this definition">#</a></dt>
+<dd><p>maximal wheel speed in cm/s</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="observations">
+<h2>Observations<a class="headerlink" href="#observations" title="Link to this heading">#</a></h2>
+<section id="id1">
+<h3>Abstract base class<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="enki_env.config.ObservationConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.config.</span></span><span class="sig-name descname"><span class="pre">ObservationConfig</span></span><a class="headerlink" href="#enki_env.config.ObservationConfig" title="Link to this definition">#</a></dt>
+<dd><p>The abstract base class of observation configurations.</p>
+<p>It defines how observations are generated from robots’
+sensor readings and internal state.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="enki_env.config.ObservationConfig.get">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DifferentialWheeled</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Observation</span></span></span><a class="headerlink" href="#enki_env.config.ObservationConfig.get" title="Link to this definition">#</a></dt>
+<dd><p>Makes a robot generate an observation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>robot</strong> – The robot generating the observation</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The observation</p>
+</dd>
+</dl>
+<p>Must be implemented by concrete classes!</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="enki_env.config.ObservationConfig.space">
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">space</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">gym.spaces.Dict</span></em><a class="headerlink" href="#enki_env.config.ObservationConfig.space" title="Link to this definition">#</a></dt>
+<dd><p>The observation space</p>
+<p>Must be implemented by concrete classes!</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id2">
+<h3>Robot base class<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveObservation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.robots.</span></span><span class="sig-name descname"><span class="pre">DifferentialDriveObservation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_speed:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype:</span> <span class="pre">type[~numpy.floating[~typing.Any]]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.float64'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#enki_env.robots.DifferentialDriveObservation" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#enki_env.config.ObservationConfig" title="enki_env.config.ObservationConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationConfig</span></code></a></p>
+<p>Observation configuration common to all robots</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveObservation.dtype">
+<span class="sig-name descname"><span class="pre">dtype</span></span><a class="headerlink" href="#enki_env.robots.DifferentialDriveObservation.dtype" title="Link to this definition">#</a></dt>
+<dd><p>the type of floating point fields</p>
+<p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">float64</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveObservation.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DifferentialWheeled</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Observation</span></span></span><a class="headerlink" href="#enki_env.robots.DifferentialDriveObservation.get" title="Link to this definition">#</a></dt>
+<dd><p>Makes a robot generate an observation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>robot</strong> – The robot generating the observation</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The observation</p>
+</dd>
+</dl>
+<p>Must be implemented by concrete classes!</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveObservation.max_speed">
+<span class="sig-name descname"><span class="pre">max_speed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#enki_env.robots.DifferentialDriveObservation.max_speed" title="Link to this definition">#</a></dt>
+<dd><p>maximal wheel speed in cm/s</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveObservation.normalize">
+<span class="sig-name descname"><span class="pre">normalize</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#enki_env.robots.DifferentialDriveObservation.normalize" title="Link to this definition">#</a></dt>
+<dd><p>whether to normalize the observation range.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveObservation.speed">
+<span class="sig-name descname"><span class="pre">speed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#enki_env.robots.DifferentialDriveObservation.speed" title="Link to this definition">#</a></dt>
+<dd><p>If set, observations will contain field <code class="docutils literal notranslate"><span class="pre">&quot;wheel_speeds&quot;</span></code>
+associated with the current speed of the wheels (an array of length 2).</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="reward">
+<h2>Reward<a class="headerlink" href="#reward" title="Link to this heading">#</a></h2>
+<section id="id3">
+<h3>Abstract base class<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="enki_env.config.RewardConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.config.</span></span><span class="sig-name descname"><span class="pre">RewardConfig</span></span><a class="headerlink" href="#enki_env.config.RewardConfig" title="Link to this definition">#</a></dt>
+<dd><p>The abstract base class of reward configurations.</p>
+<p>It generates rewards.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="enki_env.config.RewardConfig.get">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DifferentialWheeled</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">World</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#enki_env.config.RewardConfig.get" title="Link to this definition">#</a></dt>
+<dd><p>Generate a reward for a robot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>robot</strong> – The robot</p></li>
+<li><p><strong>world</strong> – The world the robot belongs to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The reward assigned to the robot</p>
+</dd>
+</dl>
+<p>Must be implemented by concrete classes!</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="concrete-classes">
+<h3>Concrete classes<a class="headerlink" href="#concrete-classes" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="enki_env.config.ConstRewardConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.config.</span></span><span class="sig-name descname"><span class="pre">ConstRewardConfig</span></span><a class="headerlink" href="#enki_env.config.ConstRewardConfig" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#enki_env.config.RewardConfig" title="enki_env.config.RewardConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">RewardConfig</span></code></a></p>
+<p>Generates a const -1 reward. Used at default configuration.</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="info">
+<h2>Info<a class="headerlink" href="#info" title="Link to this heading">#</a></h2>
+<section id="id4">
+<h3>Abstract base class<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="enki_env.config.InfoConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.config.</span></span><span class="sig-name descname"><span class="pre">InfoConfig</span></span><a class="headerlink" href="#enki_env.config.InfoConfig" title="Link to this definition">#</a></dt>
+<dd><p>The abstract base class of info configurations.</p>
+<p>It generates the extra information returned by the POMDP
+at each step.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="enki_env.config.InfoConfig.get">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DifferentialWheeled</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">World</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#enki_env.config.InfoConfig.get" title="Link to this definition">#</a></dt>
+<dd><p>Generate information related to a robot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>robot</strong> – The robot</p></li>
+<li><p><strong>world</strong> – The world the robot belongs to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The information related to the robot</p>
+</dd>
+</dl>
+<p>Must be implemented by concrete classes!</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id5">
+<h3>Concrete classes<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="enki_env.config.EmptyInfoConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.config.</span></span><span class="sig-name descname"><span class="pre">EmptyInfoConfig</span></span><a class="headerlink" href="#enki_env.config.EmptyInfoConfig" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#enki_env.config.InfoConfig" title="enki_env.config.InfoConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">InfoConfig</span></code></a></p>
+<p>Generates empty information dictionaries. Used at default configuration.</p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Configuration</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="group.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Group</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actions">Actions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-base-class">Abstract base class</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.ActionConfig"><code class="docutils literal notranslate"><span class="pre">ActionConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.ActionConfig.actuate"><code class="docutils literal notranslate"><span class="pre">ActionConfig.actuate()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.ActionConfig.space"><code class="docutils literal notranslate"><span class="pre">ActionConfig.space</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#robot-base-class">Robot base class</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveAction"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveAction</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveAction.acceleration"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveAction.acceleration</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveAction.dtype"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveAction.dtype</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveAction.fix_orientation"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveAction.fix_orientation</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveAction.fix_position"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveAction.fix_position</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveAction.max_acceleration"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveAction.max_acceleration</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveAction.max_speed"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveAction.max_speed</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#observations">Observations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Abstract base class</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.ObservationConfig"><code class="docutils literal notranslate"><span class="pre">ObservationConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.ObservationConfig.get"><code class="docutils literal notranslate"><span class="pre">ObservationConfig.get()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.ObservationConfig.space"><code class="docutils literal notranslate"><span class="pre">ObservationConfig.space</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Robot base class</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveObservation"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveObservation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveObservation.dtype"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveObservation.dtype</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveObservation.get"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveObservation.get()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveObservation.max_speed"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveObservation.max_speed</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveObservation.normalize"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveObservation.normalize</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.robots.DifferentialDriveObservation.speed"><code class="docutils literal notranslate"><span class="pre">DifferentialDriveObservation.speed</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reward">Reward</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Abstract base class</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.RewardConfig"><code class="docutils literal notranslate"><span class="pre">RewardConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.RewardConfig.get"><code class="docutils literal notranslate"><span class="pre">RewardConfig.get()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#concrete-classes">Concrete classes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.ConstRewardConfig"><code class="docutils literal notranslate"><span class="pre">ConstRewardConfig</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#info">Info</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Abstract base class</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.InfoConfig"><code class="docutils literal notranslate"><span class="pre">InfoConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.InfoConfig.get"><code class="docutils literal notranslate"><span class="pre">InfoConfig.get()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Concrete classes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.config.EmptyInfoConfig"><code class="docutils literal notranslate"><span class="pre">EmptyInfoConfig</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Jerome Guzzi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Jerome Guzzi.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
