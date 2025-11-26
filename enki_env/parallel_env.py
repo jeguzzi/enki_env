@@ -6,7 +6,8 @@ from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypedDict
 from gymnasium.utils import seeding
 from pettingzoo.utils.env import ParallelEnv
 
-from .config import GroupConfig, make_agents, setup_policies
+from .config import GroupConfig, make_agents, setup_controllers
+from .rollout import Rollout
 from .types import Action, Array, Info, Observation, Predictor, Scenario
 
 if TYPE_CHECKING:
@@ -111,6 +112,7 @@ class ParallelEnkiEnv(BaseParallelEnv):
             if uid in self._success:
                 ts[uid] = True
             else:
+                ts[uid] = False
                 for t in config.terminations:
                     r = t(agent, self._world)
                     if r is not None:
@@ -173,6 +175,14 @@ class ParallelEnkiEnv(BaseParallelEnv):
         self._possible_agents = list(agents)
         self._agents: dict[str, tuple[DifferentialWheeled, str,
                                       GroupConfig]] = {}
+        self.group_observation_spaces = {
+            group: config.observation.space
+            for group, config in config.items()
+        }
+        self.group_action_spaces = {
+            group: config.action.space
+            for group, config in config.items()
+        }
         self.observation_spaces = {
             uid: config.observation.space
             for uid, (_, _, config) in agents.items()
@@ -250,8 +260,8 @@ class ParallelEnkiEnv(BaseParallelEnv):
         return groups
 
     @property
-    def agent_groups(self) -> list[str]:
-        return [group for (_, group, _) in self._agents.values()]
+    def agent_groups(self) -> dict[str, str]:
+        return {agent: group for agent, (_, group, _) in self._agents.items()}
 
     def reset(self,
               seed: int | None = None,
@@ -318,35 +328,57 @@ class ParallelEnkiEnv(BaseParallelEnv):
                    policies: dict[str, Predictor],
                    seed: int = 0) -> World:
         world = self._scenario(seed)
-        setup_policies(world, self._config, policies)
+        setup_controllers(world, self._config, policies)
         return world
 
     def rollout(self,
-                policies: Mapping[str, Predictor],
+                policies: Mapping[str, Predictor] = {},
                 max_steps: int = -1,
-                seed: int = 0) -> tuple[float, int]:
+                seed: int = 0) -> dict[str, Rollout]:
+        actions: list[dict[str, Action]] = []
+        observations: list[dict[str, Observation]] = []
+        rewards: list[dict[str, float]] = []
+        infos: list[dict[str, Info]] = []
+        terminations: list[dict[str, bool]] = []
+        truncations: list[dict[str, bool]] = []
         obs, _ = self.reset(seed=seed)
-        cum_rew = 0.0
+        observations.append(obs)
         step = 0
-        missing_groups = [
-            group for group in self._agents if group not in policies
-        ]
-        if missing_groups:
-            raise ValueError(
-                f"Some groups are missing a policy: {', '.join(missing_groups)}"
-            )
-        agent_policies: list[Predictor] = [
-            policies.get(group, policies['']) for group in self.agent_groups
-        ]
-        while max_steps <= 0 or step < max_steps:
+        # missing_groups = [
+        #     group for group in self._agents if group not in policies
+        # ]
+        # if missing_groups:
+        #     raise ValueError(
+        #         f"Some groups are missing a policy: {', '.join(missing_groups)}"
+        #     )
+        # TODO: seed action spaces
+        agent_policies: dict[str, Predictor | None] = {
+            agent: policies.get(group) or policies.get('')
+            for agent, group in self.agent_groups.items()
+        }
+        group_map = self.group_map
+        while (max_steps <= 0 or step < max_steps) and self.agents:
             step += 1
-            act = {
-                r: policy.predict(o, deterministic=True)[0]
-                for policy, (
-                    r, o) in zip(agent_policies, obs.items(), strict=True)
-            }
-            obs, rew, term, trunc, _ = self.step(act)
-            cum_rew += sum(rew.values())
-            if all(term.values()) or any(trunc.values()):
-                break
-        return cum_rew / len(agent_policies), step
+            act: dict[str, Action] = {}
+            for (agent, o) in obs.items():
+                policy = agent_policies[agent]
+                if policy:
+                    act[agent] = policy.predict(o, deterministic=True)[0]
+                else:
+                    act[agent] = self.action_spaces[agent].sample()
+            actions.append(act)
+            obs, rew, term, trunc, info = self.step(act)
+            observations.append(obs)
+            rewards.append(rew)
+            terminations.append(term)
+            truncations.append(trunc)
+            infos.append(info)
+        return {
+            group:
+            Rollout.aggregate(agents, self.group_action_spaces[group],
+                              self.group_observation_spaces[group], actions,
+                              observations, rewards, terminations, truncations,
+                              infos)
+            for group, agents in group_map.items()
+        }
+        # return cum_rew / len(agent_policies), step

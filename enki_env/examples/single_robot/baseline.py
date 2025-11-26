@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 from typing import Any, cast
 
 import gymnasium as gym
@@ -36,12 +37,15 @@ class Baseline:
 
 
 if __name__ == '__main__':
-    import pyenki.viewer
+    display = '--display' in sys.argv
+    if display:
+        import pyenki.viewer
+        pyenki.viewer.init()
 
-    pyenki.viewer.init()
-    env = make_env(render_mode="human")
+    env = make_env(render_mode="human" if display else None)
     policy = Baseline()
     for i in range(10):
-        rew, steps = cast('EnkiEnv', env.unwrapped).rollout(policy, seed=i)
-        print(f'episode {i}: reward={rew:.1f}, steps={steps}')
-    pyenki.viewer.cleanup()
+        data = cast('EnkiEnv', env.unwrapped).rollout(policy, seed=i)
+        print(f'episode {i}: reward={data.episode_reward:.1f}, steps={data.episode_length}')
+    if display:
+        pyenki.viewer.cleanup()

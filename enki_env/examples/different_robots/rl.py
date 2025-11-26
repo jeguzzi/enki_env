@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pathlib as pl
+import sys
 from collections.abc import Mapping
 from typing import cast
 
@@ -55,12 +56,18 @@ def get_policies() -> Mapping[str, Predictor]:
 
 
 if __name__ == '__main__':
-    import pyenki.viewer
+    display = '--display' in sys.argv
+    if display:
+        import pyenki.viewer
+        pyenki.viewer.init()
 
     policies = get_policies()
     pyenki.viewer.init()
-    env = make_env(render_mode="human")
-    for i in range(20, 40):
-        rew, steps = env.rollout(policies, seed=i)
-        print(f'episode {i}: reward={rew:.1f}, steps={steps}')
-    pyenki.viewer.cleanup()
+    env = make_env(render_mode="human" if display else None)
+    for i in range(10):
+        rs = env.rollout(policies, seed=i)
+        print(f'episode {i}:')
+        for group, data in rs.items():
+            print(f'  -{group}: reward={data.episode_reward:.1f}, steps={data.episode_length}')
+    if display:
+        pyenki.viewer.cleanup()

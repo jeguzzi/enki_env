@@ -61,7 +61,7 @@ def make_env(**kwargs: Any) -> ParallelEnkiEnv:
     config = ThymioConfig(reward=Reward(), terminations=[facing_each_other])
     cast('ThymioAction', config.action).fix_position = True
     env = ParallelEnkiEnv(scenario=scenario,
-                          config={'': config},
+                          config={'thymio': config},
                           max_duration=5,
                           render_kwargs=dict(camera_pitch=-1.57,
                                              camera_position=(10, 0),

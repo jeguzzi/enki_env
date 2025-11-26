@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import sys
 from typing import Any
 
 import gymnasium as gym
 import numpy as np
 import pyenki
+
 from ...types import Action, EpisodeStart, Observation, State
 from .environment import make_env
 
@@ -36,12 +38,15 @@ class Baseline:
 
 
 if __name__ == '__main__':
-    import pyenki.viewer
+    display = '--display' in sys.argv
+    if display:
+        import pyenki.viewer
+        pyenki.viewer.init()
 
-    pyenki.viewer.init()
-    env = make_env(render_mode="human")
+    env = make_env(render_mode="human" if display else None)
     policy = Baseline()
     for i in range(10):
-        rew, steps = env.rollout({'': policy}, seed=i)
-        print(f'episode {i}: reward={rew:.1f}, steps={steps}')
-    pyenki.viewer.cleanup()
+        data = env.rollout({'': policy}, seed=i)['thymio']
+        print(f'episode {i}: reward={data.episode_reward:.1f}, steps={data.episode_length}')
+    if display:
+        pyenki.viewer.cleanup()

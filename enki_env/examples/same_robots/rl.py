@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pathlib as pl
+import sys
 from typing import TYPE_CHECKING, cast
 
 import pyenki
@@ -55,12 +56,15 @@ def get_policy() -> Predictor:
 
 
 if __name__ == '__main__':
-    import pyenki.viewer
+    display = '--display' in sys.argv
+    if display:
+        import pyenki.viewer
+        pyenki.viewer.init()
 
     policy = get_policy()
-    pyenki.viewer.init()
-    env = make_env(render_mode="human")
-    for i in range(20, 40):
-        rew, steps = env.rollout({'': policy}, seed=i)
-        print(f'episode {i}: reward={rew:.1f}, steps={steps}')
-    pyenki.viewer.cleanup()
+    env = make_env(render_mode="human" if display else None)
+    for i in range(10):
+        data = env.rollout({'': policy}, seed=i)['thymio']
+        print(f'episode {i}: reward={data.episode_reward:.1f}, steps={data.episode_length}')
+    if display:
+        pyenki.viewer.cleanup()

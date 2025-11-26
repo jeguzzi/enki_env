@@ -1,10 +1,11 @@
+import sys
 from typing import Any
 
 import gymnasium as gym
 import numpy as np
 import pyenki
 
-from ...types import Action, EpisodeStart, Observation, State, Predictor
+from ...types import Action, EpisodeStart, Observation, Predictor, State
 from ..same_robots.baseline import Baseline as ThymioBaseline
 from .environment import make_env
 
@@ -36,12 +37,17 @@ class EPuckBaseline:
 
 
 if __name__ == '__main__':
-    import pyenki.viewer
+    display = '--display' in sys.argv
+    if display:
+        import pyenki.viewer
+        pyenki.viewer.init()
 
-    pyenki.viewer.init()
-    env = make_env(render_mode="human")
+    env = make_env(render_mode="human" if display else None)
     policies: dict[str, Predictor] = {'thymio': ThymioBaseline(), 'e-puck': EPuckBaseline()}
     for i in range(10):
-        rew, steps = env.rollout(policies, seed=i)
-        print(f'episode {i}: reward={rew:.1f}, steps={steps}')
-    pyenki.viewer.cleanup()
+        rs = env.rollout(policies, seed=i)
+        print(f'episode {i}:')
+        for group, data in rs.items():
+            print(f'  -{group}: reward={data.episode_reward:.1f}, steps={data.episode_length}')
+    if display:
+        pyenki.viewer.cleanup()

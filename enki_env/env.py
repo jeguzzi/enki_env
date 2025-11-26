@@ -6,6 +6,7 @@ import gymnasium as gym
 
 from .config import GroupConfig
 from .parallel_env import ParallelEnkiEnv
+from .rollout import Rollout
 from .single_agent_env import SingleAgentEnv
 from .types import Action, Observation, Predictor, Scenario
 
@@ -31,15 +32,24 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
                  render_kwargs: dict[str, Any] = {},
                  notebook: bool | None = None) -> None:
         penv = ParallelEnkiEnv(scenario, {name: config}, time_step,
-                               physics_substeps, max_duration, render_mode, render_fps,
-                               render_kwargs, notebook)
+                               physics_substeps, max_duration, render_mode,
+                               render_fps, render_kwargs, notebook)
         super().__init__(penv)
 
     def make_world(self, policy: Predictor, seed: int = 0) -> World:
-        return cast('ParallelEnkiEnv', self._penv).make_world({'': policy}, seed=seed)
+        return cast('ParallelEnkiEnv', self._penv).make_world({'': policy},
+                                                              seed=seed)
 
-    def rollout(self, policy: Predictor, max_steps: int = -1, /, seed: int = 0) -> tuple[float, int]:
-        return cast('ParallelEnkiEnv', self._penv).rollout({'': policy}, max_steps, seed=seed)
+    def rollout(self,
+                policy: Predictor | None,
+                max_steps: int = -1,
+                seed: int = 0) -> Rollout:
+        rs = cast('ParallelEnkiEnv',
+                  self._penv).rollout(policies={'': policy} if policy else {},
+                                      max_steps=max_steps,
+                                      seed=seed)
+        assert len(rs) == 1
+        return next(iter(rs.values()))
 
 
 gym.register(
