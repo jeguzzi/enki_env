@@ -10,3 +10,5 @@ Configuration
    epuck
    marxbot
    thymio
+   rewards
+   info

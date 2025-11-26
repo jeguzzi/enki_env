@@ -42,6 +42,7 @@
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" />
@@ -142,7 +143,7 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="examples/single_robot.html">Single Robot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/same_robots.html">Two equal robots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/same_robots.html">Two robots of the same type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/different_robots.html">Two different robots</a></li>
 </ul>
 </details></li>
@@ -154,6 +155,8 @@
 <li class="toctree-l3"><a class="reference internal" href="reference/configuration/epuck.html">EPuck</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/configuration/marxbot.html">Marxbot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/configuration/thymio.html">Thymio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration/rewards.html">Rewards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration/info.html">Information</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="reference/rollout.html">Rollout</a></li>
@@ -290,10 +293,16 @@
 <h2 id="_">_</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/types.html#enki_env.types.PyTorchPolicy.__call__">__call__() (enki_env.types.PyTorchPolicy method)</a>
+      <li><a href="reference/types.html#enki_env.types.InfoFunction.__call__">__call__() (enki_env.types.InfoFunction method)</a>
 
       <ul>
+        <li><a href="reference/types.html#enki_env.types.PyTorchPolicy.__call__">(enki_env.types.PyTorchPolicy method)</a>
+</li>
+        <li><a href="reference/types.html#enki_env.types.RewardFunction.__call__">(enki_env.types.RewardFunction method)</a>
+</li>
         <li><a href="reference/types.html#enki_env.types.Scenario.__call__">(enki_env.types.Scenario method)</a>
+</li>
+        <li><a href="reference/types.html#enki_env.types.Termination.__call__">(enki_env.types.Termination method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -344,7 +353,9 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/configuration/base.html#enki_env.config.ConstRewardConfig">ConstRewardConfig (class in enki_env.config)</a>
+      <li><a href="reference/environments/single.html#enki_env.EnkiEnv.config">config (enki_env.EnkiEnv property)</a>
+</li>
+      <li><a href="reference/configuration/rewards.html#enki_env.reward.ConstReward">ConstReward (class in enki_env.reward)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -356,10 +367,14 @@
 </li>
       <li><a href="reference/configuration/base.html#enki_env.robots.DifferentialDriveObservation">DifferentialDriveObservation (class in enki_env.robots)</a>
 </li>
+      <li><a href="reference/environments/single.html#enki_env.EnkiEnv.display_in_notebook">display_in_notebook() (enki_env.EnkiEnv method)</a>
+
+      <ul>
+        <li><a href="reference/environments/multi.html#enki_env.ParallelEnkiEnv.display_in_notebook">(enki_env.ParallelEnkiEnv method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/environments/multi.html#enki_env.ParallelEnkiEnv.display_in_notebook">display_in_notebook() (enki_env.ParallelEnkiEnv method)</a>
-</li>
       <li><a href="reference/configuration/base.html#enki_env.robots.DifferentialDriveAction.dtype">dtype (enki_env.robots.DifferentialDriveAction attribute)</a>
 
       <ul>
@@ -372,18 +387,16 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/configuration/base.html#enki_env.config.EmptyInfoConfig">EmptyInfoConfig (class in enki_env.config)</a>
-</li>
       <li><a href="reference/environments/single.html#enki_env.EnkiEnv">EnkiEnv (class in enki_env)</a>
 </li>
       <li><a href="reference/environments/torchrl.html#enki_env.torch_rl.env">env() (in module enki_env.torch_rl)</a>
 </li>
       <li><a href="reference/rollout.html#enki_env.rollout.Rollout.episode_length">episode_length (enki_env.rollout.Rollout property)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/rollout.html#enki_env.rollout.Rollout.episode_reward">episode_reward (enki_env.rollout.Rollout property)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/types.html#enki_env.types.EpisodeStart">EpisodeStart (in module enki_env.types)</a>
 </li>
       <li><a href="reference/configuration/epuck.html#enki_env.EPuckAction">EPuckAction (class in enki_env)</a>
@@ -412,13 +425,9 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/configuration/base.html#enki_env.config.InfoConfig.get">get() (enki_env.config.InfoConfig method)</a>
+      <li><a href="reference/configuration/base.html#enki_env.config.ObservationConfig.get">get() (enki_env.config.ObservationConfig method)</a>
 
       <ul>
-        <li><a href="reference/configuration/base.html#enki_env.config.ObservationConfig.get">(enki_env.config.ObservationConfig method)</a>
-</li>
-        <li><a href="reference/configuration/base.html#enki_env.config.RewardConfig.get">(enki_env.config.RewardConfig method)</a>
-</li>
         <li><a href="reference/configuration/base.html#enki_env.robots.DifferentialDriveObservation.get">(enki_env.robots.DifferentialDriveObservation method)</a>
 </li>
       </ul></li>
@@ -446,7 +455,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/types.html#enki_env.types.Info">Info (in module enki_env.types)</a>
 </li>
-      <li><a href="reference/configuration/base.html#enki_env.config.InfoConfig">InfoConfig (class in enki_env.config)</a>
+      <li><a href="reference/types.html#enki_env.types.InfoFunction">InfoFunction (protocol in enki_env.types)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -564,6 +573,8 @@
 </li>
       <li><a href="reference/types.html#enki_env.types.PathLike">PathLike (in module enki_env.types)</a>
 </li>
+      <li><a href="reference/configuration/info.html#enki_env.info.pose_info">pose_info() (in module enki_env.info)</a>
+</li>
       <li><a href="reference/types.html#enki_env.types.Predictor.predict">predict() (enki_env.types.Predictor method)</a>
 </li>
       <li><a href="reference/types.html#enki_env.types.Predictor">Predictor (protocol in enki_env.types)</a>
@@ -606,7 +617,7 @@
         <li><a href="reference/rollout.html#enki_env.rollout.Rollout.reward">(enki_env.rollout.Rollout attribute)</a>
 </li>
       </ul></li>
-      <li><a href="reference/configuration/base.html#enki_env.config.RewardConfig">RewardConfig (class in enki_env.config)</a>
+      <li><a href="reference/types.html#enki_env.types.RewardFunction">RewardFunction (protocol in enki_env.types)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -656,7 +667,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/rollout.html#enki_env.rollout.Rollout.termination">termination (enki_env.rollout.Rollout attribute)</a>
 </li>
-      <li><a href="reference/types.html#enki_env.types.Termination">Termination (in module enki_env.types)</a>
+      <li><a href="reference/types.html#enki_env.types.Termination">Termination (protocol in enki_env.types)</a>
 </li>
       <li><a href="reference/configuration/group.html#enki_env.GroupConfig.terminations">terminations (enki_env.GroupConfig attribute)</a>
 </li>
@@ -675,6 +686,10 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/rollout.html#enki_env.rollout.Rollout.valid">valid (enki_env.rollout.Rollout attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/configuration/rewards.html#enki_env.reward.ConstReward.value">value (enki_env.reward.ConstReward attribute)</a>
 </li>
   </ul></td>
 </tr></table>

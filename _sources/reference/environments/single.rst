@@ -6,4 +6,4 @@ Single-agent Gymnasium Environment
 
 .. autoclass:: EnkiEnv
    :show-inheritance:
-   :members: __init__, make_world, rollout
+   :members: __init__, config, make_world, rollout, display_in_notebook

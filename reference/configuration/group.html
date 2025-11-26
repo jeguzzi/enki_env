@@ -43,6 +43,7 @@
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/configuration/group';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -143,7 +144,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/single_robot.html">Single Robot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../examples/same_robots.html">Two equal robots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/same_robots.html">Two robots of the same type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/different_robots.html">Two different robots</a></li>
 </ul>
 </details></li>
@@ -155,6 +156,8 @@
 <li class="toctree-l3"><a class="reference internal" href="epuck.html">EPuck</a></li>
 <li class="toctree-l3"><a class="reference internal" href="marxbot.html">Marxbot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="thymio.html">Thymio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rewards.html">Rewards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="info.html">Information</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="../rollout.html">Rollout</a></li>
@@ -336,7 +339,7 @@
 <h1>Group<a class="headerlink" href="#group" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="enki_env.GroupConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.</span></span><span class="sig-name descname"><span class="pre">GroupConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action:</span> <span class="pre">~enki_env.config.ActionConfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observation:</span> <span class="pre">~enki_env.config.ObservationConfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reward:</span> <span class="pre">~enki_env.config.RewardConfig</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info:</span> <span class="pre">~enki_env.config.InfoConfig</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terminations:</span> <span class="pre">list[TypeAliasForwardRef('Termination')]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#enki_env.GroupConfig" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.</span></span><span class="sig-name descname"><span class="pre">GroupConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action:</span> <span class="pre">~enki_env.config.ActionConfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observation:</span> <span class="pre">~enki_env.config.ObservationConfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reward:</span> <span class="pre">~enki_env.types.RewardFunction</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info:</span> <span class="pre">~enki_env.types.InfoFunction</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terminations:</span> <span class="pre">list[Termination]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#enki_env.GroupConfig" title="Link to this definition">#</a></dt>
 <dd><p>Contains everything required to configure a group of similar agents.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.GroupConfig.action">
@@ -354,7 +357,7 @@ that actuates a policy.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.GroupConfig.info">
-<span class="sig-name descname"><span class="pre">info</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="base.html#enki_env.config.InfoConfig" title="enki_env.config.InfoConfig"><span class="pre">InfoConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#enki_env.GroupConfig.info" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">info</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../types.html#enki_env.types.InfoFunction" title="enki_env.types.InfoFunction"><span class="pre">InfoFunction</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#enki_env.GroupConfig.info" title="Link to this definition">#</a></dt>
 <dd><p>Defines which extra information is generated.
 If set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, it will generate an empty dictionary</p>
 </dd></dl>
@@ -367,14 +370,14 @@ If set to <code class="docutils literal notranslate"><span class="pre">None</spa
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.GroupConfig.reward">
-<span class="sig-name descname"><span class="pre">reward</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="base.html#enki_env.config.RewardConfig" title="enki_env.config.RewardConfig"><span class="pre">RewardConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#enki_env.GroupConfig.reward" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">reward</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../types.html#enki_env.types.RewardFunction" title="enki_env.types.RewardFunction"><span class="pre">RewardFunction</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#enki_env.GroupConfig.reward" title="Link to this definition">#</a></dt>
 <dd><p>Defines how reward are assigned.
 If set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, it will generate a constant -1.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.GroupConfig.terminations">
-<span class="sig-name descname"><span class="pre">terminations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Termination</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#enki_env.GroupConfig.terminations" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">terminations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../types.html#enki_env.types.Termination" title="enki_env.types.Termination"><span class="pre">Termination</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#enki_env.GroupConfig.terminations" title="Link to this definition">#</a></dt>
 <dd><p>Defines a list of conditions for a robot to terminate an episode.
 Condition are evaluated in sequence. The first returned value
 different than <code class="docutils literal notranslate"><span class="pre">None</span></code>, it is assigned as a <code class="docutils literal notranslate"><span class="pre">success</span></code> and

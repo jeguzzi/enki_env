@@ -43,6 +43,7 @@
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -143,7 +144,7 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="examples/single_robot.html">Single Robot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/same_robots.html">Two equal robots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/same_robots.html">Two robots of the same type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/different_robots.html">Two different robots</a></li>
 </ul>
 </details></li>
@@ -155,6 +156,8 @@
 <li class="toctree-l3"><a class="reference internal" href="reference/configuration/epuck.html">EPuck</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/configuration/marxbot.html">Marxbot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/configuration/thymio.html">Thymio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration/rewards.html">Rewards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration/info.html">Information</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="reference/rollout.html">Rollout</a></li>
@@ -315,8 +318,94 @@
                   
   <section id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h1>
-<p>What enki_env is for</p>
-<p>Configuration + Scenario + Reward = Env</p>
+<p>Enki_env let you use <a class="reference external" href="https://jeguzzi.github.io/enki/">pyenki</a> with
+common ML-libraries by wrapping it in environments that are compatible with <a class="reference external" href="https://gymnasium.farama.org">Gymansium</a>, <a class="reference external" href="https://pettingzoo.farama.org">PettingZoo</a>, and <a class="reference external" href="https://docs.pytorch.org/rl">PyTorchRl</a>.</p>
+<p>Users can setup environments for any task involving the ground robots implemented by <code class="docutils literal notranslate"><span class="pre">pyenki</span></code>, i.e., e-pucks, marxbots and thymios, by combining two parts</p>
+<ul class="simple">
+<li><p>a scenario that generates world populated with robots and static objects</p></li>
+<li><p>a configuration for each group of robots that defines which observations to include, how to actuate actions, which reward to assign, and so on.</p></li>
+</ul>
+<p>In the simplest case, we control a single robot, for example an e-puck.
+For this, we generate a world that contains the e-puck and some object to interact with. For example, we could define a task where the e-puck uses its 8 proximity sensors to turn towards a nearby object.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">enki_env</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">gymnasium</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyenki</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">scenario</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+    <span class="n">world</span> <span class="o">=</span> <span class="n">pyenki</span><span class="o">.</span><span class="n">World</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">robot</span> <span class="o">=</span> <span class="n">pyenki</span><span class="o">.</span><span class="n">EPuck</span><span class="p">()</span>
+    <span class="n">robot</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="n">world</span><span class="o">.</span><span class="n">random_generator</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+    <span class="n">world</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">robot</span><span class="p">)</span>
+    <span class="n">obj</span> <span class="o">=</span> <span class="n">pyenki</span><span class="o">.</span><span class="n">PhysicalObject</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">mass</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">obj</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">world</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">world</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">reward</span><span class="p">(</span><span class="n">robot</span><span class="p">,</span> <span class="n">world</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mf">1.0</span> <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">robot</span><span class="o">.</span><span class="n">angle</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.9</span> <span class="k">else</span> <span class="mf">0.0</span>
+
+
+<span class="n">env</span> <span class="o">=</span> <span class="n">gymnasium</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s2">&quot;Enki&quot;</span><span class="p">,</span>
+                     <span class="n">scenario</span><span class="o">=</span><span class="n">scenario</span><span class="p">,</span>
+                     <span class="n">config</span><span class="o">=</span><span class="n">enki_env</span><span class="o">.</span><span class="n">EPuckConfig</span><span class="p">(</span><span class="n">reward</span><span class="o">=</span><span class="n">reward</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The environment is ready for training or evaluation. For example, we can compute the reward of a random policy for an episode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">unwrapped</span><span class="o">.</span><span class="n">rollout</span><span class="p">(</span><span class="n">max_steps</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">episode_reward</span>
+<span class="go">0.0</span>
+</pre></div>
+</div>
+<p>In the more general case, we may control multiple robots, possibly of different type. Groups are made of robots that share the same configuration and are identified by name. Any robot that share the same name as the group, will inherit the configuration of the group.
+For example, we can create an environment where two e-pucks use the camera while three other e-pucks use the proximity sensors.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">enki_env</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyenki</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">scenario</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+    <span class="n">world</span> <span class="o">=</span> <span class="n">pyenki</span><span class="o">.</span><span class="n">World</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">world</span><span class="o">.</span><span class="n">random_generator</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">robot</span> <span class="o">=</span> <span class="n">pyenki</span><span class="o">.</span><span class="n">EPuck</span><span class="p">(</span><span class="n">camera</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">robot</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+        <span class="n">robot</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;e-puck-camera&#39;</span>
+        <span class="n">world</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">robot</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">robot</span> <span class="o">=</span> <span class="n">pyenki</span><span class="o">.</span><span class="n">EPuck</span><span class="p">(</span><span class="n">camera</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">robot</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+        <span class="n">world</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">robot</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">world</span>
+
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">enki_env</span><span class="o">.</span><span class="n">EPuckConfig</span><span class="p">()</span>
+<span class="n">config_camera</span> <span class="o">=</span> <span class="n">enki_env</span><span class="o">.</span><span class="n">EPuckConfig</span><span class="p">()</span>
+<span class="n">config_camera</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">camera</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">config_camera</span><span class="o">.</span><span class="n">observation</span><span class="o">.</span><span class="n">proximity_value</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">configs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;e-puck&#39;</span><span class="p">:</span> <span class="n">config</span><span class="p">,</span> <span class="s1">&#39;e-puck-camera&#39;</span><span class="p">:</span> <span class="n">config_camera</span><span class="p">}</span>
+
+<span class="n">env</span> <span class="o">=</span> <span class="n">enki_env</span><span class="o">.</span><span class="n">parallel_env</span><span class="p">(</span><span class="n">scenario</span><span class="p">,</span> <span class="n">configs</span><span class="p">)</span>
+<span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the environment, robots are identified by a string <code class="docutils literal notranslate"><span class="pre">&quot;&lt;group&gt;_&lt;index&gt;&quot;</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">agents</span><span class="p">)</span>
+<span class="go">[&#39;e-puck_0&#39;, &#39;e-puck_1&#39;, &#39;e-puck_2&#39;, &#39;e-puck-camera_0&#39;, &#39;e-puck-camera_1&#39;]</span>
+</pre></div>
+</div>
+<p>Robots in the same group share the same action and observation spaces,
+reward function, and (when assigned) policy.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">group_map</span><span class="p">)</span>
+<span class="go">{&#39;e-puck&#39;: [&#39;e-puck_0&#39;, &#39;e-puck_1&#39;, &#39;e-puck_2&#39;], &#39;e-puck-camera&#39;: [&#39;e-puck-camera_0&#39;, &#39;e-puck-camera_1&#39;]}</span>
+</pre></div>
+</div>
+<p>Robots in different groups will instead apply different policies and receive rewards from possibly different reward functions.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>More comprehensive <a class="reference internal" href="examples/index.html"><span class="doc">examples</span></a>.</p>
+</div>
 </section>
 
 

@@ -43,6 +43,7 @@
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/configuration/index';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -143,7 +144,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/single_robot.html">Single Robot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../examples/same_robots.html">Two equal robots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/same_robots.html">Two robots of the same type</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/different_robots.html">Two different robots</a></li>
 </ul>
 </details></li>
@@ -155,6 +156,8 @@
 <li class="toctree-l3"><a class="reference internal" href="epuck.html">EPuck</a></li>
 <li class="toctree-l3"><a class="reference internal" href="marxbot.html">Marxbot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="thymio.html">Thymio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rewards.html">Rewards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="info.html">Information</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="../rollout.html">Rollout</a></li>
@@ -320,8 +323,6 @@
 <li class="toctree-l1"><a class="reference internal" href="base.html">Base classes</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="base.html#actions">Actions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="base.html#observations">Observations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="base.html#reward">Reward</a></li>
-<li class="toctree-l2"><a class="reference internal" href="base.html#info">Info</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="group.html">Group</a><ul>
@@ -343,6 +344,14 @@
 <li class="toctree-l1"><a class="reference internal" href="thymio.html">Thymio</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="thymio.html#actions">Actions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="thymio.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rewards.html">Rewards</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rewards.html#enki_env.reward.ConstReward"><code class="docutils literal notranslate"><span class="pre">ConstReward</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="info.html">Information</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="info.html#enki_env.info.pose_info"><code class="docutils literal notranslate"><span class="pre">pose_info()</span></code></a></li>
 </ul>
 </li>
 </ul>
