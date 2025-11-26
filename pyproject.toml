@@ -29,6 +29,10 @@ dynamic = ["version"]
 
 [project.optional-dependencies]
 all = []
+torchrl = [
+  "benchmarl",
+  "torchrl",
+]
 
 [project.urls]
 Homepage = "https://github.com/jeguzzi/enki_env"
