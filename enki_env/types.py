@@ -12,7 +12,32 @@ if TYPE_CHECKING:
     import gymnasium as gym
     import torch
 
-Scenario: TypeAlias = Callable[[int], pyenki.World]
+
+class Scenario(Protocol):
+    """
+    A scenario is a generator of world. It receives a random seed as argument,
+    that is should pass to the world constructor.
+    Any random sampling should use the :py:attr:`pyenki.World.random_generator`
+    to ensure reproducibility.
+
+    For example ::
+
+        def my_scenario(seed: int) -> pyenki.World:
+            robot = pyenki.Thymio2(seed=seed)
+            robot.angle = world.random_generator.uniform(0, math.pi * 2)
+            world.add_object(world)
+    """
+    def __call__(self, seed: int) -> pyenki.World:
+        """
+        Creates a world with random seed
+
+        :param seed: the random seed.
+
+        :returns:    the world.
+        """
+        ...
+
+
 Array: TypeAlias = numpy.typing.NDArray[np.float64]
 Observation: TypeAlias = dict[str, Array]
 Action: TypeAlias = Array
