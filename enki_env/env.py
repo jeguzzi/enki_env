@@ -128,6 +128,14 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
         """
         return cast('ParallelEnkiEnv', self._penv).display_in_notebook()
 
+    def snapshot(self) -> None:
+        """
+        Display the environment in a notebook.
+
+        Requires ``render_mode="human"`` and a notebook.
+        """
+        return cast('ParallelEnkiEnv', self._penv).snapshot()
+
     def make_world(self,
                    policy: Predictor | None = None,
                    seed: int = 0) -> pyenki.World:

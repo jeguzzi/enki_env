@@ -5,13 +5,14 @@ from typing import TYPE_CHECKING
 
 from ..single_robot.video import set_color
 from ..utils import video
-from .baseline import (EPuckBaseline,  # type: ignore[attr-defined]
-                       ThymioBaseline)
+from .baseline import ThymioBaseline  # type: ignore[attr-defined]
+from .baseline import EPuckBaseline
 from .environment import make_env
 from .rl import get_policies
 
 if TYPE_CHECKING:
     from moviepy import VideoClip
+
 
 def make_video() -> VideoClip:
     configs = (({
@@ -19,13 +20,14 @@ def make_video() -> VideoClip:
         'e-puck': EPuckBaseline(),
     }, set_color(1, 1, 0)), (get_policies(), set_color(0, 1, 1)))
     return video.make_video(make_env(),
-                       configs,
-                       number=5,
-                       duration=3,
-                       camera_position=(10, -30),
-                       camera_altitude=15,
-                       camera_pitch=-0.5,
-                       camera_yaw=1.57)
+                            configs,
+                            number=5,
+                            duration=3,
+                            camera_position=(10, -30),
+                            camera_altitude=15,
+                            camera_pitch=-0.5,
+                            camera_yaw=1.57)
+
 
 if __name__ == '__main__':
     import pyenki.viewer

@@ -177,6 +177,22 @@ class ParallelEnkiEnv(BaseParallelEnv):
             else:
                 warnings.warn('Requires running in a notebook', stacklevel=2)
 
+    def snapshot(self) -> None:
+        """
+        Display the environment in a notebook.
+
+        Requires ``render_mode="human"`` and a notebook.
+        """
+        from IPython.display import display
+
+        if self._render_buffer:
+            display(self._render_buffer.snapshot())  # type: ignore[no-untyped-call]
+        else:
+            if self.render_mode != "human":
+                warnings.warn('render_mode not set to "human"', stacklevel=2)
+            else:
+                warnings.warn('Requires running in a notebook', stacklevel=2)
+
     def observation_space(self, agent: str) -> gym.spaces.Space[Any]:
         return self.observation_spaces[agent]
 
