@@ -48,6 +48,7 @@ autodoc_type_aliases = {
     'Scenario': 'Scenario',
     'PyTorchObs': 'PyTorchObs',
     'Predictor': 'Predictor',
+    'BoolArray': 'BoolArray'
 }
 
 
@@ -70,12 +71,13 @@ _types = [
     'Observation',
     'pyenki.Controller',
     'Info',
-    'PyTorchObs'
+    'PyTorchObs',
+    'BoolArray'
 ]
 
 _attrs = [
     'numpy.uint8', 'numpy.float64', 'numpy.float32', 'numpy.int64',
-    'numpy.int32', "np.float64"
+    'numpy.int32', 'numpy.bool_', "np.float64"
 ]
 
 _data = ['numpy.typing.NDArray', 'numpy.typing.ArrayLike']

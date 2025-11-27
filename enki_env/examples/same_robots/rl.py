@@ -31,7 +31,7 @@ def make_venv(env: BaseParallelEnv,
                                         num_cpus=processes,
                                         base_class="stable_baselines3")
     for i, env in enumerate(venv.venv.vec_envs):
-        env.reset(seed + i)  # type: ignore[misc]
+        env.reset(seed + i)
     if monitor:
         venv = VecMonitor(venv)
     return cast('VecEnv', venv)
@@ -67,7 +67,7 @@ if __name__ == '__main__':
         data = env.rollout({'': policy}, seed=i)['thymio']
         print(
             f'episode {i}: reward={data.episode_reward:.1f}, steps={data.episode_length}, '
-            f'success={data.episode_success[0]}'
+            f'success={data.episode_success[0] if data.episode_success else "?"}'
         )
     if display:
         pyenki.viewer.cleanup()

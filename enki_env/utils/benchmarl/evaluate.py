@@ -4,8 +4,7 @@ from typing import Any
 
 import numpy as np
 from torch import no_grad
-from torchrl.envs.utils import (ExplorationType,  # type: ignore
-                                set_exploration_type)
+from torchrl.envs.utils import ExplorationType, set_exploration_type
 
 
 def evaluate_policy(

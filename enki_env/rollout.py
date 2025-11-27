@@ -3,13 +3,13 @@ from __future__ import annotations
 import dataclasses as dc
 from collections import ChainMap
 from collections.abc import Sequence
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 import numpy as np
 import numpy.ma
 import numpy.typing
 
-from .types import Action, Array, Info, Observation
+from .types import Action, Array, BoolArray, Info, Observation
 
 if TYPE_CHECKING:
     import gymnasium as gym
@@ -39,11 +39,11 @@ class Rollout:
     An array of shape ``(#steps, #robots)`` with the rewards at each step
     for each robots. Validity in stored separately in ``valid``.
     """
-    termination: numpy.typing.NDArray[np.bool_]
+    termination: BoolArray
     """
     An array of length ``#robots`` that stores whether the robots were terminated.
     """
-    truncation: numpy.typing.NDArray[np.bool_]
+    truncation: BoolArray
     """
     An array of length ``#robots`` that stores whether the robots were truncated
     """
@@ -56,7 +56,7 @@ class Rollout:
     The array mask record which entries were present
     at a given time step for a given robot.
     """
-    valid: numpy.typing.NDArray[np.bool_]
+    valid: BoolArray
     """
     An array of shape ``(#steps + 1, #robots)`` of Booleans where
     ``valid(i, j) == True`` iff robot j was alive at time i.
@@ -122,16 +122,16 @@ class Rollout:
         return len(self.reward)
 
     @property
-    def episode_success(self) -> numpy.typing.NDArray[np.bool_] | None:
+    def episode_success(self) -> BoolArray | None:
         """
         The final ``info["is_success"]`` for each robot.
 
         :returns:   An array of Booleans.
         """
-        if not 'is_success' in self.info:
+        if 'is_success' not in self.info:
             return None
         s = self.info['is_success']
-        return s[~s.mask].astype(bool)
+        return cast('BoolArray', s[~s.mask].astype(bool))
 
     @property
     def length(self) -> numpy.typing.NDArray[np.int_]:

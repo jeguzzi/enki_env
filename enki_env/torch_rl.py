@@ -52,7 +52,8 @@ def env(scenario: Scenario,
     :param      terminate_on:      Whether to terminate the episode as soon as the first robot
         terminates (``"any"``) or whether to wait for all agents to terminate before
         removing all of them at once (``"all"``. If set to ``None``, it will terminate
-        robots independently from each other and remove them from the environment before the episode terminates.
+        robots independently from each other and remove them from the environment
+        before the episode terminates.
     :param      success_info:      Whether to include key ``"is_success"``
         in the final info dictionary for each robot. It will be included only if
         it has been set by one of :py:attr:`enki_env.GroupConfig.terminations`

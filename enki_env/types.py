@@ -12,6 +12,7 @@ if TYPE_CHECKING:
     import torch
 
 Array: TypeAlias = numpy.typing.NDArray[np.float64]
+BoolArray: TypeAlias = numpy.typing.NDArray[np.bool_]
 Observation: TypeAlias = dict[str, Array]
 Action: TypeAlias = Array
 Info: TypeAlias = dict[str, Any]
@@ -19,7 +20,6 @@ State: TypeAlias = tuple[Array, ...]
 EpisodeStart: TypeAlias = Array
 PathLike: TypeAlias = os.PathLike[str] | str
 PyTorchObs: TypeAlias = 'torch.Tensor | dict[str, torch.Tensor]'
-
 
 class Scenario(Protocol):
     """

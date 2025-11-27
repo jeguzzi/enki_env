@@ -68,6 +68,7 @@ if __name__ == '__main__':
         print(f'episode {i}:')
         for group, data in rs.items():
             print(f'  -{group}: reward={data.episode_reward:.1f}, '
-                  f'steps={data.episode_length}, success={data.episode_success[0]}')
+                  f'steps={data.episode_length}, '
+                  f'success={data.episode_success[0] if data.episode_success else "?"}')
     if display:
         pyenki.viewer.cleanup()

@@ -42,7 +42,7 @@ if __name__ == '__main__':
         data = cast('EnkiEnv', env.unwrapped).rollout(policy, seed=i)
         print(
             f'episode {i}: reward={data.episode_reward:.1f}, steps={data.episode_length}, '
-            f'success={data.episode_success[0]}'
+            f'success={data.episode_success[0] if data.episode_success else "?"}'
         )
     if display:
         pyenki.viewer.cleanup()
