@@ -210,3 +210,8 @@ __marimo__/
 logs
 playground
 archive
+**/examples/**/*.mp4
+**/examples/**/*.onnx
+**/examples/**/*.zip
+docs/Makefile
+docs/make.bat
