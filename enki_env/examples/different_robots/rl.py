@@ -62,12 +62,12 @@ if __name__ == '__main__':
         pyenki.viewer.init()
 
     policies = get_policies()
-    pyenki.viewer.init()
     env = make_env(render_mode="human" if display else None)
     for i in range(10):
         rs = env.rollout(policies, seed=i)
         print(f'episode {i}:')
         for group, data in rs.items():
-            print(f'  -{group}: reward={data.episode_reward:.1f}, steps={data.episode_length}')
+            print(f'  -{group}: reward={data.episode_reward:.1f}, '
+                  f'steps={data.episode_length}, success={data.episode_success[0]}')
     if display:
         pyenki.viewer.cleanup()

@@ -40,7 +40,7 @@ def make_venv(env: BaseParallelEnv,
 def train() -> Predictor:
     from stable_baselines3 import SAC
 
-    from ...onnx import export
+    from ...utils.onnx import export
 
     venv = make_venv(make_env())
     model = SAC("MultiInputPolicy", venv, verbose=1)
@@ -65,6 +65,9 @@ if __name__ == '__main__':
     env = make_env(render_mode="human" if display else None)
     for i in range(10):
         data = env.rollout({'': policy}, seed=i)['thymio']
-        print(f'episode {i}: reward={data.episode_reward:.1f}, steps={data.episode_length}')
+        print(
+            f'episode {i}: reward={data.episode_reward:.1f}, steps={data.episode_length}, '
+            f'success={data.episode_success[0]}'
+        )
     if display:
         pyenki.viewer.cleanup()

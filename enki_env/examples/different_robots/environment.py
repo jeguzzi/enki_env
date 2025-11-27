@@ -40,6 +40,7 @@ def make_env(**kwargs: Any) -> ParallelEnkiEnv:
     env = ParallelEnkiEnv(scenario=scenario,
                           config=config,
                           max_duration=5,
+                          default_success=False,
                           render_kwargs=dict(camera_pitch=-1.57,
                                              camera_position=(10, 0),
                                              camera_altitude=60),

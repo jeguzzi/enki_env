@@ -15,11 +15,11 @@ from .environment import make_env
 def train() -> Predictor:
     from stable_baselines3 import SAC
 
-    from ...onnx import export
+    from ...utils.onnx import export
 
     env = make_env()
     model = SAC("MultiInputPolicy", env, verbose=1)
-    model.learn(total_timesteps=100_000, log_interval=50, progress_bar=True)
+    model.learn(total_timesteps=20_000, log_interval=50, progress_bar=True)
     path = pl.Path(__file__).parent / "sac"
     model.save(path)
     export(model.policy, path.with_suffix(".onnx"))
@@ -37,10 +37,12 @@ if __name__ == '__main__':
         pyenki.viewer.init()
 
     policy = get_policy()
-    pyenki.viewer.init()
     env = make_env(render_mode="human" if display else None)
     for i in range(10):
         data = cast('EnkiEnv', env.unwrapped).rollout(policy, seed=i)
-        print(f'episode {i}: reward={data.episode_reward:.1f}, steps={data.episode_length}')
+        print(
+            f'episode {i}: reward={data.episode_reward:.1f}, steps={data.episode_length}, '
+            f'success={data.episode_success[0]}'
+        )
     if display:
         pyenki.viewer.cleanup()

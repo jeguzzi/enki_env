@@ -46,6 +46,6 @@ if __name__ == '__main__':
     policy = Baseline()
     for i in range(10):
         data = cast('EnkiEnv', env.unwrapped).rollout(policy, seed=i)
-        print(f'episode {i}: reward={data.episode_reward:.1f}, steps={data.episode_length}')
+        print(f'episode {i}: reward={data.episode_reward:.1f}, steps={data.episode_length}, success={data.episode_success[0]}')
     if display:
         pyenki.viewer.cleanup()
