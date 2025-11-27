@@ -6,6 +6,8 @@ import gymnasium as gym
 import pyenki
 
 from ... import BaseEnv, ThymioAction, ThymioConfig
+from ...types import Termination
+from ..utils import normalize_angle
 
 
 def scenario(seed: int) -> pyenki.World:
@@ -27,27 +29,35 @@ def scenario(seed: int) -> pyenki.World:
     return world
 
 
-def in_front_of_wall(robot: pyenki.DifferentialWheeled,
-                     world: pyenki.World) -> bool | None:
-    if abs(robot.angle) < 0.05 and abs(
-            robot.left_wheel_encoder_speed) < 1 and abs(
-                robot.right_wheel_encoder_speed) < 1:
-        # Success
-        return True
-    return None
+def in_front_of_wall(angle_tol: float = 0.1,
+                     speed_tol: float = 1) -> Termination:
+
+    def f(robot: pyenki.DifferentialWheeled,
+          world: pyenki.World) -> bool | None:
+        if abs(normalize_angle(robot.angle)) < angle_tol and abs(
+                robot.left_wheel_encoder_speed) < speed_tol and abs(
+                    robot.right_wheel_encoder_speed) < speed_tol:
+            # Success
+            return True
+        return None
+
+    return f
 
 
 def reward(robot: pyenki.DifferentialWheeled, world: pyenki.World) -> float:
-    return -1 - abs(robot.angle)
+    return -1 - abs(normalize_angle(robot.angle))
 
 
 def make_env(**kwargs: Any) -> BaseEnv:
-    config = ThymioConfig(reward=reward, terminations=[in_front_of_wall])
+    config = ThymioConfig(
+        reward=reward,
+        terminations=[in_front_of_wall(angle_tol=0.1, speed_tol=5)])
     cast('ThymioAction', config.action).fix_position = True
     env = gym.make("Enki",
                    max_duration=2,
                    scenario=scenario,
                    config=config,
+                   default_success=False,
                    render_kwargs=dict(camera_pitch=-1.57,
                                       camera_position=(-10, 0),
                                       camera_altitude=60),
