@@ -21,30 +21,28 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
     A :py:class:`gymnasium.Env` that exposes a single robot in
     a :py:class:`pyenki.World`.
 
-    Internally creates a :py:class:`enki_env.ParallelEnkiEnv`
-    with a one group composed of a single robot and
-    forwards to it methods like
-    :py:meth:`gymnasium.Env.reset`,
-    :py:meth:`gymnasium.Env.step`, and :py:meth:`gymnasium.Env.render`.
+    Internally, it creates a :py:class:`enki_env.ParallelEnkiEnv`
+    with a single group composed by the robot, and then forwards to it methods like
+    :py:meth:`gymnasium.Env.reset`, :py:meth:`gymnasium.Env.step`,
+    and :py:meth:`gymnasium.Env.render`.
 
     Observations, rewards, and information returned by :py:meth:`gymnasium.Env.reset` and
-    :py:meth:`gymnasium.Env.step`,
-    are generated from the robot sensors and internal state using
+    :py:meth:`gymnasium.Env.step`, are generated from the robot sensors and internal state using
     :py:attr:`enki_env.GroupConfig.observation`, :py:attr:`enki_env.GroupConfig.reward`,
     and :py:attr:`enki_env.GroupConfig.info`.
-    Termination criteria are specified :py:attr:`enki_env.GroupConfig.terminations`.
+    Termination criteria are specified in :py:attr:`enki_env.GroupConfig.terminations`.
     Actions are actuated according to :py:attr:`enki_env.GroupConfig.action`.
 
     Rendering is performed:
 
     - by a :py:class:`pyenki.viewer.WorldView` if ``render_mode="human"``
-      and we are not running in a Jupyter notebook.
+      and we are not in a Jupyter notebook.
     - by a :py:class:`pyenki.buffer.EnkiRemoteFrameBuffer` if ``render_mode="human"``
-      and we are running in a Jupyter notebook.
+      and we are in a Jupyter notebook.
     - by :py:func:`pyenki.viewer.render` if ``render_mode="rgb_array"``.
 
-    The environment is registered under id ``Enki``. To create an environment,
-    you need to
+    The environment is registered under id ``"Enki"``. To create an environment,
+    you need to first
 
     1. define a scenario with a least one robot, e.g. ::
 
@@ -61,11 +59,11 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
 
             config = enki_env.ThymioConfig()
 
-    3. call the factory function, customizing the other parameters as you see fit ::
+    Then, you can call the factory function, customizing the other parameters as you see fit ::
 
-            import gymnasium
+        import gymnasium
 
-            env = gymnasium.make("Enki", scenario, config, max_duration=10)
+        env = gymnasium.make("Enki", scenario, config, max_duration=10)
 
     """
 
@@ -85,15 +83,15 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
                  success_info: bool = True,
                  default_success: bool | None = None) -> None:
         """
-        Constructs a new instance. Similar arguments
-        as :py:class:`enki_env.ParallelEnkiEnv` referring to a single robot.
+        Constructs a new instance. It takes the same arguments
+        as :py:class:`enki_env.ParallelEnkiEnv` but referring to a single robot.
 
         :param      scenario:          The scenario that generates worlds
-            at :py:meth:`gymnasium.Env.reset`
-        :param      config:            The configuration for the group containing the robot
-        :param      name:              The name of the robot
-        :param      time_step:         The time step of the simulation [s]
-        :param      max_duration:      The maximum duration of the episodes [s]
+            at :py:meth:`gymnasium.Env.reset`.
+        :param      config:            The configuration for the group containing the robot.
+        :param      name:              The name of the robot.
+        :param      time_step:         The time step of the simulation [s].
+        :param      max_duration:      The maximum duration of the episodes [s].
         :param      physics_substeps:  The number of physics sub-steps for each
             simulation step, see :py:meth:`pyenki.World.step`.
         :param      render_mode:       The render mode (one of ``None``,
@@ -103,13 +101,15 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
         :param      render_kwargs:     The render keywords arguments
             arguments forwarded to :py:func:`pyenki.viewer.render` when
             rendering an environment.
-        :param      notebook:          Whether the we should use a notebook-compatible
-            renderer. If ``None``, it will check if we are running a notebook.
-        :param      success_info:      Whether include key ``"is_success"`` in the final info dictionary for each robot.
-            It will be included only if set by one of :py:attr:`enki_env.GroupConfig.terminations`
+        :param      notebook:          Whether to use a notebook-compatible
+            renderer. If ``None``, it will select it if we are running a notebook.
+        :param      success_info:      Whether to include key ``"is_success"``
+            in the final info dictionary for each robot. It will be included only if
+            it has been set by one of :py:attr:`enki_env.GroupConfig.terminations`
             or if ``default_success`` is not ``None``.
-        :param      default_success:   The value associated to ``"is_success"`` in the final info dictionary
-            when the robot has not been terminated.
+        :param      default_success:   The value associated with ``"is_success"`` in the
+            final info dictionary when, at the end of the episode,
+            the robot has not been yet terminated.
         """
         penv = ParallelEnkiEnv(scenario=scenario,
                                config={name: config},
@@ -127,7 +127,7 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
     @property
     def config(self) -> GroupConfig:
         """
-        The robot configuration
+        The robot configuration.
         """
         rs = cast('ParallelEnkiEnv', self._penv).config
         assert len(rs) == 1
@@ -135,7 +135,7 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
 
     def display_in_notebook(self) -> None:
         """
-        Display the environment in a notebook using a
+        Displays the environment in a notebook using a
         an interactive :py:class:`pyenki.buffer.EnkiRemoteFrameBuffer`.
 
         Requires ``render_mode="human"`` and a notebook.
@@ -144,7 +144,7 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
 
     def snapshot(self) -> None:
         """
-        Display the environment in a notebook.
+        Displays the environment in a notebook.
 
         Requires ``render_mode="human"`` and a notebook.
         """
@@ -154,7 +154,7 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
                    policy: Predictor | None = None,
                    seed: int = 0) -> pyenki.World:
         """
-        Generate a world using the scenario and optionally
+        Generates a world using the scenario and, if specified,
         assign a policy to the robot controller.
 
         :param      policy:  The policy
@@ -171,13 +171,14 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
                 max_steps: int = -1,
                 seed: int = 0) -> Rollout:
         """
-        Performs a rollout of an episode
+        Performs the rollout of an episode
 
-        :param      policy:     The policy. If not provided, it will randomly generate actions.
-        :param      max_steps:  The maximum steps to perform
-        :param      seed:       The random seed
+        :param      policy:     The policy to apply; if not provided,
+            it will randomly generate actions.
+        :param      max_steps:  The maximum number of steps to perform.
+        :param      seed:       The random seed.
 
-        :returns:   The data collected during the rollout
+        :returns:   The data collected during the rollout.
         """
         rs = cast('ParallelEnkiEnv',
                   self._penv).rollout(policies={'': policy} if policy else {},

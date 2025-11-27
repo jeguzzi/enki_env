@@ -7,10 +7,10 @@ import numpy as np
 from .types import Info
 
 if TYPE_CHECKING:
-    from pyenki import DifferentialWheeled, World
+    import pyenki
 
 
-def pose_info(robot: DifferentialWheeled, world: World) -> Info:
+def pose_info(robot: pyenki.DifferentialWheeled, world: pyenki.World) -> Info:
     """
     Returns an information dictionary with the robot position
     in key ``"position"`` and the robot orientation in key ``"angle"``.

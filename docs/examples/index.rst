@@ -2,9 +2,7 @@
 Examples
 ========
 
-The following examples show how to create an environment, 
-how to evaluate a baseline policy (written by hand), how to train and evaluate a RL policy, and how to generate a video.
-We repeat these four steps for three scenario, where we 
+The following examples show how to create an environment, how to evaluate a baseline policy (written by hand), how to train and evaluate a RL policy, and how to generate a video. We repeat these four steps for three scenario, where we 
 
 - control a single robot
 - control two robots of the same type with the same policy
@@ -15,8 +13,6 @@ Each scenario is implemented as a little package ``enki_env.examples.<scenario>`
    python -m enki_env.examples.<scenario>.<part>
 
 where ``<part>`` is one of ``environment``, ``baseline``, ``rl`` or ``video`` and ``<scenario>`` is one of ``single_robot``, ``same_robots``, or ``different_robots``.
-   
-In the following, we include one notebook per scenario.
 
 
 .. toctree::

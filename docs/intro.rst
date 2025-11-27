@@ -2,16 +2,14 @@
 Introduction
 ============
 
-Enki_env let you use `pyenki <https://jeguzzi.github.io/enki/>`_ with 
-common ML-libraries by wrapping it in environments that are compatible with `Gymansium <https://gymnasium.farama.org>`_, `PettingZoo <https://pettingzoo.farama.org>`_, and `PyTorchRl <https://docs.pytorch.org/rl>`_.
+Enki_env lets you use `pyenki <https://jeguzzi.github.io/enki/>`_ with common ML-libraries by wrapping it in environments that are compatible with `Gymnasium <https://gymnasium.farama.org>`_, `PettingZoo <https://pettingzoo.farama.org>`_, and `PyTorchRl <https://docs.pytorch.org/rl>`_.
 
-Users can setup environments for any task involving the ground robots implemented by ``pyenki``, i.e., e-pucks, marxbots and thymios, by combining two parts
+Users can setup environments for any task involving the ground robots implemented by ``pyenki``, i.e., e-pucks, marxbots and thymios, by combining two parts:
 
-- a scenario that generates world populated with robots and static objects
-- a configuration for each group of robots that defines which observations to include, how to actuate actions, which reward to assign, and so on. 
+- a scenario that generates a world populated with robots and static objects,  
+- a configuration for each group of robots that defines which observations to include, how to actuate actions, which rewards to assign, and so on.
 
-In the simplest case, we control a single robot, for example an e-puck.
-For this, we generate a world that contains the e-puck and some object to interact with. For example, we could define a task where the e-puck uses its 8 proximity sensors to turn towards a nearby object.
+In the simplest case, we control a single robot, for example an e-puck. For this, we generate a world that contains the robot and some object to interact with. We could define a task where the e-puck uses its 8 proximity sensors to turn towards a nearby object.
 
 .. code-block:: python
    
@@ -41,16 +39,15 @@ For this, we generate a world that contains the e-puck and some object to intera
                         scenario=scenario,
                         config=enki_env.EPuckConfig(reward=reward)
 
-The environment is ready for training or evaluation. For example, we can compute the reward of a random policy for an episode:
+The environment is now ready for training or for evaluation. For example, we can compute the reward collected by a random policy during an episode:
 
 .. code-block:: python
    
    >>> env.unwrapped.rollout(max_steps=10).episode_reward
-   0.0
+   -10.0
 
 
-In the more general case, we may control multiple robots, possibly of different type. Groups are made of robots that share the same configuration and are identified by name. Any robot that share the same name as the group, will inherit the configuration of the group.
-For example, we can create an environment where two e-pucks use the camera while three other e-pucks use the proximity sensors.
+In the more general case, we control multiple robots, possibly of different types. Robots that share the same configuration are grouped together. For example, we could create an environment where two e-pucks use the camera while three other e-pucks use the proximity sensors.
 
 .. code-block:: python
 
@@ -83,15 +80,14 @@ For example, we can create an environment where two e-pucks use the camera while
    env.reset(seed=0)
 
 
-In the environment, robots are identified by a string ``"<group>_<index>"``
+In the environment, robots are identified by a string `<group>_<index>`.
 
 .. code-block:: python
 
    >>> print(env.agents)
    ['e-puck_0', 'e-puck_1', 'e-puck_2', 'e-puck-camera_0', 'e-puck-camera_1']
 
-Robots in the same group share the same action and observation spaces,
-reward function, and (when assigned) policy.
+Robots in the same group share the same action and observation spaces, reward function, and (when assigned) policy.
 
    >>> print(env.group_map)
    {'e-puck': ['e-puck_0', 'e-puck_1', 'e-puck_2'], 'e-puck-camera': ['e-puck-camera_0', 'e-puck-camera_1']}

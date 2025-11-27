@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from .config import GroupConfig, setup_controllers
 from .env import BaseEnv, EnkiEnv
-from .parallel_env import BaseParallelEnv, ParallelEnkiEnv, parallel_env
+from .parallel_env import (BaseParallelEnv, ParallelEnkiEnv,
+                           ParallelEnkiEnvSpec, parallel_env)
 from .robots import (EPuckAction, EPuckConfig, EPuckObservation, MarxbotAction,
                      MarxbotConfig, MarxbotObservation, ThymioAction,
                      ThymioConfig, ThymioObservation)
@@ -10,8 +11,8 @@ from .robots import (EPuckAction, EPuckConfig, EPuckObservation, MarxbotAction,
 
 def default_config() -> dict[str, GroupConfig]:
     """
-    Return a dictionary where default robots' names are
-    associated to robots' default configurations, i.e.:
+    Returns a dictionary where default names of robots are
+    associated to their default configurations, i.e.:
 
     - thymio -> :py:class:`enki_env.ThymioConfig`
     - e-puck -> :py:class:`enki_env.EPuckConfig`
@@ -31,5 +32,6 @@ __all__ = [
     'GroupConfig', 'setup_controllers', 'EnkiEnv', 'ParallelEnkiEnv',
     'EPuckAction', 'EPuckObservation', 'MarxbotAction', 'MarxbotObservation',
     'ThymioAction', 'ThymioObservation', 'EPuckConfig', 'MarxbotConfig',
-    'ThymioConfig', 'BaseEnv', 'BaseParallelEnv', 'parallel_env'
+    'ThymioConfig', 'BaseEnv', 'BaseParallelEnv', 'parallel_env',
+    'ParallelEnkiEnvSpec'
 ]

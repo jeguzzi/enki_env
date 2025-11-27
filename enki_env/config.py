@@ -9,14 +9,14 @@ from .types import (Action, InfoFunction, Observation, Predictor,
 
 if TYPE_CHECKING:
     import gymnasium as gym
-    from pyenki import Controller, DifferentialWheeled, PhysicalObject, World
+    import pyenki
 
 
 class ActionConfig(ABC):
     """
     The abstract base class of action configurations.
 
-    It defines how actions are actuated.
+    It defines how a robot actuates actions.
     """
 
     @property
@@ -30,10 +30,10 @@ class ActionConfig(ABC):
         ...
 
     @abstractmethod
-    def actuate(self, act: Action, robot: DifferentialWheeled,
+    def actuate(self, act: Action, robot: pyenki.DifferentialWheeled,
                 dt: float) -> None:
         """
-        Make a robot actuates an action.
+        How a robot actuates an action.
 
         Must be implemented by concrete classes!
 
@@ -48,8 +48,8 @@ class ObservationConfig(ABC):
     """
     The abstract base class of observation configurations.
 
-    It defines how observations are generated from robots'
-    sensor readings and internal state.
+    It defines how observations are generated from
+    the sensor readings and internal state of robots.
     """
 
     @property
@@ -63,9 +63,9 @@ class ObservationConfig(ABC):
         ...
 
     @abstractmethod
-    def get(self, robot: DifferentialWheeled) -> Observation:
+    def get(self, robot: pyenki.DifferentialWheeled) -> Observation:
         """
-        Makes a robot generate an observation.
+        How a robot generates an observation.
 
         :param      robot:  The robot generating the observation
 
@@ -91,31 +91,34 @@ class GroupConfig:
     """
     reward: RewardFunction | None = None
     """
-    Defines how reward are assigned.
+    Defines how rewards are assigned.
     If set to ``None``, it will generate a constant -1.
     """
     info: InfoFunction | None = None
     """
     Defines which extra information is generated.
-    If set to ``None``, it will generate an empty dictionary
+    If set to ``None``, it will generate an empty dictionary.
     """
     terminations: list[Termination] = dc.field(default_factory=list)
     """
-    Defines a list of conditions for a robot to terminate an episode.
-    Condition are evaluated in sequence. The first returned value
-    different than ``None``, it is assigned as a ``success`` and
-    may make the episode terminate for the agent or for the whole group,
+    Defines a list of conditions for a robot to terminate an episode,
+    which are evaluated in sequence. The first time a returned value
+    is different than ``None``, it is recorded as a success (if True)
+    or failure (if False) and may cause the episode to terminate
+    for the robot or for the whole environment,
     depending on the value of ``terminate_on`` in the constructor
     of :py:class:`enki_env.ParallelEnkiEnv`.
     """
-    def get_controller(self, policy: Predictor) -> Controller:
+
+    def get_controller(self, policy: Predictor) -> pyenki.Controller:
         """
-        Returns a controller, which can be assigned to a robot's
+        Returns a controller, which can be assigned to a robot
         :py:attr:`pyenki.PhysicalObject.control_step_callback`,
         that actuates a policy.
         """
-        def f(r: PhysicalObject, dt: SupportsFloat) -> None:
-            robot = cast('DifferentialWheeled', r)
+
+        def f(r: pyenki.PhysicalObject, dt: SupportsFloat) -> None:
+            robot = cast('pyenki.DifferentialWheeled', r)
             obs = self.observation.get(robot)
             act, _ = policy.predict(obs)
             self.action.actuate(act, robot, float(dt))
@@ -124,11 +127,11 @@ class GroupConfig:
 
 
 def make_agents(
-    world: World, config: dict[str, GroupConfig]
-) -> dict[str, tuple[DifferentialWheeled, str, GroupConfig]]:
-    groups: dict[str, list[DifferentialWheeled]] = {
+    world: pyenki.World, config: dict[str, GroupConfig]
+) -> dict[str, tuple[pyenki.DifferentialWheeled, str, GroupConfig]]:
+    groups: dict[str, list[pyenki.DifferentialWheeled]] = {
         k: [
-            cast('DifferentialWheeled', a) for a in world.robots
+            cast('pyenki.DifferentialWheeled', a) for a in world.robots
             if a.name == k or k == ''
         ]
         for k in config
@@ -143,15 +146,15 @@ def make_agents(
     return configs
 
 
-def setup_controllers(world: World, config: dict[str, GroupConfig],
+def setup_controllers(world: pyenki.World, config: dict[str, GroupConfig],
                       policies: dict[str, Predictor]) -> None:
     """
-    Equip robots in the world with controllers that evaluate
-    the given policies.
+    Equips all robots in the world, with controllers that evaluate the selected policies,
+    by matching the robot name with the keys of ``policies`` and ``config``.
 
     :param      world:     The world
-    :param      config:    A map of groups configurations assigned to (group) a name
-    :param      policies:  A map policies assigned to (group) name
+    :param      config:    A map of configurations assigned to groups of robots.
+    :param      policies:  A map of policies assigned to groups of robots.
     """
     configs = make_agents(world, config)
     for robot, name, conf in configs.values():

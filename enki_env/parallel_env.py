@@ -4,17 +4,17 @@ import warnings
 from collections.abc import Mapping, Sequence
 from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypedDict
 
+import numpy as np
 from gymnasium.utils import seeding
 from pettingzoo.utils.env import ParallelEnv
 
 from .config import GroupConfig, make_agents, setup_controllers
 from .rollout import Rollout
 from .types import Action, Array, Info, Observation, Predictor, Scenario
-import numpy as np
 
 if TYPE_CHECKING:
     import gymnasium as gym
-    from pyenki import DifferentialWheeled, Image, World
+    import pyenki
     from pyenki.buffer import EnkiRemoteFrameBuffer
 
 StepReturn = tuple[dict[str, Observation], dict[str, float], dict[str, bool],
@@ -35,7 +35,7 @@ def ipython() -> bool:
 
 class ParallelEnkiEnvSpec(TypedDict):
     """
-    Holds the parameters to construct a
+    Holds the parameters passed to the constructor of
     :py:class:`enki_env.ParallelEnkiEnv`.
     """
     scenario: Scenario
@@ -52,32 +52,31 @@ class ParallelEnkiEnvSpec(TypedDict):
     default_success: bool | None
 
 
-def parallel_env(
-        scenario: Scenario,
-        config: dict[str, GroupConfig],
-        time_step: float = 0.1,
-        physics_substeps: int = 3,
-        max_duration: float = -1,
-        render_mode: str | None = None,
-        render_fps: float = 10.0,
-        render_kwargs: dict[str, Any] = {},
-        notebook: bool | None = None,
-        terminate_on: Literal['any', 'all'] | None = 'all',
-        success_info: bool = True,
-        default_success: bool | None = None) -> BaseParallelEnv:
+def parallel_env(scenario: Scenario,
+                 config: dict[str, GroupConfig],
+                 time_step: float = 0.1,
+                 physics_substeps: int = 3,
+                 max_duration: float = -1,
+                 render_mode: str | None = None,
+                 render_fps: float = 10.0,
+                 render_kwargs: dict[str, Any] = {},
+                 notebook: bool | None = None,
+                 terminate_on: Literal['any', 'all'] | None = 'all',
+                 success_info: bool = True,
+                 default_success: bool | None = None) -> BaseParallelEnv:
     """
     Helper function that creates a parallel environment,
     passing all arguments to :py:class:`enki_env.ParallelEnkiEnv`.
 
     :param      scenario:          The scenario that generates worlds
-        at :py:meth:`gymnasium.Env.reset`
+        at :py:meth:`gymnasium.Env.reset`.
     :param      config:            The configuration for all groups. Robots
-        with a :py:attr:`pyenki.PhysicalObject.name` corresponding to the group,
-        will be configured accordingly. The empty group name `""`
-        will catch the remaining robots, if defined.
-    :param      name:              The name of the robot
-    :param      time_step:         The time step of the simulation [s]
-    :param      max_duration:      The maximum duration of the episodes [s]
+        with a :py:attr:`pyenki.PhysicalObject.name` equal to the group
+        will be assigned to the group and use its configuration.
+        The group with name `""` will catch the remaining robots,
+        if it appears in ``config``.
+    :param      time_step:         The time step of the simulation [s].
+    :param      max_duration:      The maximum duration of the episodes [s].
     :param      physics_substeps:  The number of physics sub-steps for each
         simulation step, see :py:meth:`pyenki.World.step`.
     :param      render_mode:       The render mode (one of ``None``,
@@ -87,17 +86,19 @@ def parallel_env(
     :param      render_kwargs:     The render keywords arguments
         arguments forwarded to :py:func:`pyenki.viewer.render` when
         rendering an environment.
-    :param      notebook:          Whether the we should use a notebook-compatible
-        renderer. If ``None``, it will check if we are running a notebook.
-    :param      terminate_on:      Whether to terminate the episode as soon as the first agent
-        terminates ("any") or whether to wait for all agents to terminate before
-        removing all of them at once. If set to ``None``, it will terminate each
-        agent individually, removing them from the environment independently from each other.
-    :param      success_info:      Whether include key ``"is_success"`` in the final info dictionary for each robot.
-        It will be included only if set by one of :py:attr:`enki_env.GroupConfig.terminations`
+    :param      notebook:          Whether to use a notebook-compatible
+        renderer. If ``None``, it will select it if we are running a notebook.
+    :param      terminate_on:      Whether to terminate the episode as soon as the first robot
+        terminates (``"any"``) or whether to wait for all agents to terminate before
+        removing all of them at once (``"all"``. If set to ``None``, it will terminate
+        robots independently from each other and remove them from the environment before the episode terminates.
+    :param      success_info:      Whether to include key ``"is_success"``
+        in the final info dictionary for each robot. It will be included only if
+        it has been set by one of :py:attr:`enki_env.GroupConfig.terminations`
         or if ``default_success`` is not ``None``.
-    :param      default_success:   The value associated to ``"is_success"`` in the final info dictionary
-        when the robot has not been terminated.
+    :param      default_success:   The value associated with ``"is_success"`` in the
+        final info dictionary when, at the end of the episode,
+        the robot has not been yet terminated.
     """
     env: BaseParallelEnv = ParallelEnkiEnv(scenario,
                                            config,
@@ -135,7 +136,7 @@ class ParallelEnkiEnv(BaseParallelEnv):
       and we are running in a Jupyter notebook.
     - by :py:func:`pyenki.viewer.render` if ``render_mode="rgb_array"``.
 
-    To create an environment, you need to
+    To create an environment, you need to first
 
     1. define a scenario with a least one robot, e.g. ::
 
@@ -154,9 +155,9 @@ class ParallelEnkiEnv(BaseParallelEnv):
             configs = {'thymio': enki_env.ThymioConfig(),
                        'e-puck': enki_env.EPuckConfig()}
 
-    3. call the factory function, customizing the other parameters as you see fit ::
+    Then, you can call the factory function, customizing the other parameters as you see fit ::
 
-            env = enki_env.parallel_env(scenario, configs, max_duration=10)
+        env = enki_env.parallel_env(scenario, configs, max_duration=10)
     """
 
     metadata: dict[str, Any] = {"render_modes": ['human', 'rgb_array']}
@@ -173,7 +174,7 @@ class ParallelEnkiEnv(BaseParallelEnv):
 
     def display_in_notebook(self) -> None:
         """
-        Display the environment in a notebook using a
+        Displays the environment in a notebook using a
         an interactive :py:class:`pyenki.buffer.EnkiRemoteFrameBuffer`.
 
         Requires ``render_mode="human"`` and a notebook.
@@ -190,14 +191,15 @@ class ParallelEnkiEnv(BaseParallelEnv):
 
     def snapshot(self) -> None:
         """
-        Display the environment in a notebook.
+        Displays the environment in a notebook.
 
         Requires ``render_mode="human"`` and a notebook.
         """
         from IPython.display import display
 
         if self._render_buffer:
-            display(self._render_buffer.snapshot())  # type: ignore[no-untyped-call]
+            display(self._render_buffer.snapshot()
+                    )  # type: ignore[no-untyped-call]
         else:
             if self.render_mode != "human":
                 warnings.warn('render_mode not set to "human"', stacklevel=2)
@@ -235,8 +237,7 @@ class ParallelEnkiEnv(BaseParallelEnv):
     def _get_rewards(self) -> dict[str, float]:
         if self._world:
             return {
-                uid:
-                config.reward(agent, self._world) if config.reward else -1
+                uid: config.reward(agent, self._world) if config.reward else -1
                 for uid, (agent, _, config) in self._agents.items()
             }
         else:
@@ -245,8 +246,7 @@ class ParallelEnkiEnv(BaseParallelEnv):
     def _get_infos(self) -> dict[str, Info]:
         if self._world:
             return {
-                uid:
-                config.info(agent, self._world) if config.info else {}
+                uid: config.info(agent, self._world) if config.info else {}
                 for uid, (agent, _, config) in self._agents.items()
             }
         else:
@@ -309,18 +309,17 @@ class ParallelEnkiEnv(BaseParallelEnv):
                  success_info: bool = True,
                  default_success: bool | None = None):
         """
-        Constructs a new instance. Similar arguments
-        as :py:class:`enki_env.ParallelEnkiEnv` referring to a single robot.
+        Constructs a new instance.
 
         :param      scenario:          The scenario that generates worlds
-            at :py:meth:`gymnasium.Env.reset`
+            at :py:meth:`gymnasium.Env.reset`.
         :param      config:            The configuration for all groups. Robots
-            with a :py:attr:`pyenki.PhysicalObject.name` corresponding to the group,
-            will be configured accordingly. The empty group name `""`
-            will catch the remaining robots, if defined.
-        :param      name:              The name of the robot
-        :param      time_step:         The time step of the simulation [s]
-        :param      max_duration:      The maximum duration of the episodes [s]
+            with a :py:attr:`pyenki.PhysicalObject.name` equal to the group
+            will be assigned to the group and use its configuration.
+            The group with name `""` will catch the remaining robots,
+            if it appears in ``config``.
+        :param      time_step:         The time step of the simulation [s].
+        :param      max_duration:      The maximum duration of the episodes [s].
         :param      physics_substeps:  The number of physics sub-steps for each
             simulation step, see :py:meth:`pyenki.World.step`.
         :param      render_mode:       The render mode (one of ``None``,
@@ -330,17 +329,19 @@ class ParallelEnkiEnv(BaseParallelEnv):
         :param      render_kwargs:     The render keywords arguments
             arguments forwarded to :py:func:`pyenki.viewer.render` when
             rendering an environment.
-        :param      notebook:          Whether the we should use a notebook-compatible
-            renderer. If ``None``, it will check if we are running a notebook.
-        :param      terminate_on:      Whether to terminate the episode as soon as the first agent
-            terminates ("any") or whether to wait for all agents to terminate before
-            removing all of them at once. If set to ``None``, it will terminate each
-            agent individually, removing them from the environment independently from each other.
-        :param      success_info:      Whether include key ``"is_success"`` in the final info dictionary for each robot.
-            It will be included only if set by one of :py:attr:`enki_env.GroupConfig.terminations`
+        :param      notebook:          Whether to use a notebook-compatible
+            renderer. If ``None``, it will select it if we are running a notebook.
+        :param      terminate_on:      Whether to terminate the episode as soon as the first robot
+            terminates (``"any"``) or whether to wait for all agents to terminate before
+            removing all of them at once (``"all"``. If set to ``None``, it will terminate
+            robots independently from each other and remove them from the environment before the episode terminates.
+        :param      success_info:      Whether to include key ``"is_success"``
+            in the final info dictionary for each robot. It will be included only if
+            it has been set by one of :py:attr:`enki_env.GroupConfig.terminations`
             or if ``default_success`` is not ``None``.
-        :param      default_success:   The value associated to ``"is_success"`` in the final info dictionary
-            when the robot has not been terminated.
+        :param      default_success:   The value associated with ``"is_success"`` in the
+            final info dictionary when, at the end of the episode,
+            the robot has not been yet terminated.
         """
         if notebook is None:
             notebook = ipython()
@@ -372,7 +373,7 @@ class ParallelEnkiEnv(BaseParallelEnv):
         world = scenario(0)
         agents = make_agents(world, config)
         self._possible_agents = list(agents)
-        self._agents: dict[str, tuple[DifferentialWheeled, str,
+        self._agents: dict[str, tuple[pyenki.DifferentialWheeled, str,
                                       GroupConfig]] = {}
         self.group_observation_spaces = {
             group: config.observation.space
@@ -390,7 +391,7 @@ class ParallelEnkiEnv(BaseParallelEnv):
             uid: config.action.space
             for uid, (_, _, config) in agents.items()
         }
-        self._world: World | None = None
+        self._world: pyenki.World | None = None
         self._world_view = None
         self._render_buffer: EnkiRemoteFrameBuffer | None = None
         if self.render_mode == 'human':
@@ -407,7 +408,7 @@ class ParallelEnkiEnv(BaseParallelEnv):
                 self._world_view = WorldView(world=None, **self._render_kwargs)
                 self._world_view.show()
 
-    def render(self) -> Image | None:
+    def render(self) -> pyenki.Image | None:
         from pyenki.viewer import render
 
         if self._world:
@@ -417,16 +418,15 @@ class ParallelEnkiEnv(BaseParallelEnv):
     @property
     def np_random_seed(self) -> int:
         """
-        Returns the environment's internal :attr:`_np_random_seed`
-        that if not set will first initialise with a random int as seed.
+        Returns the environment internal :py:attr:`_np_random_seed`
+        which, if not set, will be initialized with a random integer.
 
-        If :attr:`np_random_seed` was set directly instead of
+        If :py:attr:`_np_random_seed` was set directly, instead of
         through :meth:`reset` or :meth:`set_np_random_through_seed`,
-        the seed will take the value -1.
+        it will take value -1.
 
-        Returns:
-            int: the seed of the current `np_random` or -1,
-            if the seed of the rng is unknown
+        :returns: the seed of the current :py:attr:`_np_random` or -1
+                  if unknown.
         """
         if self._np_random_seed is None:
             self._np_random, self._np_random_seed = seeding.np_random()
@@ -435,11 +435,10 @@ class ParallelEnkiEnv(BaseParallelEnv):
     @property
     def np_random(self) -> np.random.Generator:
         """
-        Returns the environment's internal :attr:`_np_random`
-        that if not set will initialise with a random seed.
+        Returns the environment internal :py:attr:`_np_random`
+        which, if not set, will initialized with a random integer.
 
-        Returns:
-            Instances of `np.random.Generator`
+        :returns: The random generator
         """
         if self._np_random is None:
             self._np_random, self._np_random_seed = seeding.np_random()
@@ -512,7 +511,8 @@ class ParallelEnkiEnv(BaseParallelEnv):
                 if self._success_info:
                     success = self._success.get(uid, self._default_success)
                     if success is not None:
-                        infos[uid]['is_success'] = np.asarray(success, dtype=np.bool_)
+                        infos[uid]['is_success'] = np.asarray(success,
+                                                              dtype=np.bool_)
                 del self._agents[uid]
 
         if self.render_mode == "human":
@@ -534,13 +534,14 @@ class ParallelEnkiEnv(BaseParallelEnv):
 
     def make_world(self,
                    policies: dict[str, Predictor],
-                   seed: int = 0) -> World:
+                   seed: int = 0) -> pyenki.World:
         """
-        Generate a world using the scenario and optionally
-        assign a policy to the robots controller.
+        Generates a world using the scenario and
+        assign a policy to the robot controllers for each group
+        specified in ``policies``.
 
-        :param      policies:  The policies assigned to groups
-        :param      seed:      The random seed
+        :param      policies:  The policies assigned to groups.
+        :param      seed:      The random seed.
 
         :returns:   The world
         """
@@ -558,11 +559,11 @@ class ParallelEnkiEnv(BaseParallelEnv):
 
         :param      policies:   The policies assigned to groups.
             If a group misses a policy, it will randomly generate actions.
-        :param      max_steps:  The maximum steps to perform
-        :param      seed:       The random seed
+        :param      max_steps:  The maximum number of steps to perform.
+        :param      seed:       The random seed.
 
-        :returns:   A dictionary keyed by groups with
-            the data collected during the rollout
+        :returns:   A dictionary, keyed by group, with
+            the data collected during the rollout.
         """
         actions: list[dict[str, Action]] = []
         observations: list[dict[str, Observation]] = []
