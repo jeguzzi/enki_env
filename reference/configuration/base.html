@@ -380,11 +380,11 @@
 <dt class="sig sig-object py" id="enki_env.config.ActionConfig">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.config.</span></span><span class="sig-name descname"><span class="pre">ActionConfig</span></span><a class="headerlink" href="#enki_env.config.ActionConfig" title="Link to this definition">#</a></dt>
 <dd><p>The abstract base class of action configurations.</p>
-<p>It defines how actions are actuated.</p>
+<p>It defines how a robot actuates actions.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="enki_env.config.ActionConfig.actuate">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">actuate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">act</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DifferentialWheeled</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#enki_env.config.ActionConfig.actuate" title="Link to this definition">#</a></dt>
-<dd><p>Make a robot actuates an action.</p>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">actuate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">act</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../types.html#enki_env.types.Action" title="enki_env.types.Action"><span class="pre">Action</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/base.html#pyenki.DifferentialWheeled" title="(in pyenki)"><span class="pre">pyenki.DifferentialWheeled</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#enki_env.config.ActionConfig.actuate" title="Link to this definition">#</a></dt>
+<dd><p>How a robot actuates an action.</p>
 <p>Must be implemented by concrete classes!</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -399,7 +399,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="enki_env.config.ActionConfig.space">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">space</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">gym.spaces.Box</span></em><a class="headerlink" href="#enki_env.config.ActionConfig.space" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">space</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://gymnasium.farama.org/api/spaces/fundamental/#gymnasium.spaces.Box" title="(in Gymnasium)"><span class="pre">gym.spaces.Box</span></a></em><a class="headerlink" href="#enki_env.config.ActionConfig.space" title="Link to this definition">#</a></dt>
 <dd><p>The action space</p>
 <p>Must be implemented by concrete classes!</p>
 </dd></dl>
@@ -411,52 +411,61 @@
 <h3>Robot base class<a class="headerlink" href="#robot-base-class" title="Link to this heading">#</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveAction">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.robots.</span></span><span class="sig-name descname"><span class="pre">DifferentialDriveAction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_speed:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_acceleration:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_orientation:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_position:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acceleration:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype:</span> <span class="pre">type[~numpy.floating[~typing.Any]]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.float64'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#enki_env.robots.DifferentialDriveAction" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.robots.</span></span><span class="sig-name descname"><span class="pre">DifferentialDriveAction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_speed:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_acceleration:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_orientation:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_position:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acceleration:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype:</span> <span class="pre">type[~numpy.floating[~Any]]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.float64'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#enki_env.robots.DifferentialDriveAction" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#enki_env.config.ActionConfig" title="enki_env.config.ActionConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ActionConfig</span></code></a></p>
-<p>Action configuration common to all robots</p>
+<p>The action configuration common to all robots.</p>
 <p>Actions are given by two numbers in [-1, 1]
 which are re-scaled and actuated either as
-wheel speeds or accelerations.</p>
+(linear) wheel speeds or (linear) wheel accelerations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">left</span> <span class="o">=</span> <span class="n">action</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">right</span> <span class="o">=</span> <span class="n">action</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
 <p>If either <code class="docutils literal notranslate"><span class="pre">fix_orientation=True</span></code> or <code class="docutils literal notranslate"><span class="pre">fix_position=True</span></code>
-actions are a single number in [-1, 1] that get rescaled and
-then actuated as the sum/difference of wheel speeds or accelerations.</p>
+actions are instead given by a single number in [-1, 1]
+that is mapped to left/right wheel like</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">left</span>  <span class="o">=</span> <span class="o">+</span><span class="n">action</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">fix_orientation</span>
+      <span class="o">=</span> <span class="o">-</span><span class="n">action</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">fix_position</span>
+<span class="n">right</span> <span class="o">=</span> <span class="n">action</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveAction.acceleration">
 <span class="sig-name descname"><span class="pre">acceleration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#enki_env.robots.DifferentialDriveAction.acceleration" title="Link to this definition">#</a></dt>
-<dd><p>whether actions are wheel accelerations or speeds</p>
+<dd><p>Whether actions are wheel accelerations or wheel speeds.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveAction.dtype">
 <span class="sig-name descname"><span class="pre">dtype</span></span><a class="headerlink" href="#enki_env.robots.DifferentialDriveAction.dtype" title="Link to this definition">#</a></dt>
-<dd><p>the dtype of actions</p>
-<p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">float64</span></code></p>
+<dd><p>The scalar type of actions.</p>
+<p>alias of <a class="reference external" href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float64</span></code></a></p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveAction.fix_orientation">
 <span class="sig-name descname"><span class="pre">fix_orientation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#enki_env.robots.DifferentialDriveAction.fix_orientation" title="Link to this definition">#</a></dt>
-<dd><p>whether to nullify the angular components. If set, it reduces the dimension
+<dd><p>Whether to nullify the angular component. If set, it reduces the dimension
 of the action space by one.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveAction.fix_position">
 <span class="sig-name descname"><span class="pre">fix_position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#enki_env.robots.DifferentialDriveAction.fix_position" title="Link to this definition">#</a></dt>
-<dd><p>whether to nullify the linear components. If set, it reduces the dimension
+<dd><p>Whether to nullify the linear component. If set, it reduces the dimension
 of the action space by one.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveAction.max_acceleration">
 <span class="sig-name descname"><span class="pre">max_acceleration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#enki_env.robots.DifferentialDriveAction.max_acceleration" title="Link to this definition">#</a></dt>
-<dd><p>maximal wheel acceleration in cm/s^2; only relevant if <code class="docutils literal notranslate"><span class="pre">acceleration=True</span></code></p>
+<dd><p>Maximal wheel acceleration in cm/s^2; only relevant if <code class="docutils literal notranslate"><span class="pre">acceleration=True</span></code>.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveAction.max_speed">
 <span class="sig-name descname"><span class="pre">max_speed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#enki_env.robots.DifferentialDriveAction.max_speed" title="Link to this definition">#</a></dt>
-<dd><p>maximal wheel speed in cm/s</p>
+<dd><p>Maximal wheel speed in cm/s.</p>
 </dd></dl>
 
 </dd></dl>
@@ -471,12 +480,12 @@ of the action space by one.</p>
 <dt class="sig sig-object py" id="enki_env.config.ObservationConfig">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.config.</span></span><span class="sig-name descname"><span class="pre">ObservationConfig</span></span><a class="headerlink" href="#enki_env.config.ObservationConfig" title="Link to this definition">#</a></dt>
 <dd><p>The abstract base class of observation configurations.</p>
-<p>It defines how observations are generated from robots’
-sensor readings and internal state.</p>
+<p>It defines how observations are generated from
+the sensor readings and internal state of robots.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="enki_env.config.ObservationConfig.get">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DifferentialWheeled</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Observation</span></span></span><a class="headerlink" href="#enki_env.config.ObservationConfig.get" title="Link to this definition">#</a></dt>
-<dd><p>Makes a robot generate an observation.</p>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/base.html#pyenki.DifferentialWheeled" title="(in pyenki)"><span class="pre">pyenki.DifferentialWheeled</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../types.html#enki_env.types.Observation" title="enki_env.types.Observation"><span class="pre">Observation</span></a></span></span><a class="headerlink" href="#enki_env.config.ObservationConfig.get" title="Link to this definition">#</a></dt>
+<dd><p>How a robot generates an observation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>robot</strong> – The robot generating the observation</p>
@@ -490,7 +499,7 @@ sensor readings and internal state.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="enki_env.config.ObservationConfig.space">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">space</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">gym.spaces.Dict</span></em><a class="headerlink" href="#enki_env.config.ObservationConfig.space" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">space</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://gymnasium.farama.org/api/spaces/composite/#gymnasium.spaces.Dict" title="(in Gymnasium)"><span class="pre">gym.spaces.Dict</span></a></em><a class="headerlink" href="#enki_env.config.ObservationConfig.space" title="Link to this definition">#</a></dt>
 <dd><p>The observation space</p>
 <p>Must be implemented by concrete classes!</p>
 </dd></dl>
@@ -502,20 +511,20 @@ sensor readings and internal state.</p>
 <h3>Robot base class<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveObservation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.robots.</span></span><span class="sig-name descname"><span class="pre">DifferentialDriveObservation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_speed:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype:</span> <span class="pre">type[~numpy.floating[~typing.Any]]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.float64'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#enki_env.robots.DifferentialDriveObservation" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.robots.</span></span><span class="sig-name descname"><span class="pre">DifferentialDriveObservation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_speed:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype:</span> <span class="pre">type[~numpy.floating[~Any]]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.float64'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#enki_env.robots.DifferentialDriveObservation" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#enki_env.config.ObservationConfig" title="enki_env.config.ObservationConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObservationConfig</span></code></a></p>
-<p>Observation configuration common to all robots</p>
+<p>The observation configuration common to all robots.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveObservation.dtype">
 <span class="sig-name descname"><span class="pre">dtype</span></span><a class="headerlink" href="#enki_env.robots.DifferentialDriveObservation.dtype" title="Link to this definition">#</a></dt>
-<dd><p>the type of floating point fields</p>
-<p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">float64</span></code></p>
+<dd><p>The scalar type of observations.</p>
+<p>alias of <a class="reference external" href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float64</span></code></a></p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveObservation.get">
-<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DifferentialWheeled</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Observation</span></span></span><a class="headerlink" href="#enki_env.robots.DifferentialDriveObservation.get" title="Link to this definition">#</a></dt>
-<dd><p>Makes a robot generate an observation.</p>
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/base.html#pyenki.DifferentialWheeled" title="(in pyenki)"><span class="pre">pyenki.DifferentialWheeled</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../types.html#enki_env.types.Observation" title="enki_env.types.Observation"><span class="pre">Observation</span></a></span></span><a class="headerlink" href="#enki_env.robots.DifferentialDriveObservation.get" title="Link to this definition">#</a></dt>
+<dd><p>How a robot generates an observation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>robot</strong> – The robot generating the observation</p>
@@ -530,20 +539,20 @@ sensor readings and internal state.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveObservation.max_speed">
 <span class="sig-name descname"><span class="pre">max_speed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#enki_env.robots.DifferentialDriveObservation.max_speed" title="Link to this definition">#</a></dt>
-<dd><p>maximal wheel speed in cm/s</p>
+<dd><p>Maximal wheel speed in cm/s.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveObservation.normalize">
 <span class="sig-name descname"><span class="pre">normalize</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#enki_env.robots.DifferentialDriveObservation.normalize" title="Link to this definition">#</a></dt>
-<dd><p>whether to normalize the observation range.</p>
+<dd><p>Whether to re-scale the observations in [-1, 1].</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.robots.DifferentialDriveObservation.speed">
 <span class="sig-name descname"><span class="pre">speed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#enki_env.robots.DifferentialDriveObservation.speed" title="Link to this definition">#</a></dt>
 <dd><p>If set, observations will contain field <code class="docutils literal notranslate"><span class="pre">&quot;wheel_speeds&quot;</span></code>
-associated with the current speed of the wheels (an array of length 2).</p>
+with the current speed of the wheels (an array of length 2).</p>
 </dd></dl>
 
 </dd></dl>

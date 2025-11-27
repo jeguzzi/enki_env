@@ -357,27 +357,27 @@
 <h2>Actions<a class="headerlink" href="#actions" title="Link to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="enki_env.ThymioAction">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.</span></span><span class="sig-name descname"><span class="pre">ThymioAction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_speed:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">16.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_acceleration:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_orientation:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_position:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acceleration:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype:</span> <span class="pre">type[~numpy.floating[~typing.Any]]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.float64'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prox_comm:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_proximity_comm_payload:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#enki_env.ThymioAction" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.</span></span><span class="sig-name descname"><span class="pre">ThymioAction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_speed:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">16.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_acceleration:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_orientation:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_position:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acceleration:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype:</span> <span class="pre">type[~numpy.floating[~Any]]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.float64'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prox_comm:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_proximity_comm_payload:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#enki_env.ThymioAction" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="base.html#enki_env.robots.DifferentialDriveAction" title="enki_env.robots.DifferentialDriveAction"><code class="xref py py-class docutils literal notranslate"><span class="pre">DifferentialDriveAction</span></code></a></p>
-<p>Action configuration for <a class="reference external" href="https://jeguzzi.github.io/enki/api/thymio.html#pyenki.Thymio2" title="(in pyenki)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyenki.Thymio2</span></code></a>.
-Uses by default <code class="docutils literal notranslate"><span class="pre">max_speed=16.6</span></code>.</p>
+<p>The action configuration for <a class="reference external" href="https://jeguzzi.github.io/enki/api/thymio.html#pyenki.Thymio2" title="(in pyenki)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyenki.Thymio2</span></code></a>.</p>
+<p>Sets by default <code class="docutils literal notranslate"><span class="pre">max_speed=16.6</span></code>.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.ThymioAction.max_proximity_comm_payload">
 <span class="sig-name descname"><span class="pre">max_proximity_comm_payload</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#enki_env.ThymioAction.max_proximity_comm_payload" title="Link to this definition">#</a></dt>
-<dd><p>the maximal value of broadcasted messages</p>
+<dd><p>The maximal value of broadcasted messages.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.ThymioAction.max_speed">
 <span class="sig-name descname"><span class="pre">max_speed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">16.6</span></em><a class="headerlink" href="#enki_env.ThymioAction.max_speed" title="Link to this definition">#</a></dt>
-<dd><p>maximal wheel speed in cm/s</p>
+<dd><p>Maximal wheel speed in cm/s.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.ThymioAction.prox_comm">
 <span class="sig-name descname"><span class="pre">prox_comm</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#enki_env.ThymioAction.prox_comm" title="Link to this definition">#</a></dt>
 <dd><p>If set, there is an additional action in [-1, 1]
-that is converted to an integer in <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">max_proximity_comm_payload]</span></code>
+that is first converted to an integer in <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">max_proximity_comm_payload]</span></code>
 before being broadcasted using proximity sensors.</p>
 </dd></dl>
 
@@ -388,87 +388,86 @@ before being broadcasted using proximity sensors.</p>
 <h2>Observations<a class="headerlink" href="#observations" title="Link to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="enki_env.ThymioObservation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.</span></span><span class="sig-name descname"><span class="pre">ThymioObservation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_speed:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">16.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype:</span> <span class="pre">type[~numpy.floating[~typing.Any]]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.float64'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proximity_distance:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proximity_value:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proximity_comm_payload:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proximity_comm_intensity:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proximity_comm_rx:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_proximity_distance:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">28</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_proximity_value:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">4505</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_proximity_comm_payload:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_proximity_comm_intensity:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">4600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_proximity_comm_number:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#enki_env.ThymioObservation" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.</span></span><span class="sig-name descname"><span class="pre">ThymioObservation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_speed:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">16.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype:</span> <span class="pre">type[~numpy.floating[~Any]]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.float64'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proximity_distance:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proximity_value:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proximity_comm_payload:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proximity_comm_intensity:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proximity_comm_rx:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_proximity_distance:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">28</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_proximity_value:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">4505</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_proximity_comm_payload:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_proximity_comm_intensity:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">4600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_proximity_comm_number:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#enki_env.ThymioObservation" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="base.html#enki_env.robots.DifferentialDriveObservation" title="enki_env.robots.DifferentialDriveObservation"><code class="xref py py-class docutils literal notranslate"><span class="pre">DifferentialDriveObservation</span></code></a></p>
-<p>Observation configuration for <a class="reference external" href="https://jeguzzi.github.io/enki/api/thymio.html#pyenki.Thymio2" title="(in pyenki)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyenki.Thymio2</span></code></a>.</p>
+<p>The observation configuration for <a class="reference external" href="https://jeguzzi.github.io/enki/api/thymio.html#pyenki.Thymio2" title="(in pyenki)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyenki.Thymio2</span></code></a>.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">normalize=True</span></code>, fields <code class="docutils literal notranslate"><span class="pre">prox/distance</span></code>, <code class="docutils literal notranslate"><span class="pre">prox/value</span></code>,
-<code class="docutils literal notranslate"><span class="pre">prox_comm/payload</span></code>, <code class="docutils literal notranslate"><span class="pre">prox_comm/intensity</span></code>, and <code class="docutils literal notranslate"><span class="pre">prox_comm/rx</span></code>
-will be normalized in [0, 1], according to the values of
+<code class="docutils literal notranslate"><span class="pre">prox_comm/intensity</span></code>, <code class="docutils literal notranslate"><span class="pre">prox_comm/payload</span></code>, and <code class="docutils literal notranslate"><span class="pre">prox_comm/rx</span></code>
+are re-scaled in [0, 1] using to the values of
 <code class="docutils literal notranslate"><span class="pre">max_proximity_distance</span></code>, <code class="docutils literal notranslate"><span class="pre">max_proximity_value</span></code>,
-<code class="docutils literal notranslate"><span class="pre">max_proximity_comm_payload</span></code>, and <code class="docutils literal notranslate"><span class="pre">max_proximity_comm_intensity</span></code>.</p>
-<p><code class="docutils literal notranslate"><span class="pre">proximity_comm_xxx</span></code> fields are sorted by the intensity of the messages,
-from highest to lowest.</p>
-<p>Uses by default <code class="docutils literal notranslate"><span class="pre">max_speed=12.8</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">max_proximity_comm_intensity</span></code>, and <code class="docutils literal notranslate"><span class="pre">max_proximity_comm_payload</span></code> respectively .</p>
+<p>The values of <code class="docutils literal notranslate"><span class="pre">proximity_comm_...</span></code> fields are sorted by the
+intensity of the messages, from highest to lowest.</p>
+<p>Sets by default <code class="docutils literal notranslate"><span class="pre">max_speed=12.8</span></code>.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.ThymioObservation.max_proximity_comm_intensity">
 <span class="sig-name descname"><span class="pre">max_proximity_comm_intensity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4600</span></em><a class="headerlink" href="#enki_env.ThymioObservation.max_proximity_comm_intensity" title="Link to this definition">#</a></dt>
-<dd><p>the maximal proximity communication intensity</p>
+<dd><p>The maximal proximity communication intensity</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.ThymioObservation.max_proximity_comm_number">
 <span class="sig-name descname"><span class="pre">max_proximity_comm_number</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#enki_env.ThymioObservation.max_proximity_comm_number" title="Link to this definition">#</a></dt>
-<dd><p>the maximal number of proximity comm messages.
-If more messages are received, messages with the
-lowest intensity are ignored.</p>
+<dd><p>The maximal number of proximity communication messages
+to include in the observations. When there are exceeding messages,
+messages with the lowest intensities will be excluded.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.ThymioObservation.max_proximity_comm_payload">
 <span class="sig-name descname"><span class="pre">max_proximity_comm_payload</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#enki_env.ThymioObservation.max_proximity_comm_payload" title="Link to this definition">#</a></dt>
-<dd><p>the maximal proximity communication payload</p>
+<dd><p>The maximal proximity communication payload</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.ThymioObservation.max_proximity_distance">
 <span class="sig-name descname"><span class="pre">max_proximity_distance</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">28</span></em><a class="headerlink" href="#enki_env.ThymioObservation.max_proximity_distance" title="Link to this definition">#</a></dt>
-<dd><p>the maximal range of the proximity sensors</p>
+<dd><p>The maximal range of the proximity sensors</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.ThymioObservation.max_proximity_value">
 <span class="sig-name descname"><span class="pre">max_proximity_value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4505</span></em><a class="headerlink" href="#enki_env.ThymioObservation.max_proximity_value" title="Link to this definition">#</a></dt>
-<dd><p>the maximal values read by proximity sensors</p>
+<dd><p>The maximal values read by proximity sensors</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.ThymioObservation.max_speed">
 <span class="sig-name descname"><span class="pre">max_speed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">16.6</span></em><a class="headerlink" href="#enki_env.ThymioObservation.max_speed" title="Link to this definition">#</a></dt>
-<dd><p>maximal wheel speed in cm/s</p>
+<dd><p>Maximal wheel speed in cm/s.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.ThymioObservation.proximity_comm_intensity">
 <span class="sig-name descname"><span class="pre">proximity_comm_intensity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#enki_env.ThymioObservation.proximity_comm_intensity" title="Link to this definition">#</a></dt>
-<dd><p>If set, observations will include field <code class="docutils literal notranslate"><span class="pre">&quot;prox_comm/intensity&quot;</span></code>
+<dd><p>If set, observations include field <code class="docutils literal notranslate"><span class="pre">&quot;prox_comm/intensity&quot;</span></code>
 with the intensity of IR messages received by proximity sensors.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.ThymioObservation.proximity_comm_payload">
 <span class="sig-name descname"><span class="pre">proximity_comm_payload</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#enki_env.ThymioObservation.proximity_comm_payload" title="Link to this definition">#</a></dt>
-<dd><p>If set, observations will include field <code class="docutils literal notranslate"><span class="pre">&quot;prox_comm/payload&quot;</span></code>
+<dd><p>If set, observations include field <code class="docutils literal notranslate"><span class="pre">&quot;prox_comm/payload&quot;</span></code>
 with the payload of IR messages received by proximity sensors.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.ThymioObservation.proximity_comm_rx">
 <span class="sig-name descname"><span class="pre">proximity_comm_rx</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#enki_env.ThymioObservation.proximity_comm_rx" title="Link to this definition">#</a></dt>
-<dd><p>If set, observations will include field <code class="docutils literal notranslate"><span class="pre">&quot;prox_comm/rx&quot;</span></code>
-with IR messages.</p>
+<dd><p>If set, observations include field <code class="docutils literal notranslate"><span class="pre">&quot;prox_comm/rx&quot;</span></code> with IR messages.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.ThymioObservation.proximity_distance">
 <span class="sig-name descname"><span class="pre">proximity_distance</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#enki_env.ThymioObservation.proximity_distance" title="Link to this definition">#</a></dt>
-<dd><p>If set, observations will include field <code class="docutils literal notranslate"><span class="pre">&quot;prox/distance&quot;</span></code>
+<dd><p>If set, observations include field <code class="docutils literal notranslate"><span class="pre">&quot;prox/distance&quot;</span></code>
 with distances measured by the proximity sensors.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.ThymioObservation.proximity_value">
 <span class="sig-name descname"><span class="pre">proximity_value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#enki_env.ThymioObservation.proximity_value" title="Link to this definition">#</a></dt>
-<dd><p>If set, observations will include field <code class="docutils literal notranslate"><span class="pre">&quot;prox/value&quot;</span></code>
+<dd><p>If set, observations include field <code class="docutils literal notranslate"><span class="pre">&quot;prox/value&quot;</span></code>
 with readings from the proximity sensors.</p>
 </dd></dl>
 

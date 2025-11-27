@@ -349,8 +349,8 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="enki_env.GroupConfig.get_controller">
-<span class="sig-name descname"><span class="pre">get_controller</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../types.html#enki_env.types.Predictor" title="enki_env.types.Predictor"><span class="pre">Predictor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Controller</span></span></span><a class="headerlink" href="#enki_env.GroupConfig.get_controller" title="Link to this definition">#</a></dt>
-<dd><p>Returns a controller, which can be assigned to a robot’s
+<span class="sig-name descname"><span class="pre">get_controller</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../types.html#enki_env.types.Predictor" title="enki_env.types.Predictor"><span class="pre">Predictor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://jeguzzi.github.io/enki/api/types.html#pyenki.Controller" title="(in pyenki)"><span class="pre">pyenki.Controller</span></a></span></span><a class="headerlink" href="#enki_env.GroupConfig.get_controller" title="Link to this definition">#</a></dt>
+<dd><p>Returns a controller, which can be assigned to a robot
 <a class="reference external" href="https://jeguzzi.github.io/enki/api/object.html#pyenki.PhysicalObject.control_step_callback" title="(in pyenki)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyenki.PhysicalObject.control_step_callback</span></code></a>,
 that actuates a policy.</p>
 </dd></dl>
@@ -359,7 +359,7 @@ that actuates a policy.</p>
 <dt class="sig sig-object py" id="enki_env.GroupConfig.info">
 <span class="sig-name descname"><span class="pre">info</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../types.html#enki_env.types.InfoFunction" title="enki_env.types.InfoFunction"><span class="pre">InfoFunction</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#enki_env.GroupConfig.info" title="Link to this definition">#</a></dt>
 <dd><p>Defines which extra information is generated.
-If set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, it will generate an empty dictionary</p>
+If set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, it will generate an empty dictionary.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -371,17 +371,18 @@ If set to <code class="docutils literal notranslate"><span class="pre">None</spa
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.GroupConfig.reward">
 <span class="sig-name descname"><span class="pre">reward</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../types.html#enki_env.types.RewardFunction" title="enki_env.types.RewardFunction"><span class="pre">RewardFunction</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#enki_env.GroupConfig.reward" title="Link to this definition">#</a></dt>
-<dd><p>Defines how reward are assigned.
+<dd><p>Defines how rewards are assigned.
 If set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, it will generate a constant -1.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.GroupConfig.terminations">
 <span class="sig-name descname"><span class="pre">terminations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../types.html#enki_env.types.Termination" title="enki_env.types.Termination"><span class="pre">Termination</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#enki_env.GroupConfig.terminations" title="Link to this definition">#</a></dt>
-<dd><p>Defines a list of conditions for a robot to terminate an episode.
-Condition are evaluated in sequence. The first returned value
-different than <code class="docutils literal notranslate"><span class="pre">None</span></code>, it is assigned as a <code class="docutils literal notranslate"><span class="pre">success</span></code> and
-may make the episode terminate for the agent or for the whole group,
+<dd><p>Defines a list of conditions for a robot to terminate an episode,
+which are evaluated in sequence. The first time a returned value
+is different than <code class="docutils literal notranslate"><span class="pre">None</span></code>, it is recorded as a success (if True)
+or failure (if False) and may cause the episode to terminate
+for the robot or for the whole environment,
 depending on the value of <code class="docutils literal notranslate"><span class="pre">terminate_on</span></code> in the constructor
 of <a class="reference internal" href="../environments/multi.html#enki_env.ParallelEnkiEnv" title="enki_env.ParallelEnkiEnv"><code class="xref py py-class docutils literal notranslate"><span class="pre">enki_env.ParallelEnkiEnv</span></code></a>.</p>
 </dd></dl>
@@ -390,15 +391,15 @@ of <a class="reference internal" href="../environments/multi.html#enki_env.Paral
 
 <dl class="py function">
 <dt class="sig sig-object py" id="enki_env.setup_controllers">
-<span class="sig-prename descclassname"><span class="pre">enki_env.</span></span><span class="sig-name descname"><span class="pre">setup_controllers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">World</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#enki_env.GroupConfig" title="enki_env.GroupConfig"><span class="pre">GroupConfig</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../types.html#enki_env.types.Predictor" title="enki_env.types.Predictor"><span class="pre">Predictor</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#enki_env.setup_controllers" title="Link to this definition">#</a></dt>
-<dd><p>Equip robots in the world with controllers that evaluate
-the given policies.</p>
+<span class="sig-prename descclassname"><span class="pre">enki_env.</span></span><span class="sig-name descname"><span class="pre">setup_controllers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World" title="(in pyenki)"><span class="pre">pyenki.World</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#enki_env.GroupConfig" title="enki_env.GroupConfig"><span class="pre">GroupConfig</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policies</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../types.html#enki_env.types.Predictor" title="enki_env.types.Predictor"><span class="pre">Predictor</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#enki_env.setup_controllers" title="Link to this definition">#</a></dt>
+<dd><p>Equips all robots in the world, with controllers that evaluate the selected policies,
+by matching the robot name with the keys of <code class="docutils literal notranslate"><span class="pre">policies</span></code> and <code class="docutils literal notranslate"><span class="pre">config</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>world</strong> – The world</p></li>
-<li><p><strong>config</strong> – A map of groups configurations assigned to (group) a name</p></li>
-<li><p><strong>policies</strong> – A map policies assigned to (group) name</p></li>
+<li><p><strong>config</strong> – A map of configurations assigned to groups of robots.</p></li>
+<li><p><strong>policies</strong> – A map of policies assigned to groups of robots.</p></li>
 </ul>
 </dd>
 </dl>
