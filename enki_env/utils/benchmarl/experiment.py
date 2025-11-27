@@ -17,7 +17,7 @@ from pathlib import Path
 
 from benchmarl.experiment import Experiment
 
-from ..parallel_env import ParallelEnkiEnv
+from ...parallel_env import ParallelEnkiEnv
 from .evaluate import evaluate_policy
 from .policy import SingleAgentPolicy
 from .task import EnkiTaskClass
