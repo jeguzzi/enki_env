@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-import math
 from typing import Any, cast
 
 import numpy as np
 import pyenki
 
 from ... import ParallelEnkiEnv, ThymioAction, ThymioConfig
+from ..utils import normalize_angle
 
 
 def scenario(seed: int) -> pyenki.World:
@@ -24,10 +24,6 @@ def scenario(seed: int) -> pyenki.World:
     robot.set_led_top(*rgb)
     world.add_object(robot)
     return world
-
-
-def normalize_angle(angle: float) -> float:
-    return math.fmod(angle + math.pi, 2 * math.pi) - math.pi
 
 
 def is_facing(robot: pyenki.Robot,
@@ -59,6 +55,7 @@ def make_env(**kwargs: Any) -> ParallelEnkiEnv:
     env = ParallelEnkiEnv(scenario=scenario,
                           config={'thymio': config},
                           max_duration=5,
+                          default_success=False,
                           render_kwargs=dict(camera_pitch=-1.57,
                                              camera_position=(10, 0),
                                              camera_altitude=60),
