@@ -10,10 +10,10 @@ from pettingzoo.utils.env import ParallelEnv
 from .config import GroupConfig, make_agents, setup_controllers
 from .rollout import Rollout
 from .types import Action, Array, Info, Observation, Predictor, Scenario
+import numpy as np
 
 if TYPE_CHECKING:
     import gymnasium as gym
-    import numpy as np
     from pyenki import DifferentialWheeled, Image, World
     from pyenki.buffer import EnkiRemoteFrameBuffer
 
@@ -48,6 +48,8 @@ class ParallelEnkiEnvSpec(TypedDict):
     render_kwargs: dict[str, Any]
     notebook: bool | None
     terminate_on: Literal['any', 'all'] | None
+    success_info: bool
+    default_success: bool | None
 
 
 def parallel_env(
@@ -60,7 +62,9 @@ def parallel_env(
         render_fps: float = 10.0,
         render_kwargs: dict[str, Any] = {},
         notebook: bool | None = None,
-        terminate_on: Literal['any', 'all'] | None = 'all') -> BaseParallelEnv:
+        terminate_on: Literal['any', 'all'] | None = 'all',
+        success_info: bool = True,
+        default_success: bool | None = None) -> BaseParallelEnv:
     """
     Helper function that creates a parallel environment,
     passing all arguments to :py:class:`enki_env.ParallelEnkiEnv`.
@@ -89,6 +93,11 @@ def parallel_env(
         terminates ("any") or whether to wait for all agents to terminate before
         removing all of them at once. If set to ``None``, it will terminate each
         agent individually, removing them from the environment independently from each other.
+    :param      success_info:      Whether include key ``"is_success"`` in the final info dictionary for each robot.
+        It will be included only if set by one of :py:attr:`enki_env.GroupConfig.terminations`
+        or if ``default_success`` is not ``None``.
+    :param      default_success:   The value associated to ``"is_success"`` in the final info dictionary
+        when the robot has not been terminated.
     """
     env: BaseParallelEnv = ParallelEnkiEnv(scenario,
                                            config,
@@ -99,7 +108,9 @@ def parallel_env(
                                            render_fps=render_fps,
                                            render_kwargs=render_kwargs,
                                            notebook=notebook,
-                                           terminate_on=terminate_on)
+                                           terminate_on=terminate_on,
+                                           success_info=success_info,
+                                           default_success=default_success)
     return env
 
 
@@ -294,7 +305,9 @@ class ParallelEnkiEnv(BaseParallelEnv):
                  render_fps: float = 10.0,
                  render_kwargs: dict[str, Any] = {},
                  notebook: bool | None = None,
-                 terminate_on: Literal['any', 'all'] | None = 'all'):
+                 terminate_on: Literal['any', 'all'] | None = 'all',
+                 success_info: bool = True,
+                 default_success: bool | None = None):
         """
         Constructs a new instance. Similar arguments
         as :py:class:`enki_env.ParallelEnkiEnv` referring to a single robot.
@@ -323,6 +336,11 @@ class ParallelEnkiEnv(BaseParallelEnv):
             terminates ("any") or whether to wait for all agents to terminate before
             removing all of them at once. If set to ``None``, it will terminate each
             agent individually, removing them from the environment independently from each other.
+        :param      success_info:      Whether include key ``"is_success"`` in the final info dictionary for each robot.
+            It will be included only if set by one of :py:attr:`enki_env.GroupConfig.terminations`
+            or if ``default_success`` is not ``None``.
+        :param      default_success:   The value associated to ``"is_success"`` in the final info dictionary
+            when the robot has not been terminated.
         """
         if notebook is None:
             notebook = ipython()
@@ -336,7 +354,9 @@ class ParallelEnkiEnv(BaseParallelEnv):
             render_fps=render_fps,
             render_kwargs=render_kwargs,
             notebook=notebook,
-            terminate_on=terminate_on)
+            terminate_on=terminate_on,
+            success_info=success_info,
+            default_success=default_success)
         self._scenario = scenario
         self._config = config
         self._time_step = time_step
@@ -347,6 +367,8 @@ class ParallelEnkiEnv(BaseParallelEnv):
         self._max_duration = max_duration
         self._terminate_on = terminate_on
         self._duration: float = 0
+        self._success_info = success_info
+        self._default_success = default_success
         world = scenario(0)
         agents = make_agents(world, config)
         self._possible_agents = list(agents)
@@ -487,6 +509,10 @@ class ParallelEnkiEnv(BaseParallelEnv):
 
         for uid in list(self._agents):
             if trunc[uid] or term[uid]:
+                if self._success_info:
+                    success = self._success.get(uid, self._default_success)
+                    if success is not None:
+                        infos[uid]['is_success'] = np.asarray(success, dtype=np.bool_)
                 del self._agents[uid]
 
         if self.render_mode == "human":

@@ -121,6 +121,19 @@ class Rollout:
         return len(self.reward)
 
     @property
+    def episode_success(self) -> numpy.typing.NDArray[np.bool_] | None:
+        """
+        The final ``info["is_success"]``
+        for each agent.
+
+        :returns:   An array of successes
+        """
+        if not 'is_success' in self.info:
+            return None
+        s = self.info['is_success']
+        return s[~s.mask].astype(bool)
+
+    @property
     def length(self) -> numpy.typing.NDArray[np.int_]:
         """
         The number of steps for each agent

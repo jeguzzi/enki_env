@@ -81,7 +81,9 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
                  render_mode: str | None = None,
                  render_fps: float = 10.0,
                  render_kwargs: dict[str, Any] = {},
-                 notebook: bool | None = None) -> None:
+                 notebook: bool | None = None,
+                 success_info: bool = True,
+                 default_success: bool | None = None) -> None:
         """
         Constructs a new instance. Similar arguments
         as :py:class:`enki_env.ParallelEnkiEnv` referring to a single robot.
@@ -103,11 +105,23 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
             rendering an environment.
         :param      notebook:          Whether the we should use a notebook-compatible
             renderer. If ``None``, it will check if we are running a notebook.
-
+        :param      success_info:      Whether include key ``"is_success"`` in the final info dictionary for each robot.
+            It will be included only if set by one of :py:attr:`enki_env.GroupConfig.terminations`
+            or if ``default_success`` is not ``None``.
+        :param      default_success:   The value associated to ``"is_success"`` in the final info dictionary
+            when the robot has not been terminated.
         """
-        penv = ParallelEnkiEnv(scenario, {name: config}, time_step,
-                               physics_substeps, max_duration, render_mode,
-                               render_fps, render_kwargs, notebook)
+        penv = ParallelEnkiEnv(scenario=scenario,
+                               config={name: config},
+                               time_step=time_step,
+                               physics_substeps=physics_substeps,
+                               max_duration=max_duration,
+                               render_mode=render_mode,
+                               render_fps=render_fps,
+                               render_kwargs=render_kwargs,
+                               notebook=notebook,
+                               success_info=success_info,
+                               default_success=default_success)
         super().__init__(penv)
 
     @property
