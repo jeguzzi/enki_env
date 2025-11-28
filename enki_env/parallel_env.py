@@ -10,7 +10,8 @@ from pettingzoo.utils.env import ParallelEnv
 
 from .config import GroupConfig, make_agents, setup_controllers
 from .rollout import Rollout
-from .types import Action, Array, Info, Observation, Predictor, Scenario
+from .scenario import Scenario
+from .types import Action, Array, Info, Observation, Predictor
 
 if TYPE_CHECKING:
     import gymnasium as gym
@@ -142,23 +143,27 @@ class ParallelEnkiEnv(BaseParallelEnv):
     1. define a scenario with a least one robot, e.g. ::
 
             import pyenki
-
-            def my_scenario(seed: int) -> pyenki.World:
-                world = pyenki.World(seed)
-                world.add_object(pyenki.Thymio2())
-                world.add_object(pyenki.EPuck())
-                return world
-
-    2. define a configuration, e.g., the default configuration associated to the robot ::
-
             import enki_env
+
+            class MyScenario(enki_env.BaseScenario):
+
+                def init(self, world: pyenki.World) -> None:
+                    thymio = pyenki.Thymio2()
+                    world.add_object(thymio)
+                    epuck = pyenki.EPuck()
+                    x = world.random_generator.uniform(10, 20)
+                    epuck.position = (x, 0)
+                    world.add_object(epuck)
+                    return world
+
+    2. define a configuration, e.g., the default configuration associated with the groups ::
 
             configs = {'thymio': enki_env.ThymioConfig(),
                        'e-puck': enki_env.EPuckConfig()}
 
     Then, you can call the factory function, customizing the other parameters as you see fit ::
 
-        env = enki_env.parallel_env(scenario, configs, max_duration=10)
+        env = enki_env.parallel_env(MyScenario(), configs, max_duration=10)
     """
 
     metadata: dict[str, Any] = {"render_modes": ['human', 'rgb_array']}
@@ -475,18 +480,18 @@ class ParallelEnkiEnv(BaseParallelEnv):
         # Same as gymnasium.Env.reset
         # Initialize the RNG if the seed is manually passed
 
+        copy_rng_from: pyenki.World | None = None
         if seed is not None and seed >= 0:
             self._np_random, self._np_random_seed = seeding.np_random(seed)
             world_seed = seed
         elif world:
             world_seed = world.random_seed
+            copy_rng_from = world
         else:
             world_seed = self.np_random_seed
         world_seed &= (2**63 - 1)
-        self._world = self._scenario(world_seed)
+        self._world = self._scenario(world_seed, copy_rng_from=copy_rng_from)
         assert self._world
-        if seed is None and world:
-            self._world.copy_random_generator(world)
         if self._world_view:
             self._world_view.world = self._world
         if self._render_buffer:

@@ -7,6 +7,7 @@ from .parallel_env import (BaseParallelEnv, ParallelEnkiEnv,
 from .robots import (EPuckAction, EPuckConfig, EPuckObservation, MarxbotAction,
                      MarxbotConfig, MarxbotObservation, ThymioAction,
                      ThymioConfig, ThymioObservation)
+from .scenario import BaseScenario, Scenario
 
 
 def default_config() -> dict[str, GroupConfig]:
@@ -33,5 +34,5 @@ __all__ = [
     'EPuckAction', 'EPuckObservation', 'MarxbotAction', 'MarxbotObservation',
     'ThymioAction', 'ThymioObservation', 'EPuckConfig', 'MarxbotConfig',
     'ThymioConfig', 'BaseEnv', 'BaseParallelEnv', 'parallel_env',
-    'ParallelEnkiEnvSpec'
+    'ParallelEnkiEnvSpec', 'Scenario', 'BaseScenario'
 ]

@@ -20,15 +20,15 @@ In the simplest case, we control a single robot, for example an e-puck. For this
    import pyenki
    
    
-   def scenario(seed):
-       world = pyenki.World(seed)
-       robot = pyenki.EPuck()
-       robot.angle = world.random_generator.uniform(0, 2 * math.pi)
-       world.add_object(robot)
-       obj = pyenki.PhysicalObject(radius=10, height=10, mass=-1)
-       obj.position = (10, 0)
-       world.add_object(obj)
-       return world
+   class Scenario:
+
+       def init(world: pyenki.World) -> None:
+           robot = pyenki.EPuck()
+           robot.angle = world.random_generator.uniform(0, 2 * math.pi)
+           world.add_object(robot)
+           obj = pyenki.PhysicalObject(radius=10, height=10, mass=-1)
+           obj.position = (10, 0)
+           world.add_object(obj)
    
    
    def reward(robot, world):
@@ -36,7 +36,7 @@ In the simplest case, we control a single robot, for example an e-puck. For this
    
    
    env = gymnasium.make("Enki",
-                        scenario=scenario,
+                        scenario=Scenario(),
                         config=enki_env.EPuckConfig(reward=reward)
 
 The environment is now ready for training or for evaluation. For example, we can compute the reward collected by a random policy during an episode:
@@ -54,21 +54,23 @@ In the more general case, we control multiple robots, possibly of different type
    import enki_env
    import pyenki
    
-   
-   def scenario(seed):
-       world = pyenki.World(seed)
-       rng = world.random_generator
-       for _ in range(2):
-           robot = pyenki.EPuck(camera=True)
-           robot.position = (rng.uniform(-10, 10), rng.uniform(-10, 10))
-           robot.name = 'e-puck-camera'
-           world.add_object(robot)
-       for _ in range(3):
-           robot = pyenki.EPuck(camera=False)
-           robot.position = (rng.uniform(-10, 10), rng.uniform(-10, 10))
-           world.add_object(robot)
-       return world
-   
+   class Scenario:
+
+       def init(world: pyenki.World) -> None:
+           rng = world.random_generator
+           for _ in range(2):
+               robot = pyenki.EPuck(camera=True)
+               robot.position = (
+                  rng.uniform(-10, 10), 
+                  rng.uniform(-10, 10))
+               robot.name = 'e-puck-camera'
+               world.add_object(robot)
+           for _ in range(3):
+               robot = pyenki.EPuck(camera=False)
+               robot.position = (
+                  rng.uniform(-10, 10), 
+                  rng.uniform(-10, 10))
+               world.add_object(robot)   
    
    config = enki_env.EPuckConfig()
    config_camera = enki_env.EPuckConfig()
@@ -76,7 +78,7 @@ In the more general case, we control multiple robots, possibly of different type
    config_camera.observation.proximity_value = False
    configs = {'e-puck': config, 'e-puck-camera': config_camera}
    
-   env = enki_env.parallel_env(scenario, configs)
+   env = enki_env.parallel_env(Scenario(), configs)
    env.reset(seed=0)
 
 

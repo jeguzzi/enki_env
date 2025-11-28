@@ -4,8 +4,6 @@ Types
 
 .. currentmodule:: enki_env.types
 
-.. autoprotocol:: Scenario
-
 .. autoprotocol:: RewardFunction
 
 .. autoprotocol:: InfoFunction

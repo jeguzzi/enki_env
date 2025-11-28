@@ -5,7 +5,8 @@ Configuration
 .. toctree::
    :maxdepth: 2
    
-   base
+   action
+   observation
    group
    epuck
    marxbot

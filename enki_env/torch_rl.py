@@ -7,7 +7,7 @@ if TYPE_CHECKING:
 
 from .config import GroupConfig
 from .parallel_env import ParallelEnkiEnv
-from .types import Scenario
+from .scenario import Scenario
 
 
 def env(scenario: Scenario,

@@ -8,7 +8,8 @@ from .config import GroupConfig
 from .parallel_env import ParallelEnkiEnv
 from .rollout import Rollout
 from .single_agent_env import SingleAgentEnv
-from .types import Action, Observation, Predictor, Scenario
+from .types import Action, Observation, Predictor
+from .scenario import Scenario
 
 if TYPE_CHECKING:
     import pyenki
@@ -46,16 +47,17 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
 
     1. define a scenario with a least one robot, e.g. ::
 
+            import enki_env
             import pyenki
 
-            def my_scenario(seed: int) -> pyenki.World:
-                world = pyenki.World(seed)
-                world.add_object(pyenki.Thymio2())
-                return world
+            class MyScenario(enki_env.BaseScenario):
 
-    2. define a configuration, e.g., the default configuration associated to the robot ::
+                def init(self, world: pyenki.World) -> None:
+                    robot = pyenki.Thymio2()
+                    robot.angle = world.random_generator.uniform(-1, 1)
+                    world.add_object(robot)
 
-            import enki_env
+    2. define a configuration, e.g., the default configuration associated with the robot ::
 
             config = enki_env.ThymioConfig()
 
@@ -63,7 +65,7 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
 
         import gymnasium
 
-        env = gymnasium.make("Enki", scenario, config, max_duration=10)
+        env = gymnasium.make("Enki", MyScenario(), config, max_duration=10)
 
     """
 
