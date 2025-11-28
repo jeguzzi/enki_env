@@ -4,6 +4,8 @@ import dataclasses as dc
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, SupportsFloat, cast
 
+import numpy as np
+
 from .types import (Action, InfoFunction, Observation, Predictor,
                     RewardFunction, Termination)
 
@@ -112,7 +114,8 @@ class GroupConfig:
 
     def get_controller(self,
                        policy: Predictor,
-                       deterministic: bool = True) -> pyenki.Controller:
+                       deterministic: bool = True,
+                       cutoff: float = 0) -> pyenki.Controller:
         """
         Returns a controller, which can be assigned to a robot
         :py:attr:`pyenki.PhysicalObject.control_step_callback`,
@@ -121,12 +124,16 @@ class GroupConfig:
         :param policy       : The policy.
         :param deterministic: Whether to evaluate the policy
             deterministically.
+        :param cutoff       : When the absolute value of actions is below this threshold,
+            they will be set to zero.
         """
 
         def f(r: pyenki.PhysicalObject, dt: SupportsFloat) -> None:
             robot = cast('pyenki.DifferentialWheeled', r)
             obs = self.observation.get(robot)
             act, _ = policy.predict(obs, deterministic=deterministic)
+            if np.all(np.abs(act) < cutoff):
+                act *= 0
             self.action.actuate(act, robot, float(dt))
 
         return f
@@ -155,7 +162,8 @@ def make_agents(
 def setup_controllers(world: pyenki.World,
                       config: dict[str, GroupConfig],
                       policies: dict[str, Predictor],
-                      deterministic: bool = True) -> None:
+                      deterministic: bool = True,
+                      cutoff: float = 0) -> None:
     """
     Equips all robots in the world, with controllers that evaluate the selected policies,
     by matching the robot name with the keys of ``policies`` and ``config``.
@@ -165,9 +173,11 @@ def setup_controllers(world: pyenki.World,
     :param      policies:  A map of policies assigned to groups of robots.
     :param      deterministic: Whether to evaluate the policy
             deterministically.
+    :param cutoff       : When the absolute value of actions is below this threshold,
+        they will be set to zero.
     """
     configs = make_agents(world, config)
     for robot, name, conf in configs.values():
         if name in policies:
             robot.control_step_callback = conf.get_controller(
-                policies[name], deterministic=deterministic)
+                policies[name], deterministic=deterministic, cutoff=cutoff)

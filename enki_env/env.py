@@ -155,7 +155,8 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
     def make_world(self,
                    policy: Predictor | None = None,
                    seed: int = 0,
-                   deterministic: bool = True) -> pyenki.World:
+                   deterministic: bool = True,
+                   cutoff: float = 0) -> pyenki.World:
         """
         Generates a world using the scenario and, if specified,
         assign a policy to the robot controller.
@@ -164,19 +165,23 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
         :param      seed:    The random seed
         :param      deterministic: Whether to evaluate the policy
             deterministically.
+        :param cutoff       : When the absolute value of actions is below this threshold,
+            they will be set to zero.
 
         :returns:   The world
         """
         return cast('ParallelEnkiEnv',
                     self._penv).make_world({'': policy} if policy else {},
                                            seed=seed,
-                                           deterministic=deterministic)
+                                           deterministic=deterministic,
+                                           cutoff=cutoff)
 
     def rollout(self,
                 policy: Predictor | None = None,
                 max_steps: int = -1,
                 seed: int = 0,
-                deterministic: bool = True) -> Rollout:
+                deterministic: bool = True,
+                cutoff: float = 0) -> Rollout:
         """
         Performs the rollout of an episode
 
@@ -186,6 +191,8 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
         :param      seed:       The random seed.
         :param      deterministic: Whether to evaluate the policy
             deterministically.
+        :param cutoff       : When the absolute value of actions is below this threshold,
+            they will be set to zero.
 
         :returns:   The data collected during the rollout.
         """
@@ -193,7 +200,8 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
                   self._penv).rollout(policies={'': policy} if policy else {},
                                       max_steps=max_steps,
                                       seed=seed,
-                                      deterministic=deterministic)
+                                      deterministic=deterministic,
+                                      cutoff=cutoff)
         assert len(rs) == 1
         return next(iter(rs.values()))
 

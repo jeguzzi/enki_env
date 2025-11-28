@@ -542,7 +542,8 @@ class ParallelEnkiEnv(BaseParallelEnv):
     def make_world(self,
                    policies: dict[str, Predictor] = {},
                    seed: int = 0,
-                   deterministic: bool = True) -> pyenki.World:
+                   deterministic: bool = True,
+                   cutoff: float = 0) -> pyenki.World:
         """
         Generates a world using the scenario and
         assign a policy to the robot controllers for each group
@@ -552,12 +553,17 @@ class ParallelEnkiEnv(BaseParallelEnv):
         :param      seed:      The random seed.
         :param      deterministic: Whether to evaluate the policy
             deterministically.
+        :param cutoff       : When the absolute value of actions is below this threshold,
+            they will be set to zero.
 
         :returns:   The world
         """
         world = self._scenario(seed)
-        setup_controllers(world, self._config, policies,
-                          deterministic=deterministic)
+        setup_controllers(world,
+                          self._config,
+                          policies,
+                          deterministic=deterministic,
+                          cutoff=cutoff)
         return world
 
     # TODO(Jerome): seed action spaces
@@ -565,7 +571,8 @@ class ParallelEnkiEnv(BaseParallelEnv):
                 policies: Mapping[str, Predictor] = {},
                 max_steps: int = -1,
                 seed: int = 0,
-                deterministic: bool = True) -> dict[str, Rollout]:
+                deterministic: bool = True,
+                cutoff: float = 0) -> dict[str, Rollout]:
         """
         Performs a rollout of an episode
 
@@ -575,6 +582,8 @@ class ParallelEnkiEnv(BaseParallelEnv):
         :param      seed:       The random seed.
         :param      deterministic: Whether to evaluate the policies
             deterministically.
+        :param cutoff       : When the absolute value of actions is below this threshold,
+            they will be set to zero.
 
         :returns:   A dictionary, keyed by group, with
             the data collected during the rollout.
@@ -599,9 +608,12 @@ class ParallelEnkiEnv(BaseParallelEnv):
             for (agent, o) in obs.items():
                 policy = agent_policies[agent]
                 if policy:
-                    act[agent] = policy.predict(o, deterministic=deterministic)[0]
+                    act[agent] = policy.predict(o,
+                                                deterministic=deterministic)[0]
                 else:
                     act[agent] = self.action_spaces[agent].sample()
+                if cutoff > 0 and np.all(np.abs(act[agent]) < cutoff):
+                    act[agent] *= 0
             actions.append(act)
             obs, rew, term, trunc, info = self.step(act)
             observations.append(obs)
