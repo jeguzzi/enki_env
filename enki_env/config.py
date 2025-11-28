@@ -110,17 +110,23 @@ class GroupConfig:
     of :py:class:`enki_env.ParallelEnkiEnv`.
     """
 
-    def get_controller(self, policy: Predictor) -> pyenki.Controller:
+    def get_controller(self,
+                       policy: Predictor,
+                       deterministic: bool = True) -> pyenki.Controller:
         """
         Returns a controller, which can be assigned to a robot
         :py:attr:`pyenki.PhysicalObject.control_step_callback`,
         that actuates a policy.
+
+        :param policy       : The policy.
+        :param deterministic: Whether to evaluate the policy
+            deterministically.
         """
 
         def f(r: pyenki.PhysicalObject, dt: SupportsFloat) -> None:
             robot = cast('pyenki.DifferentialWheeled', r)
             obs = self.observation.get(robot)
-            act, _ = policy.predict(obs)
+            act, _ = policy.predict(obs, deterministic=deterministic)
             self.action.actuate(act, robot, float(dt))
 
         return f
@@ -146,8 +152,10 @@ def make_agents(
     return configs
 
 
-def setup_controllers(world: pyenki.World, config: dict[str, GroupConfig],
-                      policies: dict[str, Predictor]) -> None:
+def setup_controllers(world: pyenki.World,
+                      config: dict[str, GroupConfig],
+                      policies: dict[str, Predictor],
+                      deterministic: bool = True) -> None:
     """
     Equips all robots in the world, with controllers that evaluate the selected policies,
     by matching the robot name with the keys of ``policies`` and ``config``.
@@ -155,8 +163,11 @@ def setup_controllers(world: pyenki.World, config: dict[str, GroupConfig],
     :param      world:     The world
     :param      config:    A map of configurations assigned to groups of robots.
     :param      policies:  A map of policies assigned to groups of robots.
+    :param      deterministic: Whether to evaluate the policy
+            deterministically.
     """
     configs = make_agents(world, config)
     for robot, name, conf in configs.values():
         if name in policies:
-            robot.control_step_callback = conf.get_controller(policies[name])
+            robot.control_step_callback = conf.get_controller(
+                policies[name], deterministic=deterministic)

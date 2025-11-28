@@ -540,8 +540,9 @@ class ParallelEnkiEnv(BaseParallelEnv):
             del self._world_view
 
     def make_world(self,
-                   policies: dict[str, Predictor],
-                   seed: int = 0) -> pyenki.World:
+                   policies: dict[str, Predictor] = {},
+                   seed: int = 0,
+                   deterministic: bool = True) -> pyenki.World:
         """
         Generates a world using the scenario and
         assign a policy to the robot controllers for each group
@@ -549,18 +550,22 @@ class ParallelEnkiEnv(BaseParallelEnv):
 
         :param      policies:  The policies assigned to groups.
         :param      seed:      The random seed.
+        :param      deterministic: Whether to evaluate the policy
+            deterministically.
 
         :returns:   The world
         """
         world = self._scenario(seed)
-        setup_controllers(world, self._config, policies)
+        setup_controllers(world, self._config, policies,
+                          deterministic=deterministic)
         return world
 
     # TODO(Jerome): seed action spaces
     def rollout(self,
                 policies: Mapping[str, Predictor] = {},
                 max_steps: int = -1,
-                seed: int = 0) -> dict[str, Rollout]:
+                seed: int = 0,
+                deterministic: bool = True) -> dict[str, Rollout]:
         """
         Performs a rollout of an episode
 
@@ -568,6 +573,8 @@ class ParallelEnkiEnv(BaseParallelEnv):
             If a group misses a policy, it will randomly generate actions.
         :param      max_steps:  The maximum number of steps to perform.
         :param      seed:       The random seed.
+        :param      deterministic: Whether to evaluate the policies
+            deterministically.
 
         :returns:   A dictionary, keyed by group, with
             the data collected during the rollout.
@@ -592,7 +599,7 @@ class ParallelEnkiEnv(BaseParallelEnv):
             for (agent, o) in obs.items():
                 policy = agent_policies[agent]
                 if policy:
-                    act[agent] = policy.predict(o, deterministic=True)[0]
+                    act[agent] = policy.predict(o, deterministic=deterministic)[0]
                 else:
                     act[agent] = self.action_spaces[agent].sample()
             actions.append(act)

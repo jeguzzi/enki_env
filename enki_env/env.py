@@ -7,9 +7,9 @@ import gymnasium as gym
 from .config import GroupConfig
 from .parallel_env import ParallelEnkiEnv
 from .rollout import Rollout
+from .scenario import Scenario
 from .single_agent_env import SingleAgentEnv
 from .types import Action, Observation, Predictor
-from .scenario import Scenario
 
 if TYPE_CHECKING:
     import pyenki
@@ -154,24 +154,29 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
 
     def make_world(self,
                    policy: Predictor | None = None,
-                   seed: int = 0) -> pyenki.World:
+                   seed: int = 0,
+                   deterministic: bool = True) -> pyenki.World:
         """
         Generates a world using the scenario and, if specified,
         assign a policy to the robot controller.
 
         :param      policy:  The policy
         :param      seed:    The random seed
+        :param      deterministic: Whether to evaluate the policy
+            deterministically.
 
         :returns:   The world
         """
         return cast('ParallelEnkiEnv',
                     self._penv).make_world({'': policy} if policy else {},
-                                           seed=seed)
+                                           seed=seed,
+                                           deterministic=deterministic)
 
     def rollout(self,
                 policy: Predictor | None = None,
                 max_steps: int = -1,
-                seed: int = 0) -> Rollout:
+                seed: int = 0,
+                deterministic: bool = True) -> Rollout:
         """
         Performs the rollout of an episode
 
@@ -179,13 +184,16 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
             it will randomly generate actions.
         :param      max_steps:  The maximum number of steps to perform.
         :param      seed:       The random seed.
+        :param      deterministic: Whether to evaluate the policy
+            deterministically.
 
         :returns:   The data collected during the rollout.
         """
         rs = cast('ParallelEnkiEnv',
                   self._penv).rollout(policies={'': policy} if policy else {},
                                       max_steps=max_steps,
-                                      seed=seed)
+                                      seed=seed,
+                                      deterministic=deterministic)
         assert len(rs) == 1
         return next(iter(rs.values()))
 
