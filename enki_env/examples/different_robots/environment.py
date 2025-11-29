@@ -2,12 +2,13 @@ from typing import Any
 
 import numpy as np
 import pyenki
-
+import functools
 from ... import EPuckConfig, ParallelEnkiEnv, ThymioConfig
-from ..same_robots.environment import facing_each_other, reward
+from ..same_robots.environment import is_standing_in_front_of_other_robot, reward
 
 
-def scenario(seed: int, copy_rng_from: pyenki.World | None = None) -> pyenki.World:
+def scenario(seed: int,
+             copy_rng_from: pyenki.World | None = None) -> pyenki.World:
     world = pyenki.World(seed=seed)
     if copy_rng_from:
         world.copy_random_generator(copy_rng_from)
@@ -26,16 +27,19 @@ def scenario(seed: int, copy_rng_from: pyenki.World | None = None) -> pyenki.Wor
 
 
 def make_env(**kwargs: Any) -> ParallelEnkiEnv:
-    thymio_config = ThymioConfig(reward=reward,
-                                 terminations=[facing_each_other])
+    t = functools.partial(is_standing_in_front_of_other_robot,
+                          angle_tol=0.1,
+                          speed_tol=2)
+    thymio_config = ThymioConfig(reward=reward, terminations=[t])
     thymio_config.action.fix_position = True
     thymio_config.action.dtype = np.float32
+    thymio_config.observation.speed = True
     thymio_config.observation.dtype = np.float32
-    epuck_config = EPuckConfig(reward=reward,
-                               terminations=[facing_each_other])
+    epuck_config = EPuckConfig(reward=reward, terminations=[t])
     epuck_config.action.fix_position = True
     epuck_config.action.dtype = np.float32
     epuck_config.observation.dtype = np.float32
+    epuck_config.observation.speed = True
     config = {'thymio': thymio_config, 'e-puck': epuck_config}
     env = ParallelEnkiEnv(scenario=scenario,
                           config=config,

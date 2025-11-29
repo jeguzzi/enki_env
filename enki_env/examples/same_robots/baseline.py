@@ -19,22 +19,25 @@ class Baseline:
 
     @property
     def observation_space(self) -> gym.Space[Any]:
-        return gym.spaces.Dict(
-            {'prox/value': gym.spaces.Box(0, 1, (7, ), dtype=np.float64)})
+        return gym.spaces.Dict({
+            'prox/value':
+            gym.spaces.Box(0, 1, (7, ), dtype=np.float64),
+            'wheel_speeds':
+            gym.spaces.Box(-1.0, 1.0, (2, ), dtype=np.float64)
+        })
 
     def predict(self,
                 observation: Observation,
                 state: State | None = None,
                 episode_start: EpisodeStart | None = None,
                 deterministic: bool = False) -> tuple[Action, State | None]:
-        prox = observation['prox/value']
-        if any(prox > 0):
-            prox = prox / np.max(prox)
-            ws = np.array((0.5, 0.25, 0, -0.25, -0.5, 1, 1))
-            w = np.dot(ws, prox)
-        else:
-            w = 1
-        return np.clip([w], -1, 1), None
+        prox = np.atleast_2d(np.array(observation['prox/value']))
+        m = np.max(prox, axis=-1)
+        prox[m > 0] /= m[:, np.newaxis][m > 0]
+        ws = np.array([(0.5, 0.25, 0, -0.25, -0.5, 1, 1)])
+        w = np.tensordot(prox, ws, axes=([1], [1]))
+        w[m == 0] = 1
+        return np.clip(w, -1, 1), None
 
 
 if __name__ == '__main__':

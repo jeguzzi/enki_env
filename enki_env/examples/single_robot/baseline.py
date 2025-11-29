@@ -20,8 +20,12 @@ class Baseline:
 
     @property
     def observation_space(self) -> gym.Space[Any]:
-        return gym.spaces.Dict(
-            {'prox/value': gym.spaces.Box(0, 1, (7, ), dtype=np.float64)})
+        return gym.spaces.Dict({
+            'prox/value':
+            gym.spaces.Box(0, 1, (7, ), dtype=np.float64),
+            'wheel_speeds':
+            gym.spaces.Box(-1.0, 1.0, (2, ), dtype=np.float64)
+        })
 
     def predict(self,
                 observation: Observation,
@@ -29,10 +33,9 @@ class Baseline:
                 episode_start: EpisodeStart | None = None,
                 deterministic: bool = False) -> tuple[Action, State | None]:
         prox = observation['prox/value']
-        if any(prox[:5] > 0):
-            w = 0.25 * (prox[0] + 2 * prox[1] - 2 * prox[3] - prox[4])
-        else:
-            w = 1
+        prox = np.atleast_2d(prox)
+        w = 0.25 * (prox[:, 0] + 2 * prox[:, 1] - 2 * prox[:, 3] - prox[:, 4])
+        w[np.all(prox[:, :5] == 0, axis=-1)] = 1
         return np.clip([w], -1, 1), None
 
 
@@ -46,7 +49,9 @@ if __name__ == '__main__':
     policy = Baseline()
     for i in range(10):
         data = cast('EnkiEnv', env.unwrapped).rollout(policy, seed=i)
-        print(f'episode {i}: reward={data.episode_reward:.1f}, steps={data.episode_length}, '
-              f'success={data.episode_success[0] if data.episode_success else "?"}')
+        print(
+            f'episode {i}: reward={data.episode_reward:.1f}, steps={data.episode_length}, '
+            f'success={data.episode_success[0] if data.episode_success is not None else "?"}'
+        )
     if display:
         pyenki.viewer.cleanup()

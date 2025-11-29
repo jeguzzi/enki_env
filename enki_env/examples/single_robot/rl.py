@@ -19,7 +19,7 @@ def train() -> Predictor:
 
     env = make_env()
     model = SAC("MultiInputPolicy", env, verbose=1)
-    model.learn(total_timesteps=20_000, log_interval=50, progress_bar=True)
+    model.learn(total_timesteps=5_000, log_interval=50, progress_bar=True)
     path = pl.Path(__file__).parent / "sac"
     model.save(path)
     export(model.policy, path.with_suffix(".onnx"))
@@ -42,7 +42,7 @@ if __name__ == '__main__':
         data = cast('EnkiEnv', env.unwrapped).rollout(policy, seed=i)
         print(
             f'episode {i}: reward={data.episode_reward:.1f}, steps={data.episode_length}, '
-            f'success={data.episode_success[0] if data.episode_success else "?"}'
+            f'success={data.episode_success[0] if data.episode_success is not None else "?"}'
         )
     if display:
         pyenki.viewer.cleanup()

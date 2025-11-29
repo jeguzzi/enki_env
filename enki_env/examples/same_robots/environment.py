@@ -6,7 +6,7 @@ import numpy as np
 import pyenki
 
 from ... import ParallelEnkiEnv, ThymioConfig
-from ..utils import normalize_angle, is_still
+from ..utils import is_still, normalize_angle
 
 
 def scenario(seed: int,
@@ -37,13 +37,11 @@ def is_facing(robot: pyenki.Robot,
     return abs(normalize_angle(robot.angle - angle)) < tol
 
 
-def facing_each_other(robot: pyenki.DifferentialWheeled) -> bool | None:
-    # r1, r2 = world.robots
-    # if (is_facing(r1, r2) and is_facing(r2, r1) and is_still(r1)
-    #         and is_still(r2)):
-    #     return True
+def is_standing_in_front_of_other_robot(robot: pyenki.DifferentialWheeled,
+                                        angle_tol: float = 0.05,
+                                        speed_tol: float = 1) -> bool | None:
     other = [r for r in robot.world.robots if r is not robot][0]
-    if is_facing(robot, other, 0.1) and is_still(robot, 2):
+    if is_facing(robot, other, angle_tol) and is_still(robot, speed_tol):
         return True
     return None
 
@@ -54,13 +52,15 @@ def reward(robot: pyenki.DifferentialWheeled, success: bool | None) -> float:
     angle = np.arctan2(delta[1], delta[0])
     d = abs(normalize_angle(robot.angle - angle))
     w = max(0, 0.5 - d) * 0.2
+    # w = 0.1
     speeds = abs(robot.left_wheel_encoder_speed) + abs(
         robot.right_wheel_encoder_speed)
     return (0 if success else -1) - d - w * speeds
 
 
 def make_env(**kwargs: Any) -> ParallelEnkiEnv:
-    config = ThymioConfig(reward=reward, terminations=[facing_each_other])
+    config = ThymioConfig(reward=reward,
+                          terminations=[is_standing_in_front_of_other_robot])
     config.action.fix_position = True
     config.observation.speed = True
     env = ParallelEnkiEnv(scenario=scenario,

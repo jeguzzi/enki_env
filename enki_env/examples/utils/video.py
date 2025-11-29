@@ -25,7 +25,7 @@ def make_video(env: Any,
     videos = []
     for seed in range(number):
         for policy, init in configs:
-            world = env.unwrapped.make_world(policy, seed=seed)
+            world = env.unwrapped.make_world(policy, seed=seed, cutoff=0.0)
             init(world)
             videos.append(
                 make_video(world,

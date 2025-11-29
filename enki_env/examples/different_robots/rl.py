@@ -39,7 +39,7 @@ def train() -> Mapping[str, Predictor]:
                          model_config=model,
                          algorithm_config=algorithm,
                          seed=0)
-    exp.run_for(30)
+    exp.run_for(20)
     exp.export_policies(pl.Path(__file__).parent, name="masac")
     return exp.get_single_agent_policies()
 
@@ -67,8 +67,10 @@ if __name__ == '__main__':
         rs = env.rollout(policies, seed=i)
         print(f'episode {i}:')
         for group, data in rs.items():
-            print(f'  -{group}: reward={data.episode_reward:.1f}, '
-                  f'steps={data.episode_length}, '
-                  f'success={data.episode_success[0] if data.episode_success else "?"}')
+            print(
+                f'  -{group}: reward={data.episode_reward:.1f}, '
+                f'steps={data.episode_length}, '
+                f'success={data.episode_success[0] if data.episode_success is not None else "?"}'
+            )
     if display:
         pyenki.viewer.cleanup()

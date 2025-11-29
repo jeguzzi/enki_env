@@ -53,10 +53,11 @@ def reward(robot: pyenki.DifferentialWheeled, success: bool | None) -> float:
 def make_env(**kwargs: Any) -> BaseEnv:
     config = ThymioConfig(reward=reward,
                           terminations=[
-                              is_standing_in_front_of_wall(angle_tol=0.1,
-                                                           speed_tol=5)
+                              is_standing_in_front_of_wall(angle_tol=0.05,
+                                                           speed_tol=1)
                           ])
     config.action.fix_position = True
+    config.observation.speed = True
     env = gym.make("Enki",
                    max_duration=2,
                    scenario=scenario,

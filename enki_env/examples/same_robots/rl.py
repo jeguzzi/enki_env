@@ -20,7 +20,9 @@ def make_venv(env: BaseParallelEnv,
               processes: int = 1,
               black_death: bool = False,
               seed: int = 0,
-              monitor: bool = True) -> VecEnv:
+              monitor: bool = True,
+              monitor_keywords: tuple[str] = ("is_success", )
+              ) -> VecEnv:
 
     import supersuit
     from stable_baselines3.common.vec_env import VecMonitor
@@ -33,7 +35,7 @@ def make_venv(env: BaseParallelEnv,
     for i, env in enumerate(venv.venv.vec_envs):
         env.reset(seed + i)
     if monitor:
-        venv = VecMonitor(venv)
+        venv = VecMonitor(venv, info_keywords=monitor_keywords)
     return cast('VecEnv', venv)
 
 
@@ -44,7 +46,7 @@ def train() -> Predictor:
 
     venv = make_venv(make_env())
     model = SAC("MultiInputPolicy", venv, verbose=1)
-    model.learn(total_timesteps=300_000, log_interval=50, progress_bar=True)
+    model.learn(total_timesteps=15_000, log_interval=50, progress_bar=True)
     path = pl.Path(__file__).parent / "sac"
     model.save(path)
     export(model.policy, path.with_suffix(".onnx"))
@@ -67,7 +69,7 @@ if __name__ == '__main__':
         data = env.rollout({'': policy}, seed=i)['thymio']
         print(
             f'episode {i}: reward={data.episode_reward:.1f}, steps={data.episode_length}, '
-            f'success={data.episode_success[0] if data.episode_success else "?"}'
+            f'success={data.episode_success[0] if data.episode_success is not None else "?"}'
         )
     if display:
         pyenki.viewer.cleanup()
