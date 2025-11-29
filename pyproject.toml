@@ -9,6 +9,7 @@ dependencies = [
   "gymnasium",
   "pettingzoo"
 ]
+version = "0.2.0"
 
 requires-python = ">=3.10"
 authors = [
@@ -25,7 +26,7 @@ classifiers = [
   # "Development Status :: 4 - Beta",
   "Programming Language :: Python"
 ]
-dynamic = ["version"]
+# dynamic = ["version"]
 
 [project.optional-dependencies]
 all = []

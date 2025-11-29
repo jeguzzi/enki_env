@@ -11,7 +11,7 @@ from sphinx.addnodes import pending_xref
 project = 'enki_env'
 copyright = '2025, Jerome Guzzi'
 author = 'Jerome Guzzi'
-release = '0.1.0'
+release = '0.2.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
