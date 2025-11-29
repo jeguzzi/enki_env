@@ -150,14 +150,16 @@
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../types.html">Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scenario.html">Scenario</a></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="base.html">Base classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="action.html">Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="observation.html">Observations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reward.html">Rewards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="info.html">Information</a></li>
 <li class="toctree-l3"><a class="reference internal" href="group.html">Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="epuck.html">EPuck</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">Marxbot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="thymio.html">Thymio</a></li>
-<li class="toctree-l3"><a class="reference internal" href="rewards.html">Rewards</a></li>
-<li class="toctree-l3"><a class="reference internal" href="info.html">Information</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="../rollout.html">Rollout</a></li>
@@ -346,7 +348,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="enki_env.MarxbotAction">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.</span></span><span class="sig-name descname"><span class="pre">MarxbotAction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_speed:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_acceleration:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_orientation:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fix_position:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acceleration:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype:</span> <span class="pre">type[~numpy.floating[~Any]]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.float64'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#enki_env.MarxbotAction" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="base.html#enki_env.robots.DifferentialDriveAction" title="enki_env.robots.DifferentialDriveAction"><code class="xref py py-class docutils literal notranslate"><span class="pre">DifferentialDriveAction</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="action.html#enki_env.robots.DifferentialDriveAction" title="enki_env.robots.DifferentialDriveAction"><code class="xref py py-class docutils literal notranslate"><span class="pre">DifferentialDriveAction</span></code></a></p>
 <p>The action configuration for <a class="reference external" href="https://jeguzzi.github.io/enki/api/marxbot.html#pyenki.Marxbot" title="(in pyenki)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyenki.Marxbot</span></code></a>.</p>
 <p>Sets by default <code class="docutils literal notranslate"><span class="pre">max_speed=30</span></code>.</p>
 </dd></dl>
@@ -357,7 +359,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="enki_env.MarxbotObservation">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.</span></span><span class="sig-name descname"><span class="pre">MarxbotObservation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_speed:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype:</span> <span class="pre">type[~numpy.floating[~Any]]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.float64'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">camera:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scanner:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_scanner_range:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#enki_env.MarxbotObservation" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="base.html#enki_env.robots.DifferentialDriveObservation" title="enki_env.robots.DifferentialDriveObservation"><code class="xref py py-class docutils literal notranslate"><span class="pre">DifferentialDriveObservation</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="observation.html#enki_env.robots.DifferentialDriveObservation" title="enki_env.robots.DifferentialDriveObservation"><code class="xref py py-class docutils literal notranslate"><span class="pre">DifferentialDriveObservation</span></code></a></p>
 <p>The observation configuration for <a class="reference external" href="https://jeguzzi.github.io/enki/api/marxbot.html#pyenki.Marxbot" title="(in pyenki)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyenki.Marxbot</span></code></a>.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">normalize=True</span></code>, scanner readings are re-scaled to [0, 1]
 using <code class="docutils literal notranslate"><span class="pre">max_scanner_range</span></code>.</p>

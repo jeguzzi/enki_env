@@ -149,14 +149,16 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="reference/index.html">Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="reference/types.html">Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/scenario.html">Scenario</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="reference/configuration/index.html">Configuration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="reference/configuration/base.html">Base classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration/action.html">Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration/observation.html">Observations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration/reward.html">Rewards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration/info.html">Information</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/configuration/group.html">Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/configuration/epuck.html">EPuck</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/configuration/marxbot.html">Marxbot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/configuration/thymio.html">Thymio</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/configuration/rewards.html">Rewards</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/configuration/info.html">Information</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="reference/rollout.html">Rollout</a></li>
@@ -273,6 +275,7 @@
 <div class="genindex-jumpbox">
  <a href="#_"><strong>_</strong></a>
  | <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
@@ -288,19 +291,22 @@
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
  
 </div>
 <h2 id="_">_</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/types.html#enki_env.types.InfoFunction.__call__">__call__() (enki_env.types.InfoFunction method)</a>
+      <li><a href="reference/scenario.html#enki_env.BaseScenario.__call__">__call__() (enki_env.BaseScenario method)</a>
 
       <ul>
+        <li><a href="reference/configuration/info.html#enki_env.info.InfoFunction.__call__">(enki_env.info.InfoFunction method)</a>
+</li>
+        <li><a href="reference/configuration/reward.html#enki_env.reward.RewardFunction.__call__">(enki_env.reward.RewardFunction method)</a>
+</li>
+        <li><a href="reference/scenario.html#enki_env.Scenario.__call__">(enki_env.Scenario method)</a>
+</li>
         <li><a href="reference/types.html#enki_env.types.PyTorchPolicy.__call__">(enki_env.types.PyTorchPolicy method)</a>
-</li>
-        <li><a href="reference/types.html#enki_env.types.RewardFunction.__call__">(enki_env.types.RewardFunction method)</a>
-</li>
-        <li><a href="reference/types.html#enki_env.types.Scenario.__call__">(enki_env.types.Scenario method)</a>
 </li>
         <li><a href="reference/types.html#enki_env.types.Termination.__call__">(enki_env.types.Termination method)</a>
 </li>
@@ -319,7 +325,7 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/configuration/base.html#enki_env.robots.DifferentialDriveAction.acceleration">acceleration (enki_env.robots.DifferentialDriveAction attribute)</a>
+      <li><a href="reference/configuration/action.html#enki_env.robots.DifferentialDriveAction.acceleration">acceleration (enki_env.robots.DifferentialDriveAction attribute)</a>
 </li>
       <li><a href="reference/configuration/group.html#enki_env.GroupConfig.action">action (enki_env.GroupConfig attribute)</a>
 
@@ -327,15 +333,29 @@
         <li><a href="reference/rollout.html#enki_env.rollout.Rollout.action">(enki_env.rollout.Rollout attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/types.html#enki_env.types.Action">Action (in module enki_env.types)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/types.html#enki_env.types.Predictor.action_space">action_space (enki_env.types.Predictor property)</a>
 </li>
-      <li><a href="reference/configuration/base.html#enki_env.config.ActionConfig">ActionConfig (class in enki_env.config)</a>
+      <li><a href="reference/configuration/action.html#enki_env.config.ActionConfig">ActionConfig (class in enki_env.config)</a>
 </li>
-      <li><a href="reference/configuration/base.html#enki_env.config.ActionConfig.actuate">actuate() (enki_env.config.ActionConfig method)</a>
+      <li><a href="reference/configuration/action.html#enki_env.config.ActionConfig.actuate">actuate() (enki_env.config.ActionConfig method)</a>
+</li>
+      <li><a href="reference/types.html#enki_env.types.Array">Array (in module enki_env.types)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/scenario.html#enki_env.BaseScenario">BaseScenario (class in enki_env)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/types.html#enki_env.types.BoolArray">BoolArray (in module enki_env.types)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -353,7 +373,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/environments/single.html#enki_env.EnkiEnv.config">config (enki_env.EnkiEnv property)</a>
 </li>
-      <li><a href="reference/configuration/rewards.html#enki_env.reward.ConstReward">ConstReward (class in enki_env.reward)</a>
+      <li><a href="reference/configuration/reward.html#enki_env.reward.ConstReward">ConstReward (class in enki_env.reward)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -361,9 +381,9 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/configuration/base.html#enki_env.robots.DifferentialDriveAction">DifferentialDriveAction (class in enki_env.robots)</a>
+      <li><a href="reference/configuration/action.html#enki_env.robots.DifferentialDriveAction">DifferentialDriveAction (class in enki_env.robots)</a>
 </li>
-      <li><a href="reference/configuration/base.html#enki_env.robots.DifferentialDriveObservation">DifferentialDriveObservation (class in enki_env.robots)</a>
+      <li><a href="reference/configuration/observation.html#enki_env.robots.DifferentialDriveObservation">DifferentialDriveObservation (class in enki_env.robots)</a>
 </li>
       <li><a href="reference/environments/single.html#enki_env.EnkiEnv.display_in_notebook">display_in_notebook() (enki_env.EnkiEnv method)</a>
 
@@ -373,10 +393,10 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/configuration/base.html#enki_env.robots.DifferentialDriveAction.dtype">dtype (enki_env.robots.DifferentialDriveAction attribute)</a>
+      <li><a href="reference/configuration/action.html#enki_env.robots.DifferentialDriveAction.dtype">dtype (enki_env.robots.DifferentialDriveAction attribute)</a>
 
       <ul>
-        <li><a href="reference/configuration/base.html#enki_env.robots.DifferentialDriveObservation.dtype">(enki_env.robots.DifferentialDriveObservation attribute)</a>
+        <li><a href="reference/configuration/observation.html#enki_env.robots.DifferentialDriveObservation.dtype">(enki_env.robots.DifferentialDriveObservation attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -411,11 +431,13 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/configuration/base.html#enki_env.robots.DifferentialDriveAction.fix_orientation">fix_orientation (enki_env.robots.DifferentialDriveAction attribute)</a>
+      <li><a href="reference/configuration/reward.html#enki_env.reward.ConstReward.failure_value">failure_value (enki_env.reward.ConstReward attribute)</a>
+</li>
+      <li><a href="reference/configuration/action.html#enki_env.robots.DifferentialDriveAction.fix_orientation">fix_orientation (enki_env.robots.DifferentialDriveAction attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/configuration/base.html#enki_env.robots.DifferentialDriveAction.fix_position">fix_position (enki_env.robots.DifferentialDriveAction attribute)</a>
+      <li><a href="reference/configuration/action.html#enki_env.robots.DifferentialDriveAction.fix_position">fix_position (enki_env.robots.DifferentialDriveAction attribute)</a>
 </li>
       <li><a href="reference/types.html#enki_env.types.PyTorchPolicy.forward">forward() (enki_env.types.PyTorchPolicy method)</a>
 </li>
@@ -425,10 +447,10 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/configuration/base.html#enki_env.config.ObservationConfig.get">get() (enki_env.config.ObservationConfig method)</a>
+      <li><a href="reference/configuration/observation.html#enki_env.config.ObservationConfig.get">get() (enki_env.config.ObservationConfig method)</a>
 
       <ul>
-        <li><a href="reference/configuration/base.html#enki_env.robots.DifferentialDriveObservation.get">(enki_env.robots.DifferentialDriveObservation method)</a>
+        <li><a href="reference/configuration/observation.html#enki_env.robots.DifferentialDriveObservation.get">(enki_env.robots.DifferentialDriveObservation method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -455,7 +477,9 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/types.html#enki_env.types.Info">Info (in module enki_env.types)</a>
 </li>
-      <li><a href="reference/types.html#enki_env.types.InfoFunction">InfoFunction (protocol in enki_env.types)</a>
+      <li><a href="reference/configuration/info.html#enki_env.info.InfoFunction">InfoFunction (protocol in enki_env.info)</a>
+</li>
+      <li><a href="reference/scenario.html#enki_env.BaseScenario.init">init() (enki_env.BaseScenario method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -471,6 +495,8 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/scenario.html#enki_env.BaseScenario.make">make() (enki_env.BaseScenario method)</a>
+</li>
       <li><a href="reference/environments/single.html#enki_env.EnkiEnv.make_world">make_world() (enki_env.EnkiEnv method)</a>
 
       <ul>
@@ -487,7 +513,7 @@
 </li>
       <li><a href="reference/rollout.html#enki_env.rollout.Rollout.masked_reward">masked_reward (enki_env.rollout.Rollout property)</a>
 </li>
-      <li><a href="reference/configuration/base.html#enki_env.robots.DifferentialDriveAction.max_acceleration">max_acceleration (enki_env.robots.DifferentialDriveAction attribute)</a>
+      <li><a href="reference/configuration/action.html#enki_env.robots.DifferentialDriveAction.max_acceleration">max_acceleration (enki_env.robots.DifferentialDriveAction attribute)</a>
 </li>
       <li><a href="reference/configuration/thymio.html#enki_env.ThymioObservation.max_proximity_comm_intensity">max_proximity_comm_intensity (enki_env.ThymioObservation attribute)</a>
 </li>
@@ -524,9 +550,9 @@
       <ul>
         <li><a href="reference/configuration/marxbot.html#enki_env.MarxbotObservation.max_speed">(enki_env.MarxbotObservation attribute)</a>
 </li>
-        <li><a href="reference/configuration/base.html#enki_env.robots.DifferentialDriveAction.max_speed">(enki_env.robots.DifferentialDriveAction attribute)</a>
+        <li><a href="reference/configuration/action.html#enki_env.robots.DifferentialDriveAction.max_speed">(enki_env.robots.DifferentialDriveAction attribute)</a>
 </li>
-        <li><a href="reference/configuration/base.html#enki_env.robots.DifferentialDriveObservation.max_speed">(enki_env.robots.DifferentialDriveObservation attribute)</a>
+        <li><a href="reference/configuration/observation.html#enki_env.robots.DifferentialDriveObservation.max_speed">(enki_env.robots.DifferentialDriveObservation attribute)</a>
 </li>
         <li><a href="reference/configuration/thymio.html#enki_env.ThymioAction.max_speed">(enki_env.ThymioAction attribute)</a>
 </li>
@@ -539,7 +565,7 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/configuration/base.html#enki_env.robots.DifferentialDriveObservation.normalize">normalize (enki_env.robots.DifferentialDriveObservation attribute)</a>
+      <li><a href="reference/configuration/observation.html#enki_env.robots.DifferentialDriveObservation.normalize">normalize (enki_env.robots.DifferentialDriveObservation attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -559,7 +585,7 @@
 </li>
       <li><a href="reference/types.html#enki_env.types.Predictor.observation_space">observation_space (enki_env.types.Predictor property)</a>
 </li>
-      <li><a href="reference/configuration/base.html#enki_env.config.ObservationConfig">ObservationConfig (class in enki_env.config)</a>
+      <li><a href="reference/configuration/observation.html#enki_env.config.ObservationConfig">ObservationConfig (class in enki_env.config)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -619,7 +645,7 @@
         <li><a href="reference/rollout.html#enki_env.rollout.Rollout.reward">(enki_env.rollout.Rollout attribute)</a>
 </li>
       </ul></li>
-      <li><a href="reference/types.html#enki_env.types.RewardFunction">RewardFunction (protocol in enki_env.types)</a>
+      <li><a href="reference/configuration/reward.html#enki_env.reward.RewardFunction">RewardFunction (protocol in enki_env.reward)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -645,23 +671,25 @@
         <li><a href="reference/configuration/marxbot.html#enki_env.MarxbotObservation.scanner">(enki_env.MarxbotObservation attribute)</a>
 </li>
       </ul></li>
-      <li><a href="reference/types.html#enki_env.types.Scenario">Scenario (protocol in enki_env.types)</a>
+      <li><a href="reference/scenario.html#enki_env.Scenario">Scenario (protocol in enki_env)</a>
 </li>
       <li><a href="reference/configuration/group.html#enki_env.setup_controllers">setup_controllers() (in module enki_env)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/configuration/base.html#enki_env.config.ActionConfig.space">space (enki_env.config.ActionConfig property)</a>
+      <li><a href="reference/configuration/action.html#enki_env.config.ActionConfig.space">space (enki_env.config.ActionConfig property)</a>
 
       <ul>
-        <li><a href="reference/configuration/base.html#enki_env.config.ObservationConfig.space">(enki_env.config.ObservationConfig property)</a>
+        <li><a href="reference/configuration/observation.html#enki_env.config.ObservationConfig.space">(enki_env.config.ObservationConfig property)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/environments/multi.html#enki_env.ParallelEnkiEnv.spec">spec (enki_env.ParallelEnkiEnv property)</a>
 </li>
-      <li><a href="reference/configuration/base.html#enki_env.robots.DifferentialDriveObservation.speed">speed (enki_env.robots.DifferentialDriveObservation attribute)</a>
+      <li><a href="reference/configuration/observation.html#enki_env.robots.DifferentialDriveObservation.speed">speed (enki_env.robots.DifferentialDriveObservation attribute)</a>
 </li>
       <li><a href="reference/types.html#enki_env.types.State">State (in module enki_env.types)</a>
+</li>
+      <li><a href="reference/configuration/reward.html#enki_env.reward.ConstReward.success_value">success_value (enki_env.reward.ConstReward attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -683,6 +711,8 @@
 </li>
       <li><a href="reference/rollout.html#enki_env.rollout.Rollout.truncation">truncation (enki_env.rollout.Rollout attribute)</a>
 </li>
+      <li><a href="reference/configuration/info.html#enki_env.info.twist_info">twist_info() (in module enki_env.info)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -693,7 +723,15 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/configuration/rewards.html#enki_env.reward.ConstReward.value">value (enki_env.reward.ConstReward attribute)</a>
+      <li><a href="reference/configuration/reward.html#enki_env.reward.ConstReward.value">value (enki_env.reward.ConstReward attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/configuration/info.html#enki_env.info.wheel_info">wheel_info() (in module enki_env.info)</a>
 </li>
   </ul></td>
 </tr></table>

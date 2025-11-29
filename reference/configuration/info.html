@@ -47,8 +47,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/configuration/info';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Rollout" href="../rollout.html" />
-    <link rel="prev" title="Rewards" href="rewards.html" />
+    <link rel="next" title="Group" href="group.html" />
+    <link rel="prev" title="Rewards" href="reward.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -150,14 +150,16 @@
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../types.html">Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scenario.html">Scenario</a></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="base.html">Base classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="action.html">Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="observation.html">Observations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reward.html">Rewards</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Information</a></li>
 <li class="toctree-l3"><a class="reference internal" href="group.html">Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="epuck.html">EPuck</a></li>
 <li class="toctree-l3"><a class="reference internal" href="marxbot.html">Marxbot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="thymio.html">Thymio</a></li>
-<li class="toctree-l3"><a class="reference internal" href="rewards.html">Rewards</a></li>
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">Information</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="../rollout.html">Rollout</a></li>
@@ -314,7 +316,13 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.info.InfoFunction"><code class="docutils literal notranslate"><span class="pre">InfoFunction</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.info.InfoFunction.__call__"><code class="docutils literal notranslate"><span class="pre">InfoFunction.__call__()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.info.pose_info"><code class="docutils literal notranslate"><span class="pre">pose_info()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.info.twist_info"><code class="docutils literal notranslate"><span class="pre">twist_info()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.info.wheel_info"><code class="docutils literal notranslate"><span class="pre">wheel_info()</span></code></a></li>
 </ul>
             </nav>
         </div>
@@ -328,11 +336,45 @@
                   
   <section id="information">
 <h1>Information<a class="headerlink" href="#information" title="Link to this heading">#</a></h1>
+<dl class="py class protocol">
+<dt class="sig sig-object py" id="enki_env.info.InfoFunction">
+<em class="property"><span class="pre">protocol</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.info.</span></span><span class="sig-name descname"><span class="pre">InfoFunction</span></span><a class="headerlink" href="#enki_env.info.InfoFunction" title="Link to this definition">#</a></dt>
+<dd><p>A callable that generates extra information at each step of the
+environment.</p>
+<p>Classes that implement this protocol must have the following methods / attributes:</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="enki_env.info.InfoFunction.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/base.html#pyenki.DifferentialWheeled" title="(in pyenki)"><span class="pre">pyenki.DifferentialWheeled</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../types.html#enki_env.types.Info" title="enki_env.types.Info"><span class="pre">Info</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#enki_env.info.InfoFunction.__call__" title="Link to this definition">#</a></dt>
+<dd><p>Adds information related to a robot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>robot</strong> – The robot.</p></li>
+<li><p><strong>info</strong> – The information dictionary.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="enki_env.info.pose_info">
-<span class="sig-prename descclassname"><span class="pre">enki_env.info.</span></span><span class="sig-name descname"><span class="pre">pose_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/base.html#pyenki.DifferentialWheeled" title="(in pyenki)"><span class="pre">pyenki.DifferentialWheeled</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World" title="(in pyenki)"><span class="pre">pyenki.World</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../types.html#enki_env.types.Info" title="enki_env.types.Info"><span class="pre">Info</span></a></span></span><a class="headerlink" href="#enki_env.info.pose_info" title="Link to this definition">#</a></dt>
-<dd><p>Returns an information dictionary with the robot position
-in key <code class="docutils literal notranslate"><span class="pre">&quot;position&quot;</span></code> and the robot orientation in key <code class="docutils literal notranslate"><span class="pre">&quot;angle&quot;</span></code>.</p>
+<span class="sig-prename descclassname"><span class="pre">enki_env.info.</span></span><span class="sig-name descname"><span class="pre">pose_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/base.html#pyenki.DifferentialWheeled" title="(in pyenki)"><span class="pre">pyenki.DifferentialWheeled</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../types.html#enki_env.types.Info" title="enki_env.types.Info"><span class="pre">Info</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#enki_env.info.pose_info" title="Link to this definition">#</a></dt>
+<dd><p>Adds the robot position in key <code class="docutils literal notranslate"><span class="pre">&quot;position&quot;</span></code> and the robot orientation in key <code class="docutils literal notranslate"><span class="pre">&quot;angle&quot;</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="enki_env.info.twist_info">
+<span class="sig-prename descclassname"><span class="pre">enki_env.info.</span></span><span class="sig-name descname"><span class="pre">twist_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/base.html#pyenki.DifferentialWheeled" title="(in pyenki)"><span class="pre">pyenki.DifferentialWheeled</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../types.html#enki_env.types.Info" title="enki_env.types.Info"><span class="pre">Info</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#enki_env.info.twist_info" title="Link to this definition">#</a></dt>
+<dd><p>Adds the robot velocity in key <code class="docutils literal notranslate"><span class="pre">&quot;velocity&quot;</span></code> and the angular speed
+in key <code class="docutils literal notranslate"><span class="pre">&quot;angular_speed&quot;</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="enki_env.info.wheel_info">
+<span class="sig-prename descclassname"><span class="pre">enki_env.info.</span></span><span class="sig-name descname"><span class="pre">wheel_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/base.html#pyenki.DifferentialWheeled" title="(in pyenki)"><span class="pre">pyenki.DifferentialWheeled</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../types.html#enki_env.types.Info" title="enki_env.types.Info"><span class="pre">Info</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#enki_env.info.wheel_info" title="Link to this definition">#</a></dt>
+<dd><p>Adds the <code class="docutils literal notranslate"><span class="pre">[left,</span> <span class="pre">right]</span></code> wheel speeds in key <code class="docutils literal notranslate"><span class="pre">&quot;wheel_speeds&quot;</span></code>.</p>
 </dd></dl>
 
 </section>
@@ -349,7 +391,7 @@ in key <code class="docutils literal notranslate"><span class="pre">&quot;positi
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="rewards.html"
+       href="reward.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
@@ -358,11 +400,11 @@ in key <code class="docutils literal notranslate"><span class="pre">&quot;positi
       </div>
     </a>
     <a class="right-next"
-       href="../rollout.html"
+       href="group.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Rollout</p>
+        <p class="prev-next-title">Group</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -383,7 +425,13 @@ in key <code class="docutils literal notranslate"><span class="pre">&quot;positi
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.info.InfoFunction"><code class="docutils literal notranslate"><span class="pre">InfoFunction</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.info.InfoFunction.__call__"><code class="docutils literal notranslate"><span class="pre">InfoFunction.__call__()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.info.pose_info"><code class="docutils literal notranslate"><span class="pre">pose_info()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.info.twist_info"><code class="docutils literal notranslate"><span class="pre">twist_info()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.info.wheel_info"><code class="docutils literal notranslate"><span class="pre">wheel_info()</span></code></a></li>
 </ul>
   </nav></div>
 

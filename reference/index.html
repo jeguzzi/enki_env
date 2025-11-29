@@ -150,14 +150,16 @@
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="types.html">Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scenario.html">Scenario</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="configuration/index.html">Configuration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="configuration/base.html">Base classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration/action.html">Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration/observation.html">Observations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration/reward.html">Rewards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration/info.html">Information</a></li>
 <li class="toctree-l3"><a class="reference internal" href="configuration/group.html">Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="configuration/epuck.html">EPuck</a></li>
 <li class="toctree-l3"><a class="reference internal" href="configuration/marxbot.html">Marxbot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="configuration/thymio.html">Thymio</a></li>
-<li class="toctree-l3"><a class="reference internal" href="configuration/rewards.html">Rewards</a></li>
-<li class="toctree-l3"><a class="reference internal" href="configuration/info.html">Information</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="rollout.html">Rollout</a></li>
@@ -321,10 +323,9 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="types.html">Types</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="types.html#enki_env.types.Scenario"><code class="docutils literal notranslate"><span class="pre">Scenario</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="types.html#enki_env.types.RewardFunction"><code class="docutils literal notranslate"><span class="pre">RewardFunction</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="types.html#enki_env.types.InfoFunction"><code class="docutils literal notranslate"><span class="pre">InfoFunction</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="types.html#enki_env.types.Termination"><code class="docutils literal notranslate"><span class="pre">Termination</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#enki_env.types.Array"><code class="docutils literal notranslate"><span class="pre">Array</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#enki_env.types.BoolArray"><code class="docutils literal notranslate"><span class="pre">BoolArray</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="types.html#enki_env.types.Observation"><code class="docutils literal notranslate"><span class="pre">Observation</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="types.html#enki_env.types.Action"><code class="docutils literal notranslate"><span class="pre">Action</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="types.html#enki_env.types.Info"><code class="docutils literal notranslate"><span class="pre">Info</span></code></a></li>
@@ -336,14 +337,20 @@
 <li class="toctree-l2"><a class="reference internal" href="types.html#enki_env.types.PyTorchPolicy"><code class="docutils literal notranslate"><span class="pre">PyTorchPolicy</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="scenario.html">Scenario</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scenario.html#enki_env.Scenario"><code class="docutils literal notranslate"><span class="pre">Scenario</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="scenario.html#enki_env.BaseScenario"><code class="docutils literal notranslate"><span class="pre">BaseScenario</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="configuration/index.html">Configuration</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="configuration/base.html">Base classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/action.html">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/observation.html">Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/reward.html">Rewards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/info.html">Information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration/group.html">Group</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration/epuck.html">EPuck</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration/marxbot.html">Marxbot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration/thymio.html">Thymio</a></li>
-<li class="toctree-l2"><a class="reference internal" href="configuration/rewards.html">Rewards</a></li>
-<li class="toctree-l2"><a class="reference internal" href="configuration/info.html">Information</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="rollout.html">Rollout</a><ul>

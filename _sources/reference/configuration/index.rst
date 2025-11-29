@@ -5,10 +5,11 @@ Configuration
 .. toctree::
    :maxdepth: 2
    
-   base
+   action
+   observation
+   reward
+   info
    group
    epuck
    marxbot
    thymio
-   rewards
-   info

@@ -47,7 +47,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/types';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Configuration" href="configuration/index.html" />
+    <link rel="next" title="Scenario" href="scenario.html" />
     <link rel="prev" title="Reference" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -150,14 +150,16 @@
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scenario.html">Scenario</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="configuration/index.html">Configuration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="configuration/base.html">Base classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration/action.html">Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration/observation.html">Observations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration/reward.html">Rewards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration/info.html">Information</a></li>
 <li class="toctree-l3"><a class="reference internal" href="configuration/group.html">Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="configuration/epuck.html">EPuck</a></li>
 <li class="toctree-l3"><a class="reference internal" href="configuration/marxbot.html">Marxbot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="configuration/thymio.html">Thymio</a></li>
-<li class="toctree-l3"><a class="reference internal" href="configuration/rewards.html">Rewards</a></li>
-<li class="toctree-l3"><a class="reference internal" href="configuration/info.html">Information</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="rollout.html">Rollout</a></li>
@@ -314,22 +316,12 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.Scenario"><code class="docutils literal notranslate"><span class="pre">Scenario</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.Scenario.__call__"><code class="docutils literal notranslate"><span class="pre">Scenario.__call__()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.RewardFunction"><code class="docutils literal notranslate"><span class="pre">RewardFunction</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.RewardFunction.__call__"><code class="docutils literal notranslate"><span class="pre">RewardFunction.__call__()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.InfoFunction"><code class="docutils literal notranslate"><span class="pre">InfoFunction</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.InfoFunction.__call__"><code class="docutils literal notranslate"><span class="pre">InfoFunction.__call__()</span></code></a></li>
-</ul>
-</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.Termination"><code class="docutils literal notranslate"><span class="pre">Termination</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.Termination.__call__"><code class="docutils literal notranslate"><span class="pre">Termination.__call__()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.Array"><code class="docutils literal notranslate"><span class="pre">Array</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.BoolArray"><code class="docutils literal notranslate"><span class="pre">BoolArray</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.Observation"><code class="docutils literal notranslate"><span class="pre">Observation</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.Action"><code class="docutils literal notranslate"><span class="pre">Action</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.Info"><code class="docutils literal notranslate"><span class="pre">Info</span></code></a></li>
@@ -362,92 +354,6 @@
   <section id="types">
 <h1>Types<a class="headerlink" href="#types" title="Link to this heading">#</a></h1>
 <dl class="py class protocol">
-<dt class="sig sig-object py" id="enki_env.types.Scenario">
-<em class="property"><span class="pre">protocol</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.types.</span></span><span class="sig-name descname"><span class="pre">Scenario</span></span><a class="headerlink" href="#enki_env.types.Scenario" title="Link to this definition">#</a></dt>
-<dd><p>A scenario is a generator of world. It receives a random seed as argument,
-that is should pass to the world constructor.
-Any random sampling should use the <a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World.random_generator" title="(in pyenki)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pyenki.World.random_generator</span></code></a>
-to ensure reproducibility.</p>
-<p>For example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">my_scenario</span><span class="p">(</span><span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pyenki</span><span class="o">.</span><span class="n">World</span><span class="p">:</span>
-    <span class="n">robot</span> <span class="o">=</span> <span class="n">pyenki</span><span class="o">.</span><span class="n">Thymio2</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
-    <span class="n">robot</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="n">world</span><span class="o">.</span><span class="n">random_generator</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">world</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">world</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Classes that implement this protocol must have the following methods / attributes:</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="enki_env.types.Scenario.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World" title="(in pyenki)"><span class="pre">pyenki.World</span></a></span></span><a class="headerlink" href="#enki_env.types.Scenario.__call__" title="Link to this definition">#</a></dt>
-<dd><p>Creates a world with random seed</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>seed</strong> – the random seed.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>the world.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class protocol">
-<dt class="sig sig-object py" id="enki_env.types.RewardFunction">
-<em class="property"><span class="pre">protocol</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.types.</span></span><span class="sig-name descname"><span class="pre">RewardFunction</span></span><a class="headerlink" href="#enki_env.types.RewardFunction" title="Link to this definition">#</a></dt>
-<dd><p>A callable that generates rewards at each step of the
-environment.</p>
-<p>For example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">my_reward</span><span class="p">(</span><span class="n">robot</span><span class="p">:</span> <span class="n">pyenki</span><span class="o">.</span><span class="n">DifferentialWheeled</span><span class="p">,</span> <span class="n">world</span><span class="p">:</span> <span class="n">pyenki</span><span class="o">.</span><span class="n">World</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">robot</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span>
-</pre></div>
-</div>
-<p>Classes that implement this protocol must have the following methods / attributes:</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="enki_env.types.RewardFunction.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/base.html#pyenki.DifferentialWheeled" title="(in pyenki)"><span class="pre">pyenki.DifferentialWheeled</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World" title="(in pyenki)"><span class="pre">pyenki.World</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#enki_env.types.RewardFunction.__call__" title="Link to this definition">#</a></dt>
-<dd><p>Generate a reward for a robot.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>robot</strong> – The robot</p></li>
-<li><p><strong>world</strong> – The world the robot belongs to.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The reward assigned to the robot</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class protocol">
-<dt class="sig sig-object py" id="enki_env.types.InfoFunction">
-<em class="property"><span class="pre">protocol</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.types.</span></span><span class="sig-name descname"><span class="pre">InfoFunction</span></span><a class="headerlink" href="#enki_env.types.InfoFunction" title="Link to this definition">#</a></dt>
-<dd><p>A callable that generates extra information at each step of the
-environment.</p>
-<p>Classes that implement this protocol must have the following methods / attributes:</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="enki_env.types.InfoFunction.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/base.html#pyenki.DifferentialWheeled" title="(in pyenki)"><span class="pre">pyenki.DifferentialWheeled</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World" title="(in pyenki)"><span class="pre">pyenki.World</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#enki_env.types.Info" title="enki_env.types.Info"><span class="pre">Info</span></a></span></span><a class="headerlink" href="#enki_env.types.InfoFunction.__call__" title="Link to this definition">#</a></dt>
-<dd><p>Generate information related to a robot</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>robot</strong> – The robot</p></li>
-<li><p><strong>world</strong> – The world the robot belongs to.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The information related to the robot</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class protocol">
 <dt class="sig sig-object py" id="enki_env.types.Termination">
 <em class="property"><span class="pre">protocol</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.types.</span></span><span class="sig-name descname"><span class="pre">Termination</span></span><a class="headerlink" href="#enki_env.types.Termination" title="Link to this definition">#</a></dt>
 <dd><p>A criterion to decide the success/failure of an episode for a given robot.
@@ -455,8 +361,8 @@ Should return <code class="docutils literal notranslate"><span class="pre">True<
 <p>For example, for a task where a robot needs to travel along the positive x-direction,
 we may select failure when if exits some narrow bands and
 success when it travels further enough:</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">my_criterion</span><span class="p">(</span><span class="n">robot</span><span class="p">:</span> <span class="n">pyenki</span><span class="o">.</span><span class="n">DifferentialWheeled</span><span class="p">,</span>
-                 <span class="n">world</span><span class="p">:</span> <span class="n">pyenki</span><span class="o">.</span><span class="n">World</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">my_criterion</span><span class="p">(</span><span class="n">robot</span><span class="p">:</span> <span class="n">pyenki</span><span class="o">.</span><span class="n">DifferentialWheeled</span>
+                 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">robot</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">robot</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
@@ -467,23 +373,32 @@ success when it travels further enough:</p>
 <p>Classes that implement this protocol must have the following methods / attributes:</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="enki_env.types.Termination.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/base.html#pyenki.DifferentialWheeled" title="(in pyenki)"><span class="pre">pyenki.DifferentialWheeled</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World" title="(in pyenki)"><span class="pre">pyenki.World</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#enki_env.types.Termination.__call__" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/base.html#pyenki.DifferentialWheeled" title="(in pyenki)"><span class="pre">pyenki.DifferentialWheeled</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#enki_env.types.Termination.__call__" title="Link to this definition">#</a></dt>
 <dd><p>Decides if the episode should terminate for a given robot</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>robot</strong> – The robot</p></li>
-<li><p><strong>world</strong> – The world the robot belongs to.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>robot</strong> – The robot</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> to terminate with success,
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code>  to terminate with success,
 <code class="docutils literal notranslate"><span class="pre">False</span></code> to terminate with failure,
-<code class="docutils literal notranslate"><span class="pre">None</span></code> to not terminate.</p>
+<code class="docutils literal notranslate"><span class="pre">None</span></code>  to not terminate.</p>
 </dd>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py type">
+<dt class="sig sig-object py" id="enki_env.types.Array">
+<em class="property"><span class="pre">type</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.types.</span></span><span class="sig-name descname"><span class="pre">Array</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray" title="(in NumPy v2.3)"><span class="pre">numpy.typing.NDArray</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="(in NumPy v2.3)"><span class="pre">numpy.float64</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#enki_env.types.Array" title="Link to this definition">#</a></dt>
+<dd><p>Floating-point array.</p>
+</dd></dl>
+
+<dl class="py type">
+<dt class="sig sig-object py" id="enki_env.types.BoolArray">
+<em class="property"><span class="pre">type</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.types.</span></span><span class="sig-name descname"><span class="pre">BoolArray</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/typing.html#numpy.typing.NDArray" title="(in NumPy v2.3)"><span class="pre">numpy.typing.NDArray</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.bool_" title="(in NumPy v2.3)"><span class="pre">numpy.bool_</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#enki_env.types.BoolArray" title="Link to this definition">#</a></dt>
+<dd><p>Boolean array.</p>
 </dd></dl>
 
 <dl class="py type">
@@ -506,13 +421,13 @@ success when it travels further enough:</p>
 
 <dl class="py type">
 <dt class="sig sig-object py" id="enki_env.types.State">
-<em class="property"><span class="pre">type</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.types.</span></span><span class="sig-name descname"><span class="pre">State</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#enki_env.types.EpisodeStart" title="Array"><span class="pre">Array</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#enki_env.types.State" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">type</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.types.</span></span><span class="sig-name descname"><span class="pre">State</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#enki_env.types.Array" title="enki_env.types.Array"><span class="pre">Array</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#enki_env.types.State" title="Link to this definition">#</a></dt>
 <dd><p>State arrays</p>
 </dd></dl>
 
 <dl class="py type">
 <dt class="sig sig-object py" id="enki_env.types.EpisodeStart">
-<em class="property"><span class="pre">type</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.types.</span></span><span class="sig-name descname"><span class="pre">EpisodeStart</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#enki_env.types.EpisodeStart" title="Array"><span class="pre">Array</span></a></em><a class="headerlink" href="#enki_env.types.EpisodeStart" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">type</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.types.</span></span><span class="sig-name descname"><span class="pre">EpisodeStart</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#enki_env.types.Array" title="enki_env.types.Array"><span class="pre">Array</span></a></em><a class="headerlink" href="#enki_env.types.EpisodeStart" title="Link to this definition">#</a></dt>
 <dd><p>Array that flags episodes start.</p>
 </dd></dl>
 
@@ -628,11 +543,11 @@ where the hidden states of the RNN must be reset.</p></li>
       </div>
     </a>
     <a class="right-next"
-       href="configuration/index.html"
+       href="scenario.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Configuration</p>
+        <p class="prev-next-title">Scenario</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -653,22 +568,12 @@ where the hidden states of the RNN must be reset.</p></li>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.Scenario"><code class="docutils literal notranslate"><span class="pre">Scenario</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.Scenario.__call__"><code class="docutils literal notranslate"><span class="pre">Scenario.__call__()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.RewardFunction"><code class="docutils literal notranslate"><span class="pre">RewardFunction</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.RewardFunction.__call__"><code class="docutils literal notranslate"><span class="pre">RewardFunction.__call__()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.InfoFunction"><code class="docutils literal notranslate"><span class="pre">InfoFunction</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.InfoFunction.__call__"><code class="docutils literal notranslate"><span class="pre">InfoFunction.__call__()</span></code></a></li>
-</ul>
-</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.Termination"><code class="docutils literal notranslate"><span class="pre">Termination</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.Termination.__call__"><code class="docutils literal notranslate"><span class="pre">Termination.__call__()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.Array"><code class="docutils literal notranslate"><span class="pre">Array</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.BoolArray"><code class="docutils literal notranslate"><span class="pre">BoolArray</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.Observation"><code class="docutils literal notranslate"><span class="pre">Observation</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.Action"><code class="docutils literal notranslate"><span class="pre">Action</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enki_env.types.Info"><code class="docutils literal notranslate"><span class="pre">Info</span></code></a></li>

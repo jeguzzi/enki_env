@@ -4,14 +4,18 @@ Types
 
 .. currentmodule:: enki_env.types
 
-.. autoprotocol:: Scenario
-
-.. autoprotocol:: RewardFunction
-
-.. autoprotocol:: InfoFunction
-
-
 .. autoprotocol:: Termination
+
+.. py:type:: Array
+   :canonical: numpy.typing.NDArray[numpy.float64]
+
+   Floating-point array.
+
+.. py:type:: BoolArray
+   :canonical: numpy.typing.NDArray[numpy.bool_]
+
+   Boolean array.
+
 
 .. py:type:: Observation
    :canonical: dict[str, numpy.typing.NDArray[np.float64]]

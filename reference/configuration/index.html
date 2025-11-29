@@ -47,8 +47,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/configuration/index';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Base classes" href="base.html" />
-    <link rel="prev" title="Types" href="../types.html" />
+    <link rel="next" title="Actions" href="action.html" />
+    <link rel="prev" title="Scenario" href="../scenario.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -150,14 +150,16 @@
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../types.html">Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../scenario.html">Scenario</a></li>
 <li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">Configuration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="base.html">Base classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="action.html">Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="observation.html">Observations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reward.html">Rewards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="info.html">Information</a></li>
 <li class="toctree-l3"><a class="reference internal" href="group.html">Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="epuck.html">EPuck</a></li>
 <li class="toctree-l3"><a class="reference internal" href="marxbot.html">Marxbot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="thymio.html">Thymio</a></li>
-<li class="toctree-l3"><a class="reference internal" href="rewards.html">Rewards</a></li>
-<li class="toctree-l3"><a class="reference internal" href="info.html">Information</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="../rollout.html">Rollout</a></li>
@@ -320,9 +322,26 @@
 <h1>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="base.html">Base classes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="base.html#actions">Actions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="base.html#observations">Observations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action.html">Actions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="action.html#abstract-base-class">Abstract base class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="action.html#robot-base-class">Robot base class</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="observation.html">Observations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="observation.html#abstract-base-class">Abstract base class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="observation.html#robot-base-class">Robot base class</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reward.html">Rewards</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reward.html#enki_env.reward.RewardFunction"><code class="docutils literal notranslate"><span class="pre">RewardFunction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reward.html#enki_env.reward.ConstReward"><code class="docutils literal notranslate"><span class="pre">ConstReward</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="info.html">Information</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="info.html#enki_env.info.InfoFunction"><code class="docutils literal notranslate"><span class="pre">InfoFunction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="info.html#enki_env.info.pose_info"><code class="docutils literal notranslate"><span class="pre">pose_info()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="info.html#enki_env.info.twist_info"><code class="docutils literal notranslate"><span class="pre">twist_info()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="info.html#enki_env.info.wheel_info"><code class="docutils literal notranslate"><span class="pre">wheel_info()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="group.html">Group</a><ul>
@@ -346,14 +365,6 @@
 <li class="toctree-l2"><a class="reference internal" href="thymio.html#observations">Observations</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="rewards.html">Rewards</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="rewards.html#enki_env.reward.ConstReward"><code class="docutils literal notranslate"><span class="pre">ConstReward</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="info.html">Information</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="info.html#enki_env.info.pose_info"><code class="docutils literal notranslate"><span class="pre">pose_info()</span></code></a></li>
-</ul>
-</li>
 </ul>
 </div>
 </section>
@@ -370,20 +381,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../types.html"
+       href="../scenario.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Types</p>
+        <p class="prev-next-title">Scenario</p>
       </div>
     </a>
     <a class="right-next"
-       href="base.html"
+       href="action.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Base classes</p>
+        <p class="prev-next-title">Actions</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
