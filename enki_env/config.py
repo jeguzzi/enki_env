@@ -41,7 +41,9 @@ class ActionConfig(ABC):
         Must be implemented by concrete classes!
 
         :param      act:    The action
+
         :param      robot:  The robot that actuates the action
+
         :param      dt:     The time step
         """
         ...
@@ -122,11 +124,12 @@ class GroupConfig:
         :py:attr:`pyenki.PhysicalObject.control_step_callback`,
         that actuates a policy.
 
-        :param policy       : The policy.
-        :param deterministic: Whether to evaluate the policy
-            deterministically.
-        :param cutoff       : When the absolute value of actions is below this threshold,
-            they will be set to zero.
+        :param        policy: The policy.
+
+        :param deterministic: Whether to evaluate the policy deterministically.
+
+        :param        cutoff: When the absolute value of actions is below this threshold,
+                              they will be set to zero.
         """
 
         def f(r: pyenki.PhysicalObject, dt: SupportsFloat) -> None:
@@ -169,13 +172,16 @@ def setup_controllers(world: pyenki.World,
     Equips all robots in the world, with controllers that evaluate the selected policies,
     by matching the robot name with the keys of ``policies`` and ``config``.
 
-    :param      world:     The world
-    :param      config:    A map of configurations assigned to groups of robots.
-    :param      policies:  A map of policies assigned to groups of robots.
-    :param      deterministic: Whether to evaluate the policy
-            deterministically.
-    :param cutoff       : When the absolute value of actions is below this threshold,
-        they will be set to zero.
+    :param         world: The world
+
+    :param        config: A map of configurations assigned to groups of robots.
+
+    :param      policies: A map of policies assigned to groups of robots.
+
+    :param deterministic: Whether to evaluate the policy deterministically.
+
+    :param        cutoff: When the absolute value of actions is below this threshold,
+                          they will be set to zero.
     """
     configs = make_agents(world, config)
     for robot, name, conf in configs.values():

@@ -565,7 +565,7 @@ class ParallelEnkiEnv(BaseParallelEnv):
         :param      seed:      The random seed.
         :param      deterministic: Whether to evaluate the policy
             deterministically.
-        :param cutoff       : When the absolute value of actions is below this threshold,
+        :param cutoff: When the absolute value of actions is below this threshold,
             they will be set to zero.
 
         :returns:   The world
@@ -594,7 +594,7 @@ class ParallelEnkiEnv(BaseParallelEnv):
         :param      seed:       The random seed.
         :param      deterministic: Whether to evaluate the policies
             deterministically.
-        :param cutoff       : When the absolute value of actions is below this threshold,
+        :param cutoff: When the absolute value of actions is below this threshold,
             they will be set to zero.
 
         :returns:   A dictionary, keyed by group, with

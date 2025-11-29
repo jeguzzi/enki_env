@@ -165,7 +165,7 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
         :param      seed:    The random seed
         :param      deterministic: Whether to evaluate the policy
             deterministically.
-        :param cutoff       : When the absolute value of actions is below this threshold,
+        :param      cutoff: When the absolute value of actions is below this threshold,
             they will be set to zero.
 
         :returns:   The world
@@ -191,7 +191,7 @@ class EnkiEnv(SingleAgentEnv[str, Observation, Action]):
         :param      seed:       The random seed.
         :param      deterministic: Whether to evaluate the policy
             deterministically.
-        :param cutoff       : When the absolute value of actions is below this threshold,
+        :param cutoff: When the absolute value of actions is below this threshold,
             they will be set to zero.
 
         :returns:   The data collected during the rollout.

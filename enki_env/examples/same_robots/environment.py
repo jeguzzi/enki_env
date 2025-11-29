@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from typing import Any, cast
+from typing import Any
 
 import numpy as np
 import pyenki
 
-from ... import ParallelEnkiEnv, ThymioAction, ThymioConfig
+from ... import ParallelEnkiEnv, ThymioConfig
 from ..utils import normalize_angle, is_still
 
 

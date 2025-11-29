@@ -95,7 +95,7 @@ class BaseScenario:
 
         .. important::
 
-           Should defer random sampling to :py:meth:`Scenario.init`.
+           Should defer random sampling to :py:meth:`BaseScenario.init`.
 
         :seed:       the random seed.
         :returns:    the world.
