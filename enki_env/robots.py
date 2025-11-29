@@ -191,8 +191,8 @@ class MarxbotConfig(GroupConfig):
     that instantiates :py:class:`MarxbotAction` and :py:class:`MarxbotObservation`
     with their default parameters.
     """
-    action: ActionConfig = dc.field(default_factory=MarxbotAction)
-    observation: ObservationConfig = dc.field(
+    action: MarxbotAction = dc.field(default_factory=MarxbotAction)
+    observation: MarxbotObservation = dc.field(
         default_factory=MarxbotObservation)
 
 
@@ -303,8 +303,8 @@ class EPuckConfig(GroupConfig):
     that instantiates :py:class:`EPuckAction` and :py:class:`EPuckObservation`
     with their default parameters.
     """
-    action: ActionConfig = dc.field(default_factory=EPuckAction)
-    observation: ObservationConfig = dc.field(default_factory=EPuckObservation)
+    action: EPuckAction = dc.field(default_factory=EPuckAction)
+    observation: EPuckObservation = dc.field(default_factory=EPuckObservation)
 
 
 @dc.dataclass
@@ -514,6 +514,6 @@ class ThymioConfig(GroupConfig):
     that instantiates :py:class:`ThymioAction` and :py:class:`ThymioObservation`
     with their default parameters.
     """
-    action: ActionConfig = dc.field(default_factory=ThymioAction)
-    observation: ObservationConfig = dc.field(
+    action: ThymioAction = dc.field(default_factory=ThymioAction)
+    observation: ThymioObservation = dc.field(
         default_factory=ThymioObservation)

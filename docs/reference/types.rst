@@ -4,10 +4,6 @@ Types
 
 .. currentmodule:: enki_env.types
 
-.. autoprotocol:: RewardFunction
-
-.. autoprotocol:: InfoFunction
-
 .. autoprotocol:: Termination
 
 .. py:type:: Array

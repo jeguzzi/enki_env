@@ -12,6 +12,7 @@ from .config import GroupConfig, make_agents, setup_controllers
 from .rollout import Rollout
 from .scenario import Scenario
 from .types import Action, Array, Info, Observation, Predictor
+from .info import InfoFunction
 
 if TYPE_CHECKING:
     import gymnasium as gym
@@ -115,6 +116,14 @@ def parallel_env(scenario: Scenario,
                                            success_info=success_info,
                                            default_success=default_success)
     return env
+
+
+def get_info_for_agent(agent: pyenki.DifferentialWheeled,
+                       infos: Sequence[InfoFunction]) -> Info:
+    vs: Info = {}
+    for info in infos:
+        info(agent, vs)
+    return vs
 
 
 class ParallelEnkiEnv(BaseParallelEnv):
@@ -243,7 +252,9 @@ class ParallelEnkiEnv(BaseParallelEnv):
     def _get_rewards(self) -> dict[str, float]:
         if self._world:
             return {
-                uid: config.reward(agent, self._world) if config.reward else -1
+                uid:
+                config.reward(agent, self._success.get(uid, self._default_success))
+                if config.reward else -1
                 for uid, (agent, _, config) in self._agents.items()
             }
         else:
@@ -252,7 +263,7 @@ class ParallelEnkiEnv(BaseParallelEnv):
     def _get_infos(self) -> dict[str, Info]:
         if self._world:
             return {
-                uid: config.info(agent, self._world) if config.info else {}
+                uid: get_info_for_agent(agent, config.info)
                 for uid, (agent, _, config) in self._agents.items()
             }
         else:
@@ -272,7 +283,7 @@ class ParallelEnkiEnv(BaseParallelEnv):
             else:
                 ts[uid] = False
                 for t in config.terminations:
-                    r = t(agent, self._world)
+                    r = t(agent)
                     if r is not None:
                         ts[uid] = True
                         self._success[uid] = r
@@ -506,12 +517,13 @@ class ParallelEnkiEnv(BaseParallelEnv):
         assert self._world
         self._actuate(actions, self._time_step)
         self._world.step(self._time_step, self._physics_substeps)
+        self._duration += self._time_step
         obs = self._get_observations()
         infos = self._get_infos()
-        rew = self._get_rewards()
-        self._duration += self._time_step
         trunc = self._update_truncations()
         term = self._update_terminations()
+        # Evaluated as last as it needs the updated success state.
+        rew = self._get_rewards()
 
         for uid in list(self._agents):
             if trunc[uid] or term[uid]:

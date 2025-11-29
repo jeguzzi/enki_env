@@ -1,17 +1,20 @@
 from __future__ import annotations
 
-from typing import Any, cast
+from typing import Any
 
 import gymnasium as gym
 import pyenki
 
-from ... import BaseEnv, ThymioAction, ThymioConfig
+from ... import BaseEnv, ThymioConfig
 from ...types import Termination
-from ..utils import normalize_angle
+from ..utils import is_still, normalize_angle
 
 
-def scenario(seed: int) -> pyenki.World:
+def scenario(seed: int,
+             copy_rng_from: pyenki.World | None = None) -> pyenki.World:
     world = pyenki.World(seed=seed)
+    if copy_rng_from:
+        world.copy_random_generator(copy_rng_from)
     rng = world.random_generator
     robot = pyenki.Thymio2()
     robot.position = (-18, 0)
@@ -29,14 +32,12 @@ def scenario(seed: int) -> pyenki.World:
     return world
 
 
-def in_front_of_wall(angle_tol: float = 0.1,
-                     speed_tol: float = 1) -> Termination:
+def is_standing_in_front_of_wall(angle_tol: float = 0.05,
+                                 speed_tol: float = 1) -> Termination:
 
-    def f(robot: pyenki.DifferentialWheeled,
-          world: pyenki.World) -> bool | None:
-        if abs(normalize_angle(robot.angle)) < angle_tol and abs(
-                robot.left_wheel_encoder_speed) < speed_tol and abs(
-                    robot.right_wheel_encoder_speed) < speed_tol:
+    def f(robot: pyenki.DifferentialWheeled) -> bool | None:
+        if abs(normalize_angle(robot.angle)) < angle_tol and is_still(
+                robot, speed_tol):
             # Success
             return True
         return None
@@ -44,15 +45,18 @@ def in_front_of_wall(angle_tol: float = 0.1,
     return f
 
 
-def reward(robot: pyenki.DifferentialWheeled, world: pyenki.World) -> float:
-    return -1 - abs(normalize_angle(robot.angle))
+def reward(robot: pyenki.DifferentialWheeled, success: bool | None) -> float:
+    return -1 - abs(normalize_angle(robot.angle)) - 0.1 * (abs(
+        robot.left_wheel_encoder_speed) + abs(robot.right_wheel_encoder_speed))
 
 
 def make_env(**kwargs: Any) -> BaseEnv:
-    config = ThymioConfig(
-        reward=reward,
-        terminations=[in_front_of_wall(angle_tol=0.1, speed_tol=5)])
-    cast('ThymioAction', config.action).fix_position = True
+    config = ThymioConfig(reward=reward,
+                          terminations=[
+                              is_standing_in_front_of_wall(angle_tol=0.1,
+                                                           speed_tol=5)
+                          ])
+    config.action.fix_position = True
     env = gym.make("Enki",
                    max_duration=2,
                    scenario=scenario,

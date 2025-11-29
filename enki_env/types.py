@@ -22,49 +22,6 @@ PathLike: TypeAlias = os.PathLike[str] | str
 PyTorchObs: TypeAlias = 'torch.Tensor | dict[str, torch.Tensor]'
 
 
-class RewardFunction(Protocol):
-    """
-    A callable that generates rewards at each step of the
-    environment.
-
-    For example ::
-
-        def my_reward(robot: pyenki.DifferentialWheeled, world: pyenki.World) -> float:
-            return -1 if abs(robot.position[0]) > 1 else 0
-    """
-
-    def __call__(self, robot: pyenki.DifferentialWheeled,
-                 world: pyenki.World) -> float:
-        """
-        Generate a reward for a robot.
-
-        :param      robot:  The robot
-        :param      world:  The world the robot belongs to.
-
-        :returns:   The reward assigned to the robot
-        """
-        ...
-
-
-class InfoFunction(Protocol):
-    """
-    A callable that generates extra information at each step of the
-    environment.
-    """
-
-    def __call__(self, robot: pyenki.DifferentialWheeled,
-                 world: pyenki.World) -> Info:
-        """
-        Generate information related to a robot
-
-        :param      robot:  The robot
-        :param      world:  The world the robot belongs to.
-
-        :returns:   The information related to the robot
-        """
-        ...
-
-
 class Termination(Protocol):
     """
     A criterion to decide the success/failure of an episode for a given robot.
@@ -76,8 +33,8 @@ class Termination(Protocol):
 
     .. code:: Python
 
-       def my_criterion(robot: pyenki.DifferentialWheeled,
-                        world: pyenki.World) -> bool | None:
+       def my_criterion(robot: pyenki.DifferentialWheeled
+                        ) -> bool | None:
            if robot.position[1] > 100:
                return True
            if abs(robot.position[0]) > 10:
@@ -85,17 +42,15 @@ class Termination(Protocol):
            return None
     """
 
-    def __call__(self, robot: pyenki.DifferentialWheeled,
-                 world: pyenki.World) -> bool | None:
+    def __call__(self, robot: pyenki.DifferentialWheeled) -> bool | None:
         """
         Decides if the episode should terminate for a given robot
 
         :param      robot:  The robot
-        :param      world:  The world the robot belongs to.
 
-        :returns:   ``True`` to terminate with success,
+        :returns:   ``True``  to terminate with success,
                     ``False`` to terminate with failure,
-                    ``None`` to not terminate.
+                    ``None``  to not terminate.
         """
         ...
 

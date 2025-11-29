@@ -7,9 +7,9 @@ Configuration
    
    action
    observation
+   reward
+   info
    group
    epuck
    marxbot
    thymio
-   rewards
-   info

@@ -31,7 +31,8 @@ In the simplest case, we control a single robot, for example an e-puck. For this
            world.add_object(obj)
    
    
-   def reward(robot, world):
+   def reward(robot: pyenki.DifferentialWheeled, success: bool | None
+              ) -> float:
        return -1.0 if math.cos(robot.angle) < 0.9 else 0.0
    
    

@@ -2,15 +2,15 @@ from typing import Any
 
 import numpy as np
 import pyenki
-from typing import cast
 
-from ... import (EPuckAction, EPuckObservation, EPuckConfig, ParallelEnkiEnv,
-                 ThymioAction, ThymioConfig, ThymioObservation)
-from ..same_robots.environment import reward, facing_each_other
+from ... import EPuckConfig, ParallelEnkiEnv, ThymioConfig
+from ..same_robots.environment import facing_each_other, reward
 
 
-def scenario(seed: int) -> pyenki.World:
+def scenario(seed: int, copy_rng_from: pyenki.World | None = None) -> pyenki.World:
     world = pyenki.World(seed=seed)
+    if copy_rng_from:
+        world.copy_random_generator(copy_rng_from)
     rng = world.random_generator
     rgb = rng.uniform(0.1, 1, size=3)
     rgb /= max(rgb)
@@ -28,14 +28,14 @@ def scenario(seed: int) -> pyenki.World:
 def make_env(**kwargs: Any) -> ParallelEnkiEnv:
     thymio_config = ThymioConfig(reward=reward,
                                  terminations=[facing_each_other])
-    cast('ThymioAction', thymio_config.action).fix_position = True
-    cast('ThymioAction', thymio_config.action).dtype = np.float32
-    cast('ThymioObservation', thymio_config.observation).dtype = np.float32
+    thymio_config.action.fix_position = True
+    thymio_config.action.dtype = np.float32
+    thymio_config.observation.dtype = np.float32
     epuck_config = EPuckConfig(reward=reward,
                                terminations=[facing_each_other])
-    cast('EPuckAction', epuck_config.action).fix_position = True
-    cast('EPuckAction', epuck_config.action).dtype = np.float32
-    cast('EPuckObservation', epuck_config.observation).dtype = np.float32
+    epuck_config.action.fix_position = True
+    epuck_config.action.dtype = np.float32
+    epuck_config.observation.dtype = np.float32
     config = {'thymio': thymio_config, 'e-puck': epuck_config}
     env = ParallelEnkiEnv(scenario=scenario,
                           config=config,

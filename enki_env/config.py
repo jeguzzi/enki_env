@@ -6,8 +6,9 @@ from typing import TYPE_CHECKING, SupportsFloat, cast
 
 import numpy as np
 
-from .types import (Action, InfoFunction, Observation, Predictor,
-                    RewardFunction, Termination)
+from .info import InfoFunction
+from .reward import RewardFunction
+from .types import Action, Observation, Predictor, Termination
 
 if TYPE_CHECKING:
     import gymnasium as gym
@@ -96,10 +97,10 @@ class GroupConfig:
     Defines how rewards are assigned.
     If set to ``None``, it will generate a constant -1.
     """
-    info: InfoFunction | None = None
+    info: list[InfoFunction] = dc.field(default_factory=list)
     """
-    Defines which extra information is generated.
-    If set to ``None``, it will generate an empty dictionary.
+    Defines which extra information is added to the info dictionary
+    returned by ``reset`` and ``step``.
     """
     terminations: list[Termination] = dc.field(default_factory=list)
     """
