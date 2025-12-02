@@ -8,3 +8,4 @@ Environments
    single
    multi
    torchrl
+   concat

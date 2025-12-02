@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Group &#8212; enki_env 0.2.0 documentation</title>
+    <title>Group &#8212; enki_env 0.2.1 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="../../_static/documentation_options.js?v=c480a563"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">enki_env 0.2.0 documentation</p>
+    <p class="title logo__title">enki_env 0.2.1 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -164,9 +164,10 @@
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="../rollout.html">Rollout</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../environments/index.html">Environments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../environments/single.html">Single-agent Gymnasium Environment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../environments/multi.html">Multi-agent PettingZoo Environment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../environments/torchrl.html">Multi-agent PyTorchRL Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environments/single.html">Single-robot Gymnasium Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environments/multi.html">Multi-robot PettingZoo Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environments/torchrl.html">Multi-robot PyTorchRL Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../environments/concat.html">Concatenated Multi-robot Environment</a></li>
 </ul>
 </details></li>
 </ul>
@@ -341,7 +342,7 @@
 <h1>Group<a class="headerlink" href="#group" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="enki_env.GroupConfig">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.</span></span><span class="sig-name descname"><span class="pre">GroupConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action:</span> <span class="pre">~enki_env.config.ActionConfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observation:</span> <span class="pre">~enki_env.config.ObservationConfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reward:</span> <span class="pre">~enki_env.reward.RewardFunction</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info:</span> <span class="pre">list[~enki_env.info.InfoFunction]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terminations:</span> <span class="pre">list[Termination]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#enki_env.GroupConfig" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.</span></span><span class="sig-name descname"><span class="pre">GroupConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action:</span> <span class="pre">~enki_env.config.ActionConfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observation:</span> <span class="pre">~enki_env.config.ObservationConfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reward:</span> <span class="pre">~enki_env.reward.RewardFunction</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info:</span> <span class="pre">list[~enki_env.info.InfoFunction]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terminations:</span> <span class="pre">list[TypeAliasForwardRef('Termination')]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#enki_env.GroupConfig" title="Link to this definition">#</a></dt>
 <dd><p>Contains everything required to configure a group of similar agents.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="enki_env.GroupConfig.action">

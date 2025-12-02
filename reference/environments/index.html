@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Environments &#8212; enki_env 0.2.0 documentation</title>
+    <title>Environments &#8212; enki_env 0.2.1 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="../../_static/documentation_options.js?v=c480a563"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -47,7 +47,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/environments/index';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Single-agent Gymnasium Environment" href="single.html" />
+    <link rel="next" title="Single-robot Gymnasium Environment" href="single.html" />
     <link rel="prev" title="Rollout" href="../rollout.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">enki_env 0.2.0 documentation</p>
+    <p class="title logo__title">enki_env 0.2.1 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -164,9 +164,10 @@
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="../rollout.html">Rollout</a></li>
 <li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">Environments</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="single.html">Single-agent Gymnasium Environment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="multi.html">Multi-agent PettingZoo Environment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="torchrl.html">Multi-agent PyTorchRL Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="single.html">Single-robot Gymnasium Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi.html">Multi-robot PettingZoo Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="torchrl.html">Multi-robot PyTorchRL Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="concat.html">Concatenated Multi-robot Environment</a></li>
 </ul>
 </details></li>
 </ul>
@@ -322,18 +323,22 @@
 <h1>Environments<a class="headerlink" href="#environments" title="Link to this heading">#</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="single.html">Single-agent Gymnasium Environment</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="single.html">Single-robot Gymnasium Environment</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="single.html#enki_env.EnkiEnv"><code class="docutils literal notranslate"><span class="pre">EnkiEnv</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="multi.html">Multi-agent PettingZoo Environment</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="multi.html">Multi-robot PettingZoo Environment</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="multi.html#enki_env.parallel_env"><code class="docutils literal notranslate"><span class="pre">parallel_env()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="multi.html#enki_env.ParallelEnkiEnvSpec"><code class="docutils literal notranslate"><span class="pre">ParallelEnkiEnvSpec</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="multi.html#enki_env.ParallelEnkiEnv"><code class="docutils literal notranslate"><span class="pre">ParallelEnkiEnv</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="torchrl.html">Multi-agent PyTorchRL Environment</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="torchrl.html">Multi-robot PyTorchRL Environment</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="torchrl.html#enki_env.torch_rl.env"><code class="docutils literal notranslate"><span class="pre">env()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="concat.html">Concatenated Multi-robot Environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="concat.html#enki_env.concat_env.ConcatEnv"><code class="docutils literal notranslate"><span class="pre">ConcatEnv</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -365,7 +370,7 @@
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Single-agent Gymnasium Environment</p>
+        <p class="prev-next-title">Single-robot Gymnasium Environment</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

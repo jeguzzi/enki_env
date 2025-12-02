@@ -1,5 +1,5 @@
 ==================================
-Multi-agent PettingZoo Environment
+Multi-robot PettingZoo Environment
 ==================================
 
 .. currentmodule:: enki_env

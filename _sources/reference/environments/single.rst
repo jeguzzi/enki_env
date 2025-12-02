@@ -1,5 +1,5 @@
 ==================================
-Single-agent Gymnasium Environment
+Single-robot Gymnasium Environment
 ==================================
 
 .. currentmodule:: enki_env

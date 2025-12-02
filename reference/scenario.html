@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Scenario &#8212; enki_env 0.2.0 documentation</title>
+    <title>Scenario &#8212; enki_env 0.2.1 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="../_static/documentation_options.js?v=c480a563"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">enki_env 0.2.0 documentation</p>
+    <p class="title logo__title">enki_env 0.2.1 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -164,9 +164,10 @@
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="rollout.html">Rollout</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="environments/index.html">Environments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="environments/single.html">Single-agent Gymnasium Environment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="environments/multi.html">Multi-agent PettingZoo Environment</a></li>
-<li class="toctree-l3"><a class="reference internal" href="environments/torchrl.html">Multi-agent PyTorchRL Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environments/single.html">Single-robot Gymnasium Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environments/multi.html">Multi-robot PettingZoo Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environments/torchrl.html">Multi-robot PyTorchRL Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="environments/concat.html">Concatenated Multi-robot Environment</a></li>
 </ul>
 </details></li>
 </ul>
@@ -341,7 +342,7 @@
 <h1>Scenario<a class="headerlink" href="#scenario" title="Link to this heading">#</a></h1>
 <dl class="py class protocol">
 <dt class="sig sig-object py" id="enki_env.Scenario">
-<em class="property"><span class="pre">protocol</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.</span></span><span class="sig-name descname"><span class="pre">Scenario</span></span><a class="headerlink" href="#enki_env.Scenario" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">protocol</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.</span></span><span class="sig-name descname"><span class="pre">Scenario</span></span><a class="headerlink" href="#enki_env.Scenario" title="Link to this definition">#</a></dt>
 <dd><p>A scenario is a generator of world.</p>
 <p>It exposes a callable that accepts a random seed and
 returns a <a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World" title="(in pyenki)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyenki.World</span></code></a>.</p>
@@ -388,7 +389,7 @@ to ensure reproducibility.</p>
 <p>Classes that implement this protocol must have the following methods / attributes:</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="enki_env.Scenario.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_rng_from</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World" title="(in pyenki)"><span class="pre">World</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World" title="(in pyenki)"><span class="pre">World</span></a></span></span><a class="headerlink" href="#enki_env.Scenario.__call__" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_rng_from</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World" title="(in pyenki)"><span class="pre">pyenki.World</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World" title="(in pyenki)"><span class="pre">pyenki.World</span></a></span></span><a class="headerlink" href="#enki_env.Scenario.__call__" title="Link to this definition">#</a></dt>
 <dd><p>Generates of a world with a given random seed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Seed<span class="colon">:</span></dt>
@@ -408,7 +409,7 @@ from, if provided.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="enki_env.BaseScenario">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.</span></span><span class="sig-name descname"><span class="pre">BaseScenario</span></span><a class="headerlink" href="#enki_env.BaseScenario" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">enki_env.</span></span><span class="sig-name descname"><span class="pre">BaseScenario</span></span><a class="headerlink" href="#enki_env.BaseScenario" title="Link to this definition">#</a></dt>
 <dd><p>Base class for implementations of <a class="reference internal" href="#enki_env.Scenario" title="enki_env.Scenario"><code class="xref py py-type docutils literal notranslate"><span class="pre">enki_env.Scenario</span></code></a> protocol.</p>
 <p>Users can specialize sub-classes by implementing
 one or both of <a class="reference internal" href="#enki_env.BaseScenario.make" title="enki_env.BaseScenario.make"><code class="xref py py-meth docutils literal notranslate"><span class="pre">BaseScenario.make()</span></code></a> and <a class="reference internal" href="#enki_env.BaseScenario.init" title="enki_env.BaseScenario.init"><code class="xref py py-meth docutils literal notranslate"><span class="pre">BaseScenario.init()</span></code></a>.</p>
@@ -426,7 +427,7 @@ one or both of <a class="reference internal" href="#enki_env.BaseScenario.make" 
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="enki_env.BaseScenario.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_rng_from</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World" title="(in pyenki)"><span class="pre">World</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World" title="(in pyenki)"><span class="pre">World</span></a></span></span><a class="headerlink" href="#enki_env.BaseScenario.__call__" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_rng_from</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World" title="(in pyenki)"><span class="pre">pyenki.World</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World" title="(in pyenki)"><span class="pre">pyenki.World</span></a></span></span><a class="headerlink" href="#enki_env.BaseScenario.__call__" title="Link to this definition">#</a></dt>
 <dd><p>Implements <a class="reference internal" href="#enki_env.Scenario" title="enki_env.Scenario"><code class="xref py py-type docutils literal notranslate"><span class="pre">Scenario</span></code></a> protocol.</p>
 <ol class="arabic simple">
 <li><p>calls <a class="reference internal" href="#enki_env.BaseScenario.make" title="enki_env.BaseScenario.make"><code class="xref py py-meth docutils literal notranslate"><span class="pre">BaseScenario.make()</span></code></a></p></li>
@@ -449,7 +450,7 @@ from, if provided.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="enki_env.BaseScenario.init">
-<span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World" title="(in pyenki)"><span class="pre">World</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#enki_env.BaseScenario.init" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World" title="(in pyenki)"><span class="pre">pyenki.World</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#enki_env.BaseScenario.init" title="Link to this definition">#</a></dt>
 <dd><p>Virtual method that initializes a given world.</p>
 <p>The base implementation does nothing.
 Can be overridden by sub-classes to add objects.</p>
@@ -468,7 +469,7 @@ to ensure reproducibility.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="enki_env.BaseScenario.make">
-<span class="sig-name descname"><span class="pre">make</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World" title="(in pyenki)"><span class="pre">World</span></a></span></span><a class="headerlink" href="#enki_env.BaseScenario.make" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">make</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://jeguzzi.github.io/enki/api/world.html#pyenki.World" title="(in pyenki)"><span class="pre">pyenki.World</span></a></span></span><a class="headerlink" href="#enki_env.BaseScenario.make" title="Link to this definition">#</a></dt>
 <dd><p>Virtual method that returns a world.</p>
 <p>The base implementation returns a empty world with no boundaries.
 Can be overridden by sub-classes to add a boundary.</p>
