@@ -1,5 +1,5 @@
 =================================
-Multi-agent PyTorchRL Environment
+Multi-robot PyTorchRL Environment
 =================================
 
 .. currentmodule:: enki_env.torch_rl

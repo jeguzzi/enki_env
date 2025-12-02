@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import warnings
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from typing import TYPE_CHECKING, Any, Literal, TypeAlias, TypedDict
 
 import numpy as np
@@ -9,10 +9,10 @@ from gymnasium.utils import seeding
 from pettingzoo.utils.env import ParallelEnv
 
 from .config import GroupConfig, make_agents, setup_controllers
+from .info import InfoFunction
 from .rollout import Rollout
 from .scenario import Scenario
 from .types import Action, Array, Info, Observation, Predictor
-from .info import InfoFunction
 
 if TYPE_CHECKING:
     import gymnasium as gym
@@ -253,7 +253,8 @@ class ParallelEnkiEnv(BaseParallelEnv):
         if self._world:
             return {
                 uid:
-                config.reward(agent, self._success.get(uid, self._default_success))
+                config.reward(agent,
+                              self._success.get(uid, self._default_success))
                 if config.reward else -1
                 for uid, (agent, _, config) in self._agents.items()
             }
@@ -391,6 +392,7 @@ class ParallelEnkiEnv(BaseParallelEnv):
         world = scenario(0)
         agents = make_agents(world, config)
         self._possible_agents = list(agents)
+        self._agent_groups = {agent: group for agent, (_, group, _) in agents.items()}
         self._agents: dict[str, tuple[pyenki.DifferentialWheeled, str,
                                       GroupConfig]] = {}
         self.group_observation_spaces = {
@@ -479,10 +481,6 @@ class ParallelEnkiEnv(BaseParallelEnv):
             else:
                 groups[group].append(name)
         return groups
-
-    @property
-    def _agent_groups(self) -> dict[str, str]:
-        return {agent: group for agent, (_, group, _) in self._agents.items()}
 
     def reset(self,
               seed: int | None = None,
@@ -579,6 +577,67 @@ class ParallelEnkiEnv(BaseParallelEnv):
         return world
 
     # TODO(Jerome): seed action spaces
+    def _rollout(self,
+                 policy: Callable[[dict[str, Observation]], dict[str, Action]],
+                 max_steps: int = -1,
+                 seed: int = 0) -> dict[str, Rollout]:
+        actions: list[dict[str, Action]] = []
+        observations: list[dict[str, Observation]] = []
+        rewards: list[dict[str, float]] = []
+        infos: list[dict[str, Info]] = []
+        terminations: list[dict[str, bool]] = []
+        truncations: list[dict[str, bool]] = []
+        obs, info = self.reset(seed=seed)
+        observations.append(obs)
+        infos.append(info)
+        step = 0
+        group_map = self.group_map
+        while (max_steps <= 0 or step < max_steps) and self.agents:
+            step += 1
+            act = policy(obs)
+            actions.append(act)
+            obs, rew, term, trunc, info = self.step(act)
+            observations.append(obs)
+            rewards.append(rew)
+            terminations.append(term)
+            truncations.append(trunc)
+            infos.append(info)
+        return {
+            group:
+            Rollout.aggregate(agents, self.group_action_spaces[group],
+                              self.group_observation_spaces[group], actions,
+                              observations, rewards, terminations, truncations,
+                              infos)
+            for group, agents in group_map.items()
+        }
+
+    def _get_policy(
+        self,
+        policies: Mapping[str, Predictor] = {},
+        deterministic: bool = True,
+        cutoff: float = 0
+    ) -> Callable[[dict[str, Observation]], dict[str, Action]]:
+        agent_policies: dict[str, Predictor | None] = {
+            agent: policies.get(group) or policies.get('')
+            for agent, group in self._agent_groups.items()
+        }
+
+        def f(obs: dict[str, Observation]) -> dict[str, Action]:
+            act: dict[str, Action] = {}
+            for (agent, o) in obs.items():
+                policy = agent_policies[agent]
+                if policy:
+                    act[agent] = policy.predict(o,
+                                                deterministic=deterministic)[0]
+                else:
+                    act[agent] = self.action_spaces[agent].sample()
+                if cutoff > 0 and np.all(np.abs(act[agent]) < cutoff):
+                    act[agent] *= 0
+            return act
+
+        return f
+
+    # TODO(Jerome): seed action spaces
     def rollout(self,
                 policies: Mapping[str, Predictor] = {},
                 max_steps: int = -1,
@@ -600,44 +659,5 @@ class ParallelEnkiEnv(BaseParallelEnv):
         :returns:   A dictionary, keyed by group, with
             the data collected during the rollout.
         """
-        actions: list[dict[str, Action]] = []
-        observations: list[dict[str, Observation]] = []
-        rewards: list[dict[str, float]] = []
-        infos: list[dict[str, Info]] = []
-        terminations: list[dict[str, bool]] = []
-        truncations: list[dict[str, bool]] = []
-        obs, _ = self.reset(seed=seed)
-        observations.append(obs)
-        step = 0
-        agent_policies: dict[str, Predictor | None] = {
-            agent: policies.get(group) or policies.get('')
-            for agent, group in self._agent_groups.items()
-        }
-        group_map = self.group_map
-        while (max_steps <= 0 or step < max_steps) and self.agents:
-            step += 1
-            act: dict[str, Action] = {}
-            for (agent, o) in obs.items():
-                policy = agent_policies[agent]
-                if policy:
-                    act[agent] = policy.predict(o,
-                                                deterministic=deterministic)[0]
-                else:
-                    act[agent] = self.action_spaces[agent].sample()
-                if cutoff > 0 and np.all(np.abs(act[agent]) < cutoff):
-                    act[agent] *= 0
-            actions.append(act)
-            obs, rew, term, trunc, info = self.step(act)
-            observations.append(obs)
-            rewards.append(rew)
-            terminations.append(term)
-            truncations.append(trunc)
-            infos.append(info)
-        return {
-            group:
-            Rollout.aggregate(agents, self.group_action_spaces[group],
-                              self.group_observation_spaces[group], actions,
-                              observations, rewards, terminations, truncations,
-                              infos)
-            for group, agents in group_map.items()
-        }
+        policy = self._get_policy(policies, deterministic, cutoff)
+        return self._rollout(policy, max_steps=max_steps, seed=seed)

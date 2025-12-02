@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from typing import Protocol
+from typing import Protocol, TYPE_CHECKING
 
-import pyenki
+if TYPE_CHECKING:
+    import pyenki
 
 
 class Scenario(Protocol):
@@ -100,6 +101,8 @@ class BaseScenario:
         :seed:       the random seed.
         :returns:    the world.
         """
+        import pyenki
+
         return pyenki.World()
 
     def init(self, world: pyenki.World) -> None:

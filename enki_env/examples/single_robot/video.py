@@ -27,7 +27,7 @@ def set_color(r: float, g: float, b: float) -> video.WorldInit:
 def make_video() -> VideoClip:
     configs = ((Baseline(), set_color(1, 1,
                                       0)), (get_policy(), set_color(0, 1, 1)))
-    return video.make_video(make_env(),
+    return video.make_video(make_env().unwrapped,
                             configs,
                             number=5,
                             duration=3,
